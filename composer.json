@@ -1,0 +1,12 @@
+{
+	"require": {
+		"guzzlehttp/guzzle": "^6.5",
+		"paragonie/easydb": "^2.11",
+		"fabpot/goutte": "^4.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	}
+}

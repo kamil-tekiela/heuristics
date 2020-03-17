@@ -1,0 +1,15 @@
+
+vendor/**
+logs/**
+
+data copy.json
+data.json
+log_low.txt
+log_lessthan1.txt
+log_autoflagged.txt
+log_3.txt
+log_2_5.txt
+comments.txt
+log_NATTY.txt
+config.ini
+comments_log.txt

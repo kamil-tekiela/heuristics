@@ -1,0 +1,155 @@
+<?php
+
+use ParagonIE\EasyDB\EasyDB;
+
+class Heuristics {
+	/**
+	 * The answer
+	 *
+	 * @var \Post
+	 */
+	private $item;
+
+	/**
+	 * DB link
+	 *
+	 * @var EasyDB
+	 */
+	private $db;
+
+	public function __construct(EasyDB $db, \Post $post) {
+		$this->db = $db;
+		$this->item = $post;
+	}
+
+	public function PostLengthUnderThreshold() {
+		$text = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->body));
+		if (mb_strlen($text) < 50) {
+			return 2;
+		}
+		if (mb_strlen($text) < 100) {
+			return 1.5;
+		}
+		if (mb_strlen($text) < 150) {
+			return 1;
+		}
+		if (mb_strlen($text) < 300) {
+			return 0.5;
+		}
+		if (mb_strlen($text) < 500) {
+			return 0.0;
+		}
+		return -0.5;
+	}
+
+	public function HighLinkProportion(): bool {
+		$proportionThreshold = 0.55;     // as in, max 35% of the answer can be links
+
+		$linkRegex = '#<a\shref="([^"]*)"(.*?)>(.*?)</a>#i';
+		preg_match_all($linkRegex, $this->item->bodyWithoutCode, $matches, PREG_SET_ORDER);
+
+		if ($matches) {
+			// var_dump("[AWC.HighLinkProportion] id " . $this->item->id . " has matches:");
+			// var_dump($matches);
+			$linkLength = 0;
+
+			foreach ($matches as $link) {    // This only matches link titles, not the entire HTML.
+				$linkLength += mb_strlen($link[0]);
+			}
+
+			return ($linkLength / mb_strlen($this->item->bodyWithoutCode)) >= $proportionThreshold;
+		} else {
+			return false;
+		}
+	}
+
+	public function ContainsSignature() {
+		return mb_stripos($this->item->bodyWithoutCode, $this->item->owner->display_name) !== false;
+	}
+
+	public function MeTooAnswer() {
+		$r1 = '(\b(?:i\s+)?(?:have\s+)?)(?:had|faced|solved)\s+((?:the\s+|a\s+)?same\s+(?:problem|question|issue))(*SKIP)(*F)|(\b(?1)(?2))';
+		$r2 = '((?:how\s(?:can(?:\si)?|to)\s)?(?:fix|solve|answer)(?:\s\w+){0,3}\s(?:problem|question|issue)\?)';
+		// $r3 = '((?:i\s)?(?:fixed|solved)\s(?:this|it)\s(?:problem|question|issue)?(?!by|when))';
+		$return = preg_match_all('#'.$r1.'|'.$r2.'#i', $this->item->body, $m1, PREG_SET_ORDER);
+	
+		$m = [];
+		if ($return) {
+			if (is_array($m1)) {
+				foreach ($m1 as $e) {
+					$m[] = ['Word' => $e[0], 'Type' => 'MeTooAnswer'];
+				}
+			}
+		}
+
+		return $m;
+	}
+
+	public function userMentioned() {
+		$m = [];
+		if (preg_match_all('#(?:^@\S*)|(?:(?<!\S)@\S*)|(?:\buser\d+\b)#i', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode)), $matches, PREG_SET_ORDER)) {
+			foreach ($matches as $e) {
+				$m[] = ['Word' => $e[0], 'Type' => 'userMentioned'];
+			}
+		}
+		return $m;
+	}
+
+	public function CompareAgainstBlacklist(Blacklist $bl) {
+		$matches = [];
+		foreach ($bl->list as $word) {
+			if (stripos($this->item->body, $word['Word']) !== false) {
+				$matches[] = $word;
+			}
+		}
+		return $matches;
+	}
+
+	public function OwnerRepFactor() {
+		if (!isset($this->item->owner->reputation) || $this->item->owner->reputation < 50) {
+			return 1;
+		}
+		if ($this->item->owner->reputation < 1000) {
+			return 0.5;
+		}
+		if ($this->item->owner->reputation < 2000) {
+			return 0;
+		}
+		return -1;
+	}
+
+	public function endsInQuestion() {
+		return preg_match('#\?(?:[.\s<\/p>]|Thanks|Thank you|thx|thanx|Thanks in Advance)*$#', $this->item->body);
+	}
+
+	public function containsQuestion() {
+		return mb_stripos(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode), '?') !== false;
+	}
+
+	public function containsNoWhiteSpace() {
+		$matches = [];
+		$body = trim(strip_tags($this->item->body));
+		preg_match_all('#(\s)+#', $body, $matches, PREG_SET_ORDER);
+		return count($matches) <= 3;
+	}
+
+	public function badStart() {
+		$return = preg_match_all(
+			'#^(?:(?:(?:Is|Was)\s*(?:there|a|this|that|it|the)?|(?:can(?:\'t)?)\s*(?:there|here|it|this|that|you|u|I|one|(?:some|any)(?:\s*one|\s*body)?)?\s*|(?:In)?(?:What\b|waht\b|wat\b|How\b|Who\b|When\b|Where\b|Which\b|Why|Did)\s*(?:\'s|(?:is|was|were|do|did|does|are|would|has(?:\s+been)?)(?:n\'t)?|type|kind|if|can(?:\'t)?)?)\s*(?:(?:one|are|am|is|as|add|(?:some|any)(?:\s*one|\s*body)?|a(?:n(?:other)?)?\b|not|its|it|some|this|that|these|those|the|You|to|we|have|of|in|i\b|for|on|with|please|help|me|who|can|not|now|cos|share|post|give|code|also|use|find|solve|fix|answer)\s*)*|same\s*(?:here|problem|question|issue|doubt|for me|also)*)#i',
+			strip_tags($this->item->bodyWithoutCode),
+			$m1,
+			PREG_SET_ORDER
+		);
+
+		$m = [];
+		if ($return) {
+			if (is_array($m1)) {
+				foreach ($m1 as $e) {
+					$m[] = ['Word' => $e[0], 'Type' => 'StartsWithAQuestion'];
+				}
+			}
+		}
+	
+		return $m;
+	}
+}
