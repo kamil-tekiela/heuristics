@@ -57,7 +57,7 @@ class Comment {
 	}
 
 	public function itWorked(): array {
-		if (preg_match_all('#(?:this\s+|that\s+|it\s+)?(?:solution\s+)?work(?:ed|s)?\s*(?:now|perfectly|great|for me)?[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:this\s+|that\s+|it\s+)?(?:solution\s+)?work(?:ed|s)?\s*(?:now|perfectly|great|for me|like a charm)?[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];

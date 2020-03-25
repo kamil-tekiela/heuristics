@@ -59,7 +59,14 @@ class APIFetcher {
 	 */
 	private $key_bot = '';
 
-	public function __construct(EasyDB $db, \GuzzleHttp\Client $client) {
+	/**
+	 * Chat API to talk in the chat
+	 *
+	 * @var ChatAPI
+	 */
+	private $chatAPI = null;
+
+	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, ChatAPI $chatAPI) {
 		$this->db = $db;
 		$this->client = $client;
 		$this->lastRequestTime = $this->db->single('SELECT `time` FROM lastRequest');
@@ -73,6 +80,8 @@ class APIFetcher {
 		$config = parse_ini_file(BASE_DIR.'/config.ini');
 		$this->key_me = $config['key_me'];
 		$this->key_bot = $config['key_bot'];
+
+		$this->chatAPI = $chatAPI;
 	}
 
 	public function fetch() {
@@ -247,6 +256,19 @@ class APIFetcher {
 				file_put_contents('log_low.txt', $line, FILE_APPEND);
 			} else {
 				file_put_contents('log_lessthan1.txt', $line, FILE_APPEND);
+			}
+
+			if ($score >= 4) {
+				$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.')'."\t".implode('; ', $reasons);
+				$this->chatAPI->sendMessage($chatLine);
+				if ($score >= self::AUTOFLAG_TRESHOLD) {
+					if ($shoudBeReportedByNatty) {
+						$chatLine = 'Post would have been auto-flagged, but probably flagged by Natty instead. @Dharman';
+					} else {
+						$chatLine = 'Post auto-flagged. @Dharman';
+					}
+					$this->chatAPI->sendMessage($chatLine);
+				}
 			}
 		}
 	}

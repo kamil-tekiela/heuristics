@@ -16,7 +16,7 @@ $fetcher = new CommentAPI($db, $client, '1 year ago');
 
 while (1) {
 	$fetcher->fetch();
-	if ($fetcher->running_count >= 35) {
+	if ($fetcher->running_count >= 50) {
 		break;
 	}
 	sleep(30);
