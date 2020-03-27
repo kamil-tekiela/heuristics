@@ -7,7 +7,7 @@ use ParagonIE\EasyDB\EasyDB;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 
-class APIFetcher {
+class AnswerAPI {
 	/**
 	 * DB link
 	 *
@@ -41,7 +41,7 @@ class APIFetcher {
 	private const AUTOFLAG_TRESHOLD = 5;
 
 	/**
-	 * My app ket. Not secret
+	 * My app key. Not secret
 	 */
 	private const APP_KEY = 'gS)WzUg0j7Q5ZVEBB5Onkw((';
 
@@ -50,14 +50,7 @@ class APIFetcher {
 	 *
 	 * @var string
 	 */
-	private $key_me = '';
-
-	/**
-	 * Token for TagBot. Secret!
-	 *
-	 * @var string
-	 */
-	private $key_bot = '';
+	private $userToken = '';
 
 	/**
 	 * Chat API to talk in the chat
@@ -70,9 +63,10 @@ class APIFetcher {
 
 	private $soboticsRoomId = 111347;
 
-	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, ChatAPI $chatAPI) {
+	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, ChatAPI $chatAPI, DotEnv $dotEnv) {
 		$this->db = $db;
 		$this->client = $client;
+		$this->chatAPI = $chatAPI;
 		$this->lastRequestTime = $this->db->single('SELECT `time` FROM lastRequest');
 		if (!$this->lastRequestTime) {
 			$this->lastRequestTime = strtotime('15 minutes ago');
@@ -81,12 +75,14 @@ class APIFetcher {
 			$this->lastRequestTime = strtotime('15 days ago');
 		}
 
-		$config = parse_ini_file(BASE_DIR.'/config.ini');
-		$this->key_me = $config['key_me'];
-		$this->key_bot = $config['key_bot'];
-		$this->logRoomId = (int) $config['logRoomId'];
-
-		$this->chatAPI = $chatAPI;
+		$this->userToken = $dotEnv->get('key');
+		if (!$this->userToken) {
+			throw new \Exception('Please login first and provide valid user token!');
+		}
+		$this->logRoomId = (int) $dotEnv->get('logRoomId');
+		if (!$this->logRoomId) {
+			throw new \Exception('Please provide valid room ID!');
+		}
 	}
 
 	public function fetch() {
@@ -96,8 +92,6 @@ class APIFetcher {
 			$url .= '/60765207';
 		}
 		$args = [
-			// 'page' => $currentPage,
-			// 'pagesize' => $pageSize,
 			'key' => self::APP_KEY,
 			'todate' => strtotime('5 minutes ago'),
 			'site' => 'stackoverflow',
@@ -271,7 +265,7 @@ class APIFetcher {
 
 					if ($shoudBeReportedByNatty) {
 						if ($this->isReportedByNatty($post->id)) {
-							$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead. @Dharman';
+							$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
 						} else {
 							$reportJSON = json_decode($report);
 							$reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;
@@ -301,8 +295,7 @@ class APIFetcher {
 
 		$args = [
 			'site' => 'stackoverflow',
-			// 'access_token' => $this->key_bot, // TagBot
-			'access_token' => $this->key_me, // Dharman
+			'access_token' => $this->userToken, // Dharman
 			'key' => self::APP_KEY
 		];
 
@@ -322,7 +315,6 @@ class APIFetcher {
 
 		$args += [
 			'option_id' => $option_id,
-			// 'comment' => 'Testing write access.',
 			'preview' => true
 		];
 

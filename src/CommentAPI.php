@@ -35,7 +35,7 @@ class CommentAPI {
 	private $lastFlagTime = null;
 
 	/**
-	 * My app ket. Not secret
+	 * My app key. Not secret
 	 */
 	private const APP_KEY = 'gS)WzUg0j7Q5ZVEBB5Onkw((';
 
@@ -44,29 +44,21 @@ class CommentAPI {
 	 *
 	 * @var string
 	 */
-	private $key_me = '';
-
-	/**
-	 * Token for TagBot. Secret!
-	 *
-	 * @var string
-	 */
-	private $key_bot = '';
+	private $userToken = '';
 
 	public $running_count = 0;
 
-	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, string $delay) {
+	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, string $delay, DotEnv $dotEnv) {
 		$this->db = $db;
 		$this->client = $client;
 		$this->lastRequest = strtotime($delay);
-		$config = parse_ini_file(BASE_DIR.'/config.ini');
-		$this->key_me = $config['key_me'];
-		$this->key_bot = $config['key_bot'];
+		$this->userToken = $dotEnv->get('key');
+		if (!$this->userToken) {
+			throw new \Exception('Please login first and provide valid user token!');
+		}
 	}
 
 	public function fetch() {
-		$currentPage = 1;
-		$pageSize = 100;
 		$apiEndpoint = 'comments';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		// if (DEBUG) {
@@ -93,9 +85,7 @@ class CommentAPI {
 
 		$contents = json_decode($json_contents);
 
-		// reset the timer, but not unless there was any response
-		$requestTimeSet = false;
-
+		// Apply heuristics
 		foreach ($contents->items as $commentJSON) {
 			$comment = new Comment($commentJSON);
 
@@ -128,10 +118,7 @@ class CommentAPI {
 			}
 
 			// set last request
-			// if (!$requestTimeSet) {
-			$requestTimeSet = true;
 			$this->lastRequest = $commentJSON->creation_date;
-			// }
 		}
 	}
 
@@ -139,15 +126,13 @@ class CommentAPI {
 		// throttle
 		if ($this->lastFlagTime && $this->lastFlagTime >= ($now = date_create('5 seconds ago'))) {
 			sleep($now->diff($this->lastFlagTime)->s + 1); // sleep at least a second
-			// var_dump('Slept: ', $now->diff($this->lastFlagTime)->s);
 		}
 
 		$url = 'https://api.stackexchange.com/2.2/comments/'.$question_id.'/flags/options';
 
 		$args = [
 			'site' => 'stackoverflow',
-			// 'access_token' => $this->key_bot, // TagBot
-			'access_token' => $this->key_me, // Dharman
+			'access_token' => $this->userToken, // Dharman
 			'key' => self::APP_KEY
 		];
 
@@ -167,7 +152,6 @@ class CommentAPI {
 
 		$args += [
 			'option_id' => $option_id,
-			// 'comment' => 'Testing write access.',
 			'preview' => true
 		];
 

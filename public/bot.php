@@ -5,6 +5,9 @@ define('BASE_DIR', realpath(__DIR__.'/..'));
 
 include BASE_DIR.'/vendor/autoload.php';
 
+$dotEnv = new DotEnv();
+$dotEnv->load(BASE_DIR.'/config.ini');
+
 $db = \ParagonIE\EasyDB\Factory::fromArray([
 	'sqlite:'.BASE_DIR.'/db.db'
 ]);
@@ -15,7 +18,7 @@ DB_setup::setup($db);
 
 $chatAPI = new ChatAPI();
 
-$fetcher = new APIFetcher($db, $client, $chatAPI);
+$fetcher = new AnswerAPI($db, $client, $chatAPI, $dotEnv);
 
 while (1) {
 	$fetcher->fetch();
