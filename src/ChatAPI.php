@@ -17,7 +17,7 @@ class ChatAPI {
 
 	private $rooms = [];
 
-	public function __construct() {
+	public function __construct(DotEnv $dotEnv) {
 		$sessionCookieJar = new \GuzzleHttp\Cookie\FileCookieJar($this->cookieJarName, true);
 		$this->client = new GuzzleHttp\Client([
 			'cookies' => $sessionCookieJar
@@ -36,8 +36,8 @@ class ChatAPI {
 			$rq = $this->client->request('POST', $loginPage, [
 				'form_params' => [
 					'fkey' => $fkey,
-					'email' => '9tagbot9@gmail.com',
-					'password' => 'Dharman246'
+					'email' => $dotEnv->get('chatUserEmail'),
+					'password' => $dotEnv->get('chatUserPassword')
 				]
 			]);
 			var_dump('Logged in!');

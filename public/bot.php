@@ -16,7 +16,7 @@ $client = new GuzzleHttp\Client();
 
 DB_setup::setup($db);
 
-$chatAPI = new ChatAPI();
+$chatAPI = new ChatAPI($dotEnv);
 
 $fetcher = new AnswerAPI($db, $client, $chatAPI, $dotEnv);
 
