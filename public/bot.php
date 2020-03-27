@@ -13,7 +13,7 @@ $client = new GuzzleHttp\Client();
 
 DB_setup::setup($db);
 
-$chatAPI = new ChatAPI(210133);
+$chatAPI = new ChatAPI();
 
 $fetcher = new APIFetcher($db, $client, $chatAPI);
 

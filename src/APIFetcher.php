@@ -66,6 +66,10 @@ class APIFetcher {
 	 */
 	private $chatAPI = null;
 
+	private $logRoomId = null;
+
+	private $soboticsRoomId = 111347;
+
 	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, ChatAPI $chatAPI) {
 		$this->db = $db;
 		$this->client = $client;
@@ -80,6 +84,7 @@ class APIFetcher {
 		$config = parse_ini_file(BASE_DIR.'/config.ini');
 		$this->key_me = $config['key_me'];
 		$this->key_bot = $config['key_bot'];
+		$this->logRoomId = (int) $config['logRoomId'];
 
 		$this->chatAPI = $chatAPI;
 	}
@@ -260,7 +265,7 @@ class APIFetcher {
 
 			if ($score >= 4) {
 				$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.')'."\t".implode('; ', $reasons);
-				$this->chatAPI->sendMessage($chatLine);
+				$report = $this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 				if ($score >= self::AUTOFLAG_TRESHOLD) {
 					$chatLine = 'Post auto-flagged. @Dharman';
 
@@ -268,9 +273,13 @@ class APIFetcher {
 						if ($this->isReportedByNatty($post->id)) {
 							$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead. @Dharman';
 						} else {
+							$reportJSON = json_decode($report);
+							$reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;
+							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id.' ('.$reportLink.')';
+							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
 						}
 					}
-					$this->chatAPI->sendMessage($chatLine);
+					$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 				}
 			}
 		}
@@ -292,8 +301,8 @@ class APIFetcher {
 
 		$args = [
 			'site' => 'stackoverflow',
-			'access_token' => $this->key_bot, // TagBot
-			// 'access_token' => $this->key_me, // Dharman
+			// 'access_token' => $this->key_bot, // TagBot
+			'access_token' => $this->key_me, // Dharman
 			'key' => self::APP_KEY
 		];
 

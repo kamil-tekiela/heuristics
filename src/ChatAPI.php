@@ -15,16 +15,9 @@ class ChatAPI {
 	 */
 	private $client = null;
 
-	private $chatFKey = '';
+	private $rooms = [];
 
-	private $roomID = '';
-
-	public function __construct($roomID) {
-		if (!$roomID) {
-			throw new \Exception('No room ID given!');
-		}
-		$this->roomID = (string) $roomID;
-
+	public function __construct() {
 		$sessionCookieJar = new \GuzzleHttp\Cookie\FileCookieJar($this->cookieJarName, true);
 		$this->client = new GuzzleHttp\Client([
 			'cookies' => $sessionCookieJar
@@ -50,33 +43,41 @@ class ChatAPI {
 			var_dump('Logged in!');
 			$sessionCookieJar->save($this->cookieJarName);
 		}
-
-		//get fkey for chat
-		$rq = $this->client->get('https://chat.stackoverflow.com/rooms/'.$this->roomID);
-		$this->chatFKey = $this->getFKey($rq->getBody()->getContents());
 	}
 
-	public function sendMessage(string $message) {
+	private function joinRoom($roomId) {
+		//get fkey for chat
+		$rq = $this->client->get('https://chat.stackoverflow.com/rooms/'.$roomId);
+		$fKey = $this->getFKey($rq->getBody()->getContents());
+		$this->rooms[$roomId] = $fKey;
+		return $fKey;
+	}
+
+	public function sendMessage(int $roomId, string $message): string {
+		$chatFKey = $this->rooms[$roomId] ?? $this->joinRoom($roomId);
+
 		// Send message
 		try {
 			// try once. If rate limited then wait and try again
-			$this->client->request('POST', 'https://chat.stackoverflow.com/chats/'.$this->roomID.'/messages/new', [
+			$rq = $this->client->request('POST', 'https://chat.stackoverflow.com/chats/'.$roomId.'/messages/new', [
 				'form_params' => [
 					'text' => $message,
-					'fkey' => $this->chatFKey
+					'fkey' => $chatFKey
 				]
 			]);
+			return $rq->getBody()->getContents();
 		} catch (RequestException $e) {
 			$ex_contents = $e->getResponse()->getBody()->getContents();
 			$sleepTime = (int) filter_var($ex_contents, FILTER_SANITIZE_NUMBER_INT);
 			sleep($sleepTime);
 			// retry
-			$this->client->request('POST', 'https://chat.stackoverflow.com/chats/'.$this->roomID.'/messages/new', [
+			$rq = $this->client->request('POST', 'https://chat.stackoverflow.com/chats/'.$roomId.'/messages/new', [
 				'form_params' => [
 					'text' => $message,
-					'fkey' => $this->chatFKey
+					'fkey' => $chatFKey
 				]
 			]);
+			return $rq->getBody()->getContents();
 		}
 	}
 
