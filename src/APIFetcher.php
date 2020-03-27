@@ -238,7 +238,7 @@ class APIFetcher {
 		if (DEBUG) {
 			echo $line;
 		} else {
-			$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 1 month') < $post->creation_date;
+			$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
 			if ($score >= self::AUTOFLAG_TRESHOLD) {
 				if ($shoudBeReportedByNatty) {
 					file_put_contents('log_NATTY.txt', $line, FILE_APPEND);
@@ -262,15 +262,23 @@ class APIFetcher {
 				$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.')'."\t".implode('; ', $reasons);
 				$this->chatAPI->sendMessage($chatLine);
 				if ($score >= self::AUTOFLAG_TRESHOLD) {
+					$chatLine = 'Post auto-flagged. @Dharman';
+
 					if ($shoudBeReportedByNatty) {
-						$chatLine = 'Post would have been auto-flagged, but probably flagged by Natty instead. @Dharman';
-					} else {
-						$chatLine = 'Post auto-flagged. @Dharman';
+						if ($this->isReportedByNatty($post->id)) {
+							$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead. @Dharman';
+						} else {
+						}
 					}
 					$this->chatAPI->sendMessage($chatLine);
 				}
 			}
 		}
+	}
+
+	private function isReportedByNatty(int $answerId) {
+		$rq = $this->client->get('https://logs.sobotics.org/napi/api/feedback/'.$answerId);
+		return json_decode($rq->getBody()->getContents())->items[0]->naaValue >= 4;
 	}
 
 	private function flagPost(int $question_id) {

@@ -8,6 +8,7 @@ include BASE_DIR.'/vendor/autoload.php';
 $db = \ParagonIE\EasyDB\Factory::fromArray([
 	'sqlite:'.BASE_DIR.'/db.db'
 ]);
+
 $client = new GuzzleHttp\Client();
 
 DB_setup::setup($db);
