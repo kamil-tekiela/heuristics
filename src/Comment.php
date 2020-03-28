@@ -71,7 +71,7 @@ class Comment {
 	}
 
 	public function youHelpedMe(): array {
-		if (preg_match_all('#(?:(?:I\s+)?(?:hope\s+)?(?:your\s+|(?:this\s+|that\s+|it\s+)(?:was\s+|is\s+)?)?(?:very\s+)?help(?:ful|ed|s)+(?:\s+a lot|\s+very much|\s+so much)?)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:(?:I\s+)?(?:hope\s+)?(?:your\s+|(?:this\s+|that\s+|it\s+)(?:was\s+|is\s+)?)?(?:very\s+)?help(?:ful|ed|s)|useful(?:\s+a lot|\s+very much|\s+so much)?)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];
@@ -85,7 +85,7 @@ class Comment {
 	}
 
 	public function excitement(): array {
-		if (preg_match_all('#(?:wonderful|Excellent|Marvelous|awesome|(?:You )?saved my\s+\w+)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:wonderful|brilliant|Excellent|Marvelous|awesome|(?:You )?saved my\s+\w+)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];

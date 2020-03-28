@@ -7,18 +7,11 @@ use GuzzleHttp\Exception\RequestException;
 
 class CommentAPI {
 	/**
-	 * DB link
+	 * Stack API class for using the official Stack Exchange API
 	 *
-	 * @var EasyDB
+	 * @var StackAPI
 	 */
-	private $db;
-
-	/**
-	 * Guzzle
-	 *
-	 * @var \GuzzleHttp\Client
-	 */
-	private $client;
+	private $stackAPI = null;
 
 	/**
 	 * Timestamp
@@ -35,11 +28,6 @@ class CommentAPI {
 	private $lastFlagTime = null;
 
 	/**
-	 * My app key. Not secret
-	 */
-	private const APP_KEY = 'gS)WzUg0j7Q5ZVEBB5Onkw((';
-
-	/**
 	 * Token for Dharman user. Secret!
 	 *
 	 * @var string
@@ -48,9 +36,8 @@ class CommentAPI {
 
 	public $running_count = 0;
 
-	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, string $delay, DotEnv $dotEnv) {
-		$this->db = $db;
-		$this->client = $client;
+	public function __construct(StackAPI $stackAPI, string $delay, DotEnv $dotEnv) {
+		$this->stackAPI = $stackAPI;
 		$this->lastRequest = strtotime($delay);
 		$this->userToken = $dotEnv->get('key');
 		if (!$this->userToken) {
@@ -65,7 +52,6 @@ class CommentAPI {
 		// 	$url .= '/60673041';
 		// }
 		$args = [
-			'key' => self::APP_KEY,
 			// 'todate' => strtotime('4 days 15 hours ago'),
 			'site' => 'stackoverflow',
 			'order' => 'asc',
@@ -76,14 +62,7 @@ class CommentAPI {
 			$args['fromdate'] = $this->lastRequest + 1;
 		}
 
-		try {
-			$rq = $this->client->request('GET', $url, ['query' => $args]);
-			$json_contents = $rq->getBody()->getContents();
-		} catch (RequestException $e) {
-			throw new Exception(Psr7\str($e->getResponse()));
-		}
-
-		$contents = json_decode($json_contents);
+		$contents = $this->stackAPI->request('GET', $url, $args);
 
 		// Apply heuristics
 		foreach ($contents->items as $commentJSON) {
@@ -133,19 +112,20 @@ class CommentAPI {
 		$args = [
 			'site' => 'stackoverflow',
 			'access_token' => $this->userToken, // Dharman
-			'key' => self::APP_KEY
 		];
 
-		$rq = $this->client->request('GET', $url, ['http_errors' => false, 'query' => $args]);
-
-		$options = json_decode($rq->getBody()->getContents())->items;
+		$options = $this->stackAPI->request('GET', $url, $args);
 
 		$option_id = null;
-		foreach ($options as $option) {
+		foreach ($options->items as $option) {
 			if ($option->title == 'It\'s no longer needed.') {
 				$option_id = $option->option_id;
 				break;
 			}
+		}
+
+		if (!$option_id) {
+			return;
 		}
 
 		$url = 'https://api.stackexchange.com/2.2/comments/'.$question_id.'/flags/add';
@@ -155,7 +135,7 @@ class CommentAPI {
 			'preview' => true
 		];
 
-		$rq = $this->client->request('POST', $url, ['http_errors' => false, 'form_params' => $args]);
+		$this->stackAPI->request('POST', $url, $args);
 		
 		$this->running_count++;
 		$this->lastFlagTime = new DateTime();

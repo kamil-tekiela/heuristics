@@ -16,7 +16,9 @@ $client = new GuzzleHttp\Client();
 
 DB_setup::setup($db);
 
-$fetcher = new CommentAPI($db, $client, '1 year ago', $dotEnv);
+$stackAPI = new StackAPI($client);
+
+$fetcher = new CommentAPI($stackAPI, '1 year ago', $dotEnv);
 
 while (1) {
 	$fetcher->fetch();

@@ -41,11 +41,6 @@ class AnswerAPI {
 	private const AUTOFLAG_TRESHOLD = 5;
 
 	/**
-	 * My app key. Not secret
-	 */
-	private const APP_KEY = 'gS)WzUg0j7Q5ZVEBB5Onkw((';
-
-	/**
 	 * Token for Dharman user. Secret!
 	 *
 	 * @var string
@@ -59,14 +54,22 @@ class AnswerAPI {
 	 */
 	private $chatAPI = null;
 
+	/**
+	 * Stack API class for using the official Stack Exchange API
+	 *
+	 * @var StackAPI
+	 */
+	private $stackAPI = null;
+
 	private $logRoomId = null;
 
 	private $soboticsRoomId = 111347;
 
-	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, ChatAPI $chatAPI, DotEnv $dotEnv) {
+	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, StackAPI $stackAPI, ChatAPI $chatAPI, DotEnv $dotEnv) {
 		$this->db = $db;
 		$this->client = $client;
 		$this->chatAPI = $chatAPI;
+		$this->stackAPI = $stackAPI;
 		$this->lastRequestTime = $this->db->single('SELECT `time` FROM lastRequest');
 		if (!$this->lastRequestTime) {
 			$this->lastRequestTime = strtotime('15 minutes ago');
@@ -85,6 +88,11 @@ class AnswerAPI {
 		}
 	}
 
+	/**
+	 * Entry point. Fetches a bunch of answers and their questions and then parses them.
+	 *
+	 * @return void
+	 */
 	public function fetch() {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
@@ -92,7 +100,6 @@ class AnswerAPI {
 			$url .= '/60765207';
 		}
 		$args = [
-			'key' => self::APP_KEY,
 			'todate' => strtotime('5 minutes ago'),
 			'site' => 'stackoverflow',
 			'order' => 'asc',
@@ -103,24 +110,13 @@ class AnswerAPI {
 
 		echo(date_create_from_format('U', (string) $args['fromdate'])->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
-		try {
-			// if (DEBUG) {
-			// 	$json_contents = file_get_contents('./data.json');
-			// } else {
-			$rq = $this->client->request('GET', $url, ['query' => $args]);
-			$json_contents = $rq->getBody()->getContents();
-			file_put_contents('data.json', $json_contents);
-			// }
-		} catch (RequestException $e) {
-			throw new Exception(Psr7\str($e->getResponse()));
-		}
-
-		$contents = json_decode($json_contents);
+		// Request answers
+		$contents = $this->stackAPI->request('GET', $url, $args);
 
 		// prepare blacklist
 		$blacklist = new Blacklist($this->db);
 
-		// Get questions
+		// Collect question Ids
 		$questions = [];
 		foreach ($contents->items as $postJSON) {
 			$questions[] = $postJSON->question_id;
@@ -129,31 +125,27 @@ class AnswerAPI {
 			$questionList = implode(';', $questions);
 			$url = "https://api.stackexchange.com/2.2/questions/" . $questionList;
 			$args = [
-				'key' => self::APP_KEY,
 				'site' => 'stackoverflow',
 				'order' => 'desc',
 				'sort' => 'creation',
 				'filter' => '4b*l8uK*lxO_LpAroX(a'
 			];
-			try {
-				$rq = $this->client->request('GET', $url, ['query' => $args]);
-				$json_contents = $rq->getBody()->getContents();
-				$qsJSON = json_decode($json_contents);
-				$this->questions = [];
-				foreach ($qsJSON->items as $postJSON) {
-					if (isset($postJSON->owner->user_id)) {
-						$this->questions[$postJSON->question_id]['owner'] = $postJSON->owner->user_id;
-					}
-					$this->questions[$postJSON->question_id]['creation_date'] = $postJSON->creation_date;
+
+			// Get questions
+			$questionsJSON = $this->stackAPI->request('GET', $url, $args);
+
+			$this->questions = [];
+			foreach ($questionsJSON->items as $postJSON) {
+				if (isset($postJSON->owner->user_id)) {
+					$this->questions[$postJSON->question_id]['owner'] = $postJSON->owner->user_id;
 				}
-			} catch (RequestException $e) {
-				throw new Exception(Psr7\str($e->getResponse()));
+				$this->questions[$postJSON->question_id]['creation_date'] = $postJSON->creation_date;
 			}
 		}
 
 		foreach ($contents->items as $postJSON) {
 			$post = new \Post($postJSON);
-			$h = new Heuristics($this->db, $post);
+			$h = new \Heuristics($this->db, $post);
 			$reasons = [];
 			$score = 0;
 			if ($m = $h->CompareAgainstBlacklist($blacklist)) {
@@ -231,6 +223,15 @@ class AnswerAPI {
 		}
 	}
 
+	/**
+	 * Log the report into a file and chat room.
+	 * Flag the post if score is higher or equal to the threshold
+	 *
+	 * @param array $reasons
+	 * @param float $score
+	 * @param \Post $post
+	 * @return void
+	 */
 	private function reportAndLog(array $reasons, float $score, \Post $post) {
 		$line = $post->link.PHP_EOL;
 		$line .= $score."\t".implode(';', $reasons).PHP_EOL;
@@ -268,9 +269,11 @@ class AnswerAPI {
 							$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
 						} else {
 							$reportJSON = json_decode($report);
-							$reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;
-							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id.' ('.$reportLink.')';
+							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id;
 							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
+							$reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;
+							$this->chatAPI->sendMessage($this->soboticsRoomId, 'Reported in '.$reportLink);
+							$this->flagPost($post->id);
 						}
 					}
 					$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
@@ -279,11 +282,25 @@ class AnswerAPI {
 		}
 	}
 
+	/**
+	 * Calls Natty API to see if Natty has a report for this answer.
+	 * If there is no report or the score was lower than Natty's threshold then it means it was not reported.
+	 *
+	 * @param integer $answerId
+	 * @return boolean
+	 */
 	private function isReportedByNatty(int $answerId) {
 		$rq = $this->client->get('https://logs.sobotics.org/napi/api/feedback/'.$answerId);
-		return json_decode($rq->getBody()->getContents())->items[0]->naaValue >= 4;
+		$nattyJSON = json_decode($rq->getBody()->getContents());
+		return isset($nattyJSON->items[0]->naaValue) && $nattyJSON->items[0]->naaValue >= 4;
 	}
 
+	/**
+	 * Calls Stack API to get possible flag options and then cast NAA flag
+	 *
+	 * @param integer $question_id
+	 * @return void
+	 */
 	private function flagPost(int $question_id) {
 		// throttle
 		if ($this->lastFlagTime && $this->lastFlagTime >= ($now = date_create('5 seconds ago'))) {
@@ -296,19 +313,21 @@ class AnswerAPI {
 		$args = [
 			'site' => 'stackoverflow',
 			'access_token' => $this->userToken, // Dharman
-			'key' => self::APP_KEY
 		];
 
-		$rq = $this->client->request('GET', $url, ['http_errors' => false, 'query' => $args]);
-
-		$options = json_decode($rq->getBody()->getContents())->items;
+		// Get flag options
+		$contentsJSON = $this->stackAPI->request('GET', $url, $args);
 
 		$option_id = null;
-		foreach ($options as $option) {
+		foreach ($contentsJSON->items as $option) {
 			if ($option->title == 'not an answer') {
 				$option_id = $option->option_id;
 				break;
 			}
+		}
+
+		if (!$option_id) {
+			return;
 		}
 
 		$url = 'https://api.stackexchange.com/2.2/answers/'.$question_id.'/flags/add';
@@ -318,11 +337,8 @@ class AnswerAPI {
 			'preview' => true
 		];
 
-		$rq = $this->client->request('POST', $url, ['http_errors' => false, 'form_params' => $args]);
-
-		if ($rq->getStatusCode() != 200) {
-			var_dump($rq->getBody()->getContents());
-		}
+		// Cast NAA flag
+		$contentsJSON = $this->stackAPI->request('POST', $url, $args);
 
 		$this->lastFlagTime = new DateTime();
 	}

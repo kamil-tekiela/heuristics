@@ -18,7 +18,9 @@ DB_setup::setup($db);
 
 $chatAPI = new ChatAPI($dotEnv);
 
-$fetcher = new AnswerAPI($db, $client, $chatAPI, $dotEnv);
+$stackAPI = new StackAPI($client);
+
+$fetcher = new AnswerAPI($db, $client, $stackAPI, $chatAPI, $dotEnv);
 
 while (1) {
 	$fetcher->fetch();
