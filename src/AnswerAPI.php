@@ -121,6 +121,7 @@ class AnswerAPI {
 		foreach ($contents->items as $postJSON) {
 			$questions[] = $postJSON->question_id;
 		}
+		$questions = array_unique($questions);
 		if ($questions) {
 			$questionList = implode(';', $questions);
 			$url = "https://api.stackexchange.com/2.2/questions/" . $questionList;

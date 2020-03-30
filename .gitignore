@@ -1,6 +1,7 @@
 
 vendor/**
 logs/**
+json/**
 
 data copy.json
 data.json

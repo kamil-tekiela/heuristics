@@ -29,6 +29,8 @@ class StackAPI {
 	 */
 	private $nextRqPossibleAt = 0.0;
 
+	private $lastQuota = null;
+
 	public function __construct(Guzzle $client) {
 		$this->client = $client;
 		if (file_exists(self::TIMEFILE)) {
@@ -50,6 +52,11 @@ class StackAPI {
 			'key' => self::APP_KEY
 		];
 
+		// log
+		$logLine = date_create()->format('Y-m-d H:i:s')."\t{$this->lastQuota}\t$url".PHP_EOL;
+		file_put_contents('logs/apiCall.log', $logLine, FILE_APPEND);
+
+		// make the call
 		try {
 			if ($method == 'GET') {
 				$rq = $this->client->request($method, $url, ['query' => $args]);
@@ -57,10 +64,28 @@ class StackAPI {
 				$rq = $this->client->request($method, $url, ['form_params' => $args]);
 			}
 		} catch (RequestException $e) {
-			throw new Exception(Psr7\str($e->getResponse()));
+			if (($json = json_decode($e->getResponse()->getBody()->getContents())) && isset($json->error_id) && $json->error_id == 502) {
+				sleep(10 * 60);
+				return $this->request($method, $url, $args);
+			} else {
+				throw new Exception(Psr7\str($e->getResponse()));
+			}
 		}
 		
-		$contents = json_decode($rq->getBody()->getContents());
+		$body = $rq->getBody()->getContents();
+
+		if (stripos($body, 'backoff') !== false) {
+			file_put_contents('data.json', $body);
+		}
+		if (file_exists('json/json2.json')) {
+			rename('json/json2.json', 'json/json3.json');
+		}
+		if (file_exists('json/json1.json')) {
+			rename('json/json1.json', 'json/json2.json');
+		}
+		file_put_contents('json/json1.json', $body);
+
+		$contents = json_decode($body);
 		
 		$this->nextRqPossibleAt = microtime(true);
 		if (isset($contents->backoff)) {
@@ -69,6 +94,10 @@ class StackAPI {
 		}
 		file_put_contents(self::TIMEFILE, $this->nextRqPossibleAt);
 
+		$this->lastQuota = $contents->quota_remaining;
+
 		return $contents;
 	}
+
+	// private log($)
 }

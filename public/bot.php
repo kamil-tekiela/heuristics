@@ -24,5 +24,5 @@ $fetcher = new AnswerAPI($db, $client, $stackAPI, $chatAPI, $dotEnv);
 
 while (1) {
 	$fetcher->fetch();
-	sleep(45);
+	sleep(60);
 }
