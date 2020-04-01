@@ -39,7 +39,7 @@ class Comment {
 	}
 
 	public function getGratitude(): array {
-		if (preg_match_all('#(?:(?:big\s+)?thank(?:s|\s*you|\s*u)?(?:\s+a lot|\s+very much|\s+so much|\s+a million|\s+)?(?:\s*for (?:your|the)?(?:\s+help)?)?|thanx|thx|cheers)[!\.,:()\s]*(?:\w+[!\.,:()\s]*)?#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:(?:big\s+|many\s+)?thank(?:s|\s*you|\s*u)?(?:\s+a lot|\s+very much|\s+so much|\s+a million|\s+)?(?:\s*for (?:your|the)?(?:\s+help)?)?|thanx|thx|cheers)[!\.,:()\s]*(?:\w+[!\.,:()\s]*)?#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];
