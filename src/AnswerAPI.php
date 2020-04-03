@@ -38,7 +38,7 @@ class AnswerAPI {
 
 	private $questions = [];
 	
-	private const AUTOFLAG_TRESHOLD = 5;
+	private const AUTOFLAG_TRESHOLD = 5.5;
 
 	/**
 	 * Token for Dharman user. Secret!
@@ -74,9 +74,9 @@ class AnswerAPI {
 		if (!$this->lastRequestTime) {
 			$this->lastRequestTime = strtotime('15 minutes ago');
 		}
-		if (DEBUG) {
-			$this->lastRequestTime = strtotime('15 days ago');
-		}
+		// if (DEBUG) {
+		// 	$this->lastRequestTime = strtotime('15 days ago');
+		// }
 
 		$this->userToken = $dotEnv->get('key');
 		if (!$this->userToken) {
@@ -86,6 +86,9 @@ class AnswerAPI {
 		if (!$this->logRoomId) {
 			throw new \Exception('Please provide valid room ID!');
 		}
+
+		// Say hello
+		$this->chatAPI->sendMessage($this->logRoomId, 'Started on '.gethostname());
 	}
 
 	/**
@@ -97,7 +100,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/60765207';
+			$url .= '/58408983';
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),
@@ -106,7 +109,11 @@ class AnswerAPI {
 			'sort' => 'creation',
 			'filter' => 'eA4nsiKhnQiMog4It1'
 		];
-		$args['fromdate'] = $this->lastRequestTime + 1;
+		if (DEBUG) {
+			$args['fromdate'] = strtotime('5 years ago');
+		} else {
+			$args['fromdate'] = $this->lastRequestTime + 1;
+		}
 
 		echo(date_create_from_format('U', (string) $args['fromdate'])->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
@@ -115,6 +122,7 @@ class AnswerAPI {
 
 		// prepare blacklist
 		$blacklist = new Blacklist($this->db);
+		$whitelist = new Whitelist($this->db);
 
 		// Collect question Ids
 		$questions = [];
@@ -152,7 +160,10 @@ class AnswerAPI {
 			if ($m = $h->CompareAgainstBlacklist($blacklist)) {
 				$reasons[] = 'Blacklisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
-				// $score += count($m);
+			}
+			if ($m = $h->CompareAgainstBlacklist($whitelist)) {
+				$reasons[] = 'Whitelisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
+				$score += array_sum(array_column($m, 'Weight'));
 			}
 			if ($h->HighLinkProportion()) {
 				$reasons[] = 'Probably link only';
@@ -163,8 +174,19 @@ class AnswerAPI {
 				$score += 1;
 			}
 			if ($lenFactor = $h->PostLengthUnderThreshold()) {
-				$reasons[] = 'Low length';
+				$lenFactor = floor($lenFactor * 2) / 2; // round to nearest half
+				if ($lenFactor > 0) {
+					$reasons[] = 'Low length ('.$lenFactor.')';
+				} else {
+					$reasons[] = 'Long answer ('.$lenFactor.')';
+				}
 				$score += $lenFactor;
+			}
+			if ($h->hasNoCode()) {
+				$reasons[] = 'No code block';
+				$score += 0.5;
+			} else {
+				$score += -0.5;
 			}
 			if ($m = $h->MeTooAnswer()) {
 				$reasons[] = 'Me too answer:"'.implode('","', array_column($m, 'Word')).'"';
@@ -197,7 +219,7 @@ class AnswerAPI {
 			}
 			if ($m = $h->badStart()) {
 				$reasons[] = 'Starts with a question:"'.implode('","', array_column($m, 'Word')).'"';
-				$score += count($m) * 1;
+				$score += 0.5;
 			}
 
 			if ($reasons) {
@@ -238,37 +260,39 @@ class AnswerAPI {
 		$line .= $score."\t".implode(';', $reasons).PHP_EOL;
 		if (DEBUG) {
 			echo $line;
-		} else {
-			$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
-			if ($score >= self::AUTOFLAG_TRESHOLD) {
-				if ($shoudBeReportedByNatty) {
-					file_put_contents('log_NATTY.txt', $line, FILE_APPEND);
-				} else {
-					file_put_contents('log_autoflagged.txt', $line, FILE_APPEND);
-					if (!DEBUG) {
-						$this->flagPost($post->id);
-					}
-				}
-			} elseif ($score >= 4) {
-				file_put_contents('log_3.txt', $line, FILE_APPEND);
-			} elseif ($score >= 2.5) {
-				file_put_contents('log_2_5.txt', $line, FILE_APPEND);
-			} elseif ($score >= 1) {
-				file_put_contents('log_low.txt', $line, FILE_APPEND);
+		}
+		
+		$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
+		if ($score >= self::AUTOFLAG_TRESHOLD) {
+			if ($shoudBeReportedByNatty) {
+				file_put_contents('log_NATTY.txt', $line, FILE_APPEND);
 			} else {
-				file_put_contents('log_lessthan1.txt', $line, FILE_APPEND);
+				file_put_contents('log_autoflagged.txt', $line, FILE_APPEND);
+				if (!DEBUG) {
+					$this->flagPost($post->id);
+				}
 			}
+		} elseif ($score >= 4) {
+			file_put_contents('log_3.txt', $line, FILE_APPEND);
+		} elseif ($score >= 2.5) {
+			file_put_contents('log_2_5.txt', $line, FILE_APPEND);
+		} elseif ($score >= 1) {
+			file_put_contents('log_low.txt', $line, FILE_APPEND);
+		} else {
+			file_put_contents('log_lessthan1.txt', $line, FILE_APPEND);
+		}
 
-			if ($score >= 4) {
-				$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.')'."\t".implode('; ', $reasons);
-				$report = $this->chatAPI->sendMessage($this->logRoomId, $chatLine);
-				if ($score >= self::AUTOFLAG_TRESHOLD) {
-					$chatLine = 'Post auto-flagged. @Dharman';
+		if ($score >= 4) {
+			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.')'."\t".implode('; ', $reasons);
+			$report = $this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+			if ($score >= self::AUTOFLAG_TRESHOLD) {
+				$chatLine = 'Post auto-flagged. @Dharman';
 
-					if ($shoudBeReportedByNatty) {
-						if ($this->isReportedByNatty($post->id)) {
-							$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
-						} else {
+				if ($shoudBeReportedByNatty) {
+					if ($this->isReportedByNatty($post->id)) {
+						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
+					} else {
+						if (!DEBUG) {
 							$reportJSON = json_decode($report);
 							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id;
 							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
@@ -277,8 +301,8 @@ class AnswerAPI {
 							$this->flagPost($post->id);
 						}
 					}
-					$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 				}
+				$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 			}
 		}
 	}

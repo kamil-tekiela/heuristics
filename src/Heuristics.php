@@ -22,28 +22,45 @@ class Heuristics {
 		$this->item = $post;
 	}
 
-	public function PostLengthUnderThreshold() {
+	public function PostLengthUnderThreshold(): float {
 		$text = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->body));
-		if (mb_strlen($text) < 50) {
+		$bodyLength = mb_strlen($text);
+		if ($bodyLength < 40) {
 			return 2;
 		}
-		if (mb_strlen($text) < 100) {
+		if ($bodyLength < 60) {
+			return 1.75;
+		}
+		if ($bodyLength < 90) {
 			return 1.5;
 		}
-		if (mb_strlen($text) < 150) {
+		if ($bodyLength < 130) {
+			return 1.25;
+		}
+		if ($bodyLength < 180) {
 			return 1;
 		}
-		if (mb_strlen($text) < 300) {
+		if ($bodyLength < 240) {
+			return 0.75;
+		}
+		if ($bodyLength < 310) {
 			return 0.5;
 		}
-		if (mb_strlen($text) < 500) {
+		if ($bodyLength < 500) {
 			return 0.0;
 		}
-		return -0.5;
+		if ($bodyLength < 1000) {
+			return -0.5;
+		}
+		return -1.0;
+	}
+
+	public function hasNoCode() {
+		return stripos($this->item->body, '<code>') === false;
 	}
 
 	public function HighLinkProportion(): bool {
-		$proportionThreshold = 0.55;     // as in, max 35% of the answer can be links
+		$proportionThreshold = 0.55;     // as in, max 55% of the answer can be links
 
 		$linkRegex = '#<a\shref="([^"]*)"(.*?)>(.*?)</a>#i';
 		preg_match_all($linkRegex, $this->item->bodyWithoutCode, $matches, PREG_SET_ORDER);
@@ -68,9 +85,8 @@ class Heuristics {
 	}
 
 	public function MeTooAnswer() {
-		$r1 = '(\b(?:i\s+)?(?:have\s+)?)(?:had|faced|solved)\s+((?:the\s+|a\s+)?same\s+(?:problem|question|issue))(*SKIP)(*F)|(\b(?1)(?2))';
+		$r1 = '(\b(?:i\s+(?:am\s+)?|i\'m\s+)?(?:have\s+|having\s+)?)(?:had|faced|solved)\s+((?:the\s+|a\s+)?(?:same\s+|similar\s+)(?:problem|question|issue))(*SKIP)(*F)|(\b(?1)(?2))';
 		$r2 = '((?:how\s(?:can(?:\si)?|to)\s)?(?:fix|solve|answer)(?:\s\w+){0,3}\s(?:problem|question|issue)\?)';
-		// $r3 = '((?:i\s)?(?:fixed|solved)\s(?:this|it)\s(?:problem|question|issue)?(?!by|when))';
 		$return = preg_match_all('#'.$r1.'|'.$r2.'#i', $this->item->body, $m1, PREG_SET_ORDER);
 	
 		$m = [];
@@ -95,7 +111,7 @@ class Heuristics {
 		return $m;
 	}
 
-	public function CompareAgainstBlacklist(Blacklist $bl) {
+	public function CompareAgainstBlacklist(ListOfWordsInterface $bl) {
 		$matches = [];
 		foreach ($bl->list as $word) {
 			if (stripos($this->item->body, $word['Word']) !== false) {
@@ -119,7 +135,8 @@ class Heuristics {
 	}
 
 	public function endsInQuestion() {
-		return preg_match('#\?(?:[.\s<\/p>]|Thanks|Thank you|thx|thanx|Thanks in Advance)*$#', $this->item->body);
+		return preg_match('#\?(?:[.\s<\/p>]|Thanks|Thank you|thx|thanx|Thanks in Advance)*$#', $this->item->body)
+			|| preg_match('#\?\s*(?:\w+[!\.,:()\s]*){0,3}$#', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode)));
 	}
 
 	public function containsQuestion() {

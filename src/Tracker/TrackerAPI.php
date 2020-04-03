@@ -78,6 +78,9 @@ class TrackerAPI {
 		if (!$this->logRoomId) {
 			throw new \Exception('Please provide valid room ID!');
 		}
+
+		// Say hello
+		$this->chatAPI->sendMessage($this->logRoomId, 'TrackerBot started on '.gethostname());
 	}
 
 	/**
