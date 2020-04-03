@@ -14,7 +14,6 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 
 $client = new GuzzleHttp\Client();
 
-// DB_setup::setup($db);
 
 $chatAPI = new ChatAPI($dotEnv);
 
