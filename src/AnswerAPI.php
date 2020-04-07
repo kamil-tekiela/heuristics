@@ -38,7 +38,7 @@ class AnswerAPI {
 
 	private $questions = [];
 	
-	private const AUTOFLAG_TRESHOLD = 5.5;
+	private const AUTOFLAG_TRESHOLD = 6;
 
 	/**
 	 * Token for Dharman user. Secret!
@@ -100,7 +100,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/58408983';
+			$url .= '/61028325';
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),

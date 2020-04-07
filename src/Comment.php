@@ -39,7 +39,7 @@ class Comment {
 	}
 
 	public function getGratitude(): array {
-		if (preg_match_all('#(?:(?:big\s+|many\s+)?thank(?:s|\s*you|\s*u)?(?:\s+a lot|\s+very much|\s+so much|\s+a million|\s+)?(?:\s*for (?:your|the)?(?:\s+help)?)?|thanx|thx|cheers)[!\.,:()\s]*(?:\w+[!\.,:()\s]*)?#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:(?:big\s+|many\s+)?th?ank(?:s|\s*you|\s*u)?(?:\s+a lot|\s+(?:very|so) much|\s+a mil+ion|\s+)?(?:\s*for (?:your|the)?(?:\s+help)?)?|th?anx|thx|cheers)[!\.,:()\s]*(?:\w+[!\.,:()\s]*)?#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];
@@ -64,14 +64,14 @@ class Comment {
 	}
 
 	public function yourWelcome(): array {
-		if (preg_match_all('#(?:(?:your\s+|you\'re\s+|you are\s+)?welcome)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:(?:your\s+|you\'?re\s+|you are\s+)?welcome)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];
 	}
 
 	public function youHelpedMe(): array {
-		if (preg_match_all('#(?:(?:I\s+)?(?:hope\s+)?(?:your\s+|(?:this\s+|that\s+|it\s+)(?:was\s+|is\s+)?)?(?:very\s+)?help(?:ful|ed|s)|useful(?:\s+a lot|\s+very much|\s+so much)?)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:(?:I\s+)?(?:hope\s+)?(?:your\s+|(?:this\s+|that\s+|it\s+)(?:was\s+|is\s+)?)?(?:very\s+)?help(?:ful|ed|s)|useful(?:\s+a lot|\s+(?:very|so) much)?)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];
