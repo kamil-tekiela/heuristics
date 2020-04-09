@@ -104,7 +104,7 @@ class Heuristics {
 
 	public function userMentioned() {
 		$m = [];
-		if (preg_match_all('#(?:^@\S*)|(?:(?<!\S)@\S*)|(?:\buser\d+\b)#i', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode)), $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:^@\S{3,})|(?:(?<!\S)@\S{3,})|(?:\buser\d+\b)#i', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode)), $matches, PREG_SET_ORDER)) {
 			foreach ($matches as $e) {
 				$m[] = ['Word' => $e[0], 'Type' => 'userMentioned'];
 			}
@@ -164,6 +164,36 @@ class Heuristics {
 			if (is_array($m1)) {
 				foreach ($m1 as $e) {
 					$m[] = ['Word' => $e[0], 'Type' => 'StartsWithAQuestion'];
+				}
+			}
+		}
+	
+		return $m;
+	}
+
+	function noLatinLetters() {
+		preg_match_all(
+			'#[a-z]#iu',
+			strip_tags($this->item->body),
+			$m1,
+		);
+
+		return count(array_unique($m1[0])) <= 1;
+	}
+
+	function possibleSpam() {
+		$return = preg_match_all(
+			'#(\S)\1{5,}#iu',
+			strip_tags($this->item->bodyWithoutCode),
+			$m1,
+			PREG_SET_ORDER
+		);
+
+		$m = [];
+		if ($return) {
+			if (is_array($m1)) {
+				foreach ($m1 as $e) {
+					$m[] = ['Word' => $e[0], 'Type' => 'PossibleSpam'];
 				}
 			}
 		}

@@ -130,7 +130,10 @@ class TrackerAPI {
 			}
 
 			if ($line) {
-				$this->chatAPI->sendMessage($this->logRoomId, $line);
+				$tags = array_reduce($post->tags, function ($carry, $e) {
+					return $carry."[tag:{$e}] ";
+				});
+				$this->chatAPI->sendMessage($this->logRoomId, $tags.$line);
 			}
 
 			// set last request

@@ -100,7 +100,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/61028325';
+			$url .= '/61085918';
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),
@@ -219,6 +219,14 @@ class AnswerAPI {
 			}
 			if ($m = $h->badStart()) {
 				$reasons[] = 'Starts with a question:"'.implode('","', array_column($m, 'Word')).'"';
+				$score += 0.5;
+			}
+			if ($m = $h->noLatinLetters()) {
+				$reasons[] = 'No latin characters';
+				$score += 0.5;
+			}
+			if ($m = $h->possibleSpam()) {
+				$reasons[] = 'Filler text:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += 0.5;
 			}
 
