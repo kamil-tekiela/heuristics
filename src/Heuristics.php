@@ -153,7 +153,7 @@ class Heuristics {
 
 	public function badStart() {
 		$return = preg_match_all(
-			'#^(?:(?:(?:Is|Was)\s*(?:there|a|this|that|it|the)?|(?:can(?:\'t)?)\s*(?:there|here|it|this|that|you|u|I|one|(?:some|any)(?:\s*one|\s*body)?)?\s*|(?:In)?(?:What\b|waht\b|wat\b|How\b|Who\b|When\b|Where\b|Which\b|Why|Did)\s*(?:\'s|(?:is|was|were|do|did|does|are|would|has(?:\s+been)?)(?:n\'t)?|type|kind|if|can(?:\'t)?)?)\s*(?:(?:one|are|am|is|as|add|(?:some|any)(?:\s*one|\s*body)?|a(?:n(?:other)?)?\b|not|its|it|some|this|that|these|those|the|You|to|we|have|of|in|i\b|for|on|with|please|help|me|who|can|not|now|cos|share|post|give|code|also|use|find|solve|fix|answer)\s*)*|same\s*(?:here|problem|question|issue|doubt|for me|also)*)#i',
+			'#^(?:(?:(?:Is|Was)(?:n\'?t)?\s+(?:there|a|this|that|it|the)|(?:can(?:\'t)?)\s*(?:there|here|it|this|that|you|u|I|one|(?:some|any)(?:\s*one|\s*body)?)?\s*|(?:In)?(?:What\b|waht\b|wat\b|How\b|Who\b|When\b|Where\b|Which\b|Why|Did)\s*(?:\'s|(?:is|was|were|do|did|does|are|would|has(?:\s+been)?)(?:n\'t)?|type|kind|if|can(?:\'t)?)?)\s*(?:(?:one|are|am|is|as|add|(?:some|any)(?:\s*one|\s*body)?|a(?:n(?:other)?)?\b|not|its|it|some|this|that|these|those|the|You|to|we|have|of|in|i\b|for|on|with|please|help|me|who|can|not|now|cos|share|post|give|code|also|use|find|solve|fix|answer)\s*)*|same\s*(?:here|problem|question|issue|doubt|for me|also)*)#i',
 			strip_tags($this->item->bodyWithoutCode),
 			$m1,
 			PREG_SET_ORDER

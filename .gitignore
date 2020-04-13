@@ -2,6 +2,7 @@
 vendor/**
 logs/**
 json/**
+trash/**
 
 data copy.json
 data.json

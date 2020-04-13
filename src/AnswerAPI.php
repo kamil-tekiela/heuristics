@@ -100,7 +100,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/61085918';
+			$url .= '/61120810';
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),
@@ -156,89 +156,118 @@ class AnswerAPI {
 			$post = new \Post($postJSON);
 			$h = new \Heuristics($this->db, $post);
 			$reasons = [];
+			$triggers = [];
 			$score = 0;
 			if ($m = $h->CompareAgainstBlacklist($blacklist)) {
 				$reasons[] = 'Blacklisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
+				foreach ($m as $bl) {
+					$triggers[] = ['type' => 'Blacklisted phrase', 'value' => $bl['Word'], 'weight' => $bl['Weight']];
+				}
 			}
 			if ($m = $h->CompareAgainstBlacklist($whitelist)) {
 				$reasons[] = 'Whitelisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
+				foreach ($m as $bl) {
+					$triggers[] = ['type' => 'Whitelisted phrase', 'value' => $bl['Word'], 'weight' => $bl['Weight']];
+				}
 			}
 			if ($h->HighLinkProportion()) {
 				$reasons[] = 'Probably link only';
 				$score += 1;
+				$triggers[] = ['type' => 'Probably link only', 'weight' => 1];
 			}
 			if ($h->ContainsSignature()) {
 				$reasons[] = 'Contains signature';
 				$score += 1;
+				$triggers[] = ['type' => 'Contains signature', 'weight' => 1];
 			}
 			if ($lenFactor = $h->PostLengthUnderThreshold()) {
 				$lenFactor = floor($lenFactor * 2) / 2; // round to nearest half
 				if ($lenFactor > 0) {
 					$reasons[] = 'Low length ('.$lenFactor.')';
+					$triggers[] = ['type' => 'Low length', 'weight' => $lenFactor];
 				} else {
 					$reasons[] = 'Long answer ('.$lenFactor.')';
+					$triggers[] = ['type' => 'Long answer', 'weight' => $lenFactor];
 				}
 				$score += $lenFactor;
 			}
 			if ($h->hasNoCode()) {
 				$reasons[] = 'No code block';
 				$score += 0.5;
+				$triggers[] = ['type' => 'No code block', 'weight' => 0.5];
 			} else {
 				$score += -0.5;
+				$triggers[] = ['type' => 'Has code block', 'weight' => -0.5];
 			}
 			if ($m = $h->MeTooAnswer()) {
 				$reasons[] = 'Me too answer:"'.implode('","', array_column($m, 'Word')).'"';
-				$score += count($m) * 2;
+				// $score += count($m) * 2;
+				$score += 2;
+				foreach ($m as $bl) {
+					$triggers[] = ['type' => 'Me too answer', 'value' => $bl['Word'], 'weight' => 2];
+				}
 			}
 			if ($m = $h->endsInQuestion()) {
 				$reasons[] = 'Ends in question mark';
 				$score += 2.0;
+				$triggers[] = ['type' => 'Ends in question mark', 'weight' => 2];
 			} elseif ($m = $h->containsQuestion()) {
 				$reasons[] = 'Contains question mark';
 				$score += 0.5;
+				$triggers[] = ['type' => 'Contains question mark', 'weight' => 0.5];
 			}
 			if ($post->owner->user_type === 'unregistered') {
 				$reasons[] = 'Unregistered user';
 				$score += 0.5;
+				$triggers[] = ['type' => 'Unregistered user', 'weight' => 0.5];
 			}
 			if ($m = $h->userMentioned()) {
 				$reasons[] = 'User mentioned:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += 1; // false positives are present. Cap to 1
+				$triggers[] = ['type' => 'User mentioned', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 1];
 			}
 			if (isset($this->questions[$postJSON->question_id]['owner'], $postJSON->owner->user_id)) {
 				if (isset($this->questions[$postJSON->question_id]['owner']) && $this->questions[$postJSON->question_id]['owner'] === $postJSON->owner->user_id) {
 					$reasons[] = 'Self-answer';
 					$score += 0.5;
+					$triggers[] = ['type' => 'Self-answer', 'weight' => 0.5];
 				}
 			}
 			if ($h->containsNoWhiteSpace()) {
 				$reasons[] = 'Has no white space';
 				$score += 0.5;
+				$triggers[] = ['type' => 'Has no white space', 'weight' => 0.5];
 			}
 			if ($m = $h->badStart()) {
 				$reasons[] = 'Starts with a question:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += 0.5;
+				$triggers[] = ['type' => 'Starts with a question', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
 			}
 			if ($m = $h->noLatinLetters()) {
 				$reasons[] = 'No latin characters';
-				$score += 0.5;
+				$score += 1.0;
+				$triggers[] = ['type' => 'No latin characters', 'weight' => 1];
 			}
 			if ($m = $h->possibleSpam()) {
 				$reasons[] = 'Filler text:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += 0.5;
+				$triggers[] = ['type' => 'Filler text', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
 			}
 
 			if ($reasons) {
 				if ($repFactor = $h->OwnerRepFactor()) {
 					if ($repFactor > 0) {
 						$reasons[] = 'Low reputation';
+						$triggers[] = ['type' => 'Low reputation', 'weight' => $repFactor];
+					} else {
+						$triggers[] = ['type' => 'High reputation', 'weight' => $repFactor];
 					}
 					$score += $repFactor;
 				}
 				if ($score > 0) {
-					$this->reportAndLog($reasons, $score, $post);
+					$this->reportAndLog($reasons, $score, $post, $triggers);
 				}
 			}
 
@@ -263,9 +292,11 @@ class AnswerAPI {
 	 * @param \Post $post
 	 * @return void
 	 */
-	private function reportAndLog(array $reasons, float $score, \Post $post) {
+	private function reportAndLog(array $reasons, float $score, \Post $post, array $triggers) {
+		$natty_score = null;
+		$summary = implode(';', $reasons);
 		$line = $post->link.PHP_EOL;
-		$line .= $score."\t".implode(';', $reasons).PHP_EOL;
+		$line .= $score."\t".$summary.PHP_EOL;
 		if (DEBUG) {
 			echo $line;
 		}
@@ -297,7 +328,8 @@ class AnswerAPI {
 				$chatLine = 'Post auto-flagged. @Dharman';
 
 				if ($shoudBeReportedByNatty) {
-					if ($this->isReportedByNatty($post->id)) {
+					$natty_score = $this->isReportedByNatty($post->id);
+					if ($natty_score >= 4) {
 						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
 					} else {
 						if (!DEBUG) {
@@ -313,6 +345,35 @@ class AnswerAPI {
 				$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 			}
 		}
+
+		if (!DEBUG) {
+			// log to DB
+			$this->logToDB($post, $score, $summary, $natty_score, $triggers);
+		}
+	}
+
+	private function logToDB(Post $post, float $score, string $summary, ?float $natty_score, array $triggers) {
+		$report_id = $this->db->insertReturnId(
+			'reports',
+			[
+				'answer_id' => $post->id,
+				'body' => $post->body,
+				'score' => $score,
+				'natty_score' => $natty_score,
+				'summary' => $summary,
+				'reported_at' => date('Y-m-d H:i:s'),
+			]
+		);
+
+		foreach ($triggers as $trigger) {
+			$this->db->insert('reasons', [
+				'report_id' => $report_id,
+				'type' => $trigger['type'] ?? null,
+				'value' => $trigger['value'] ?? null,
+				'weight' => $trigger['weight'] ?? null
+			]);
+		}
+		// $this->db->insertMany('reasons', $triggers);
 	}
 
 	/**
@@ -322,10 +383,10 @@ class AnswerAPI {
 	 * @param integer $answerId
 	 * @return boolean
 	 */
-	private function isReportedByNatty(int $answerId) {
+	private function isReportedByNatty(int $answerId): ?float {
 		$rq = $this->client->get('https://logs.sobotics.org/napi/api/feedback/'.$answerId);
 		$nattyJSON = json_decode($rq->getBody()->getContents());
-		return isset($nattyJSON->items[0]->naaValue) && $nattyJSON->items[0]->naaValue >= 4;
+		return $nattyJSON->items[0]->naaValue ?? null;
 	}
 
 	/**
