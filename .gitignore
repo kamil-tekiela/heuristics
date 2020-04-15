@@ -17,3 +17,4 @@ config.ini
 comments_log.txt
 chatAPI_cookies.json
 nextRqPossibleAt
+data/db.db

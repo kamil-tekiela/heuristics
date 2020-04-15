@@ -10,7 +10,7 @@ $dotEnv = new DotEnv();
 $dotEnv->load(BASE_DIR.'/config.ini');
 
 $db = \ParagonIE\EasyDB\Factory::fromArray([
-	'sqlite:'.BASE_DIR.'/db.db'
+	'sqlite:'.BASE_DIR.'/data/db.db'
 ]);
 
 $controller = new Reports($db);
@@ -18,7 +18,7 @@ $controller = new Reports($db);
 if (isset($_GET['id'])) {
 	$reports = $controller->fetchByIds(explode(';',$_GET['id']));
 } else {
-	$reports = $controller->fetch($_GET['minScore'] ?? 0);
+	$reports = $controller->fetch($_GET['minScore'] ?? 4);
 }
 $reasons = $controller->fetchReasons(array_column($reports, 'Id'));
 

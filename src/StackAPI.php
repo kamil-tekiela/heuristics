@@ -54,7 +54,7 @@ class StackAPI {
 
 		// log
 		$logLine = date_create()->format('Y-m-d H:i:s')."\t{$this->lastQuota}\t$url".PHP_EOL;
-		file_put_contents('logs/apiCall.log', $logLine, FILE_APPEND);
+		file_put_contents(BASE_DIR.'/logs/apiCall.log', $logLine, FILE_APPEND);
 
 		// make the call
 		try {
@@ -75,15 +75,15 @@ class StackAPI {
 		$body = $rq->getBody()->getContents();
 
 		if (stripos($body, 'backoff') !== false) {
-			file_put_contents('data.json', $body);
+			file_put_contents(BASE_DIR.'/data/data.json', $body);
 		}
-		if (file_exists('json/json2.json')) {
-			rename('json/json2.json', 'json/json3.json');
+		if (file_exists(BASE_DIR.'/json/json2.json')) {
+			rename(BASE_DIR.'/json/json2.json', BASE_DIR.'/json/json3.json');
 		}
-		if (file_exists('json/json1.json')) {
-			rename('json/json1.json', 'json/json2.json');
+		if (file_exists(BASE_DIR.'/json/json1.json')) {
+			rename(BASE_DIR.'/json/json1.json', BASE_DIR.'/json/json2.json');
 		}
-		file_put_contents('json/json1.json', $body);
+		file_put_contents(BASE_DIR.'/json/json1.json', $body);
 
 		$contents = json_decode($body);
 		

@@ -4,7 +4,7 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 
 class ChatAPI {
-	private $cookieJarName = 'chatAPI_cookies.json';
+	private $cookieJarName = BASE_DIR.'/data/chatAPI_cookies.json';
 
 	private $siteUrl = 'https://stackoverflow.com';
 

@@ -88,7 +88,7 @@ class AnswerAPI {
 		}
 
 		// Say hello
-		$this->chatAPI->sendMessage($this->logRoomId, 'Started on '.gethostname());
+		$this->chatAPI->sendMessage($this->logRoomId, 'v.'.\VERSION.' Started on '.gethostname());
 	}
 
 	/**
@@ -301,34 +301,41 @@ class AnswerAPI {
 			echo $line;
 		}
 		
+		// Report to file
 		$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
 		if ($score >= self::AUTOFLAG_TRESHOLD) {
 			if ($shoudBeReportedByNatty) {
-				file_put_contents('log_NATTY.txt', $line, FILE_APPEND);
+				$natty_score = $this->isReportedByNatty($post->id);
+				file_put_contents(BASE_DIR.'/logs/log_NATTY.txt', $line, FILE_APPEND);
 			} else {
-				file_put_contents('log_autoflagged.txt', $line, FILE_APPEND);
+				file_put_contents(BASE_DIR.'/logs/log_autoflagged.txt', $line, FILE_APPEND);
 				if (!DEBUG) {
 					$this->flagPost($post->id);
 				}
 			}
 		} elseif ($score >= 4) {
-			file_put_contents('log_3.txt', $line, FILE_APPEND);
+			file_put_contents(BASE_DIR.'/logs/log_3.txt', $line, FILE_APPEND);
 		} elseif ($score >= 2.5) {
-			file_put_contents('log_2_5.txt', $line, FILE_APPEND);
+			file_put_contents(BASE_DIR.'/logs/log_2_5.txt', $line, FILE_APPEND);
 		} elseif ($score >= 1) {
-			file_put_contents('log_low.txt', $line, FILE_APPEND);
+			file_put_contents(BASE_DIR.'/logs/log_low.txt', $line, FILE_APPEND);
 		} else {
-			file_put_contents('log_lessthan1.txt', $line, FILE_APPEND);
+			file_put_contents(BASE_DIR.'/logs/log_lessthan1.txt', $line, FILE_APPEND);
 		}
 
+		// report to DB
+		if (!DEBUG) {
+			// log to DB
+			$report_id = $this->logToDB($post, $score, $summary, $natty_score, $triggers);
+		}
+
+		// report to Chat
 		if ($score >= 4) {
 			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.')'."\t".implode('; ', $reasons);
 			$report = $this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 			if ($score >= self::AUTOFLAG_TRESHOLD) {
-				$chatLine = 'Post auto-flagged. @Dharman';
-
+				$chatLine = 'Post auto-flagged.';
 				if ($shoudBeReportedByNatty) {
-					$natty_score = $this->isReportedByNatty($post->id);
 					if ($natty_score >= 4) {
 						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
 					} else {
@@ -336,7 +343,8 @@ class AnswerAPI {
 							$reportJSON = json_decode($report);
 							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id;
 							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-							$reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;
+							// $reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;
+							$reportLink = REPORT_URL.'?id='.$report_id.' @Dharman';
 							$this->chatAPI->sendMessage($this->soboticsRoomId, 'Reported in '.$reportLink);
 							$this->flagPost($post->id);
 						}
@@ -344,11 +352,6 @@ class AnswerAPI {
 				}
 				$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 			}
-		}
-
-		if (!DEBUG) {
-			// log to DB
-			$this->logToDB($post, $score, $summary, $natty_score, $triggers);
 		}
 	}
 
@@ -373,7 +376,8 @@ class AnswerAPI {
 				'weight' => $trigger['weight'] ?? null
 			]);
 		}
-		// $this->db->insertMany('reasons', $triggers);
+		
+		return $report_id;
 	}
 
 	/**
