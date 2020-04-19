@@ -4,6 +4,9 @@ use Reports\Reports;
 
 define('BASE_DIR', realpath(__DIR__.'/..'));
 
+define('PERPAGE', 100);
+define('REPORT_URL', 'https://bot.dharman.net/reports.php');
+
 include BASE_DIR.'/vendor/autoload.php';
 
 $dotEnv = new DotEnv();
@@ -15,12 +18,18 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 
 $controller = new Reports($db);
 
+$page = $_GET['page'] ?? 1;
+
 if (isset($_GET['id'])) {
 	$reports = $controller->fetchByIds(explode(';',$_GET['id']));
 } else {
-	$reports = $controller->fetch($_GET['minScore'] ?? 4);
+	$reports = $controller->fetch($_GET['minScore'] ?? 4, $page-1);
+	$report_count = $controller->getCount($_GET['minScore'] ?? 4);
 }
 $reasons = $controller->fetchReasons(array_column($reports, 'Id'));
+
+
+$maxPage = ceil(($report_count ?? 0) / 100);
 
 //HTML
 ?>
@@ -54,7 +63,7 @@ foreach ($reports as $report) {
 		<div class="score">
 			<b>Natty:</b> <span class="natty_score badge badge-secondary"><?=$report['natty_score']?></span>
 		</div>
-		<div class="summary"><b>Summary:</b> <?=$report['summary']?></div>
+		<div class="summary"><a href="<?=REPORT_URL.'?id='.$report['Id']?>"><b>Report link</b></a></div>
 		<div class="body border shadow-sm p-3 mb-3 bg-white rounded"><?=$report['body']?></div>
 		<?php
 		if (isset($reasons[$report['Id']])) {
@@ -72,5 +81,22 @@ foreach ($reports as $report) {
 }
 
 ?>
+	<div class="container ">
+		<nav aria-label="Page navigation example" class="d-flex justify-content-center">
+		<ul class="pagination">
+		<?php if($page>1): ?>
+			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page'=>$page-1])); ?>">Previous</a></li>
+		<?php endif; 
+
+		for($i=max(1, $page-5); $i<min($maxPage, $page+5); $i++){
+			echo '<li class="page-item"><a class="page-link" href="?'.http_build_query(array_merge($_GET, ['page'=>$i])).'">'.$i.'</a></li>';
+		}
+
+		if($page<$maxPage): ?>
+			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page'=>$page+1])); ?>">Next</a></li>
+		<?php endif; ?>
+		</ul>
+		</nav>
+	</div>
 </body>
 </html>

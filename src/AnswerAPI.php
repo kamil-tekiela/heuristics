@@ -331,7 +331,7 @@ class AnswerAPI {
 
 		// report to Chat
 		if ($score >= 4) {
-			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.')'."\t".implode('; ', $reasons);
+			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
 			$report = $this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 			if ($score >= self::AUTOFLAG_TRESHOLD) {
 				$chatLine = 'Post auto-flagged.';

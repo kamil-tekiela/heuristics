@@ -18,13 +18,20 @@ class Reports {
 		$this->db = $db;
 	}
 
-	public function fetch(int $minScore=0, int $page = 0) {
-		$offset = 100 * $page;
-		return $this->db->safeQuery('SELECT * 
+	public function fetch(int $minScore = 0, int $page = 0) {
+		$offset = PERPAGE * $page;
+		return $this->db->safeQuery('SELECT *
 			FROM reports 
 			WHERE score >= ?
 			ORDER BY reported_At DESC
 			LIMIT 100 OFFSET ?', [$minScore, $offset]);
+	}
+
+	public function getCount(int $minScore = 0)
+	{
+		return $this->db->single('SELECT COUNT(*)
+			FROM reports 
+			WHERE score >= ?', [$minScore]);
 	}
 
 	public function fetchByIds(array $id) {
@@ -35,8 +42,11 @@ class Reports {
 			WHERE '.$statement, $statement->values());
 	}
 
-	public function fetchReasons(array $reports)
-	{
+	public function fetchReasons(array $reports) {
+		if (!$reports) {
+			return [];
+		}
+
 		$statement = EasyStatement::open()->in('report_id IN (?*)', $reports);
 		
 		return $this->db->safeQuery('SELECT reasons.* 
