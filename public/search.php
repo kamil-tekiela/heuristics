@@ -19,17 +19,24 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 $controller = new Reports($db);
 
 $page = $_GET['page'] ?? 1;
+$searchType = $_GET['type'] ?? '';
+$searchValue = $_GET['value'] ?? '';
 
-if (isset($_GET['id'])) {
-	$reports = $controller->fetchByIds(explode(';', $_GET['id']));
+if ($searchType || $searchValue) {
+	$reports = $controller->fetchBySearch($page, $searchType, $searchValue);
+	$avgScore = $controller->getAvgScore($searchType, $searchValue);
 } else {
-	$reports = $controller->fetch($_GET['minScore'] ?? 4, $page - 1);
-	$report_count = $controller->getCount();
+	$reports = [];
+	$avgScore = null;
 }
+
+$report_count = $controller->getCount();
+
 $reasons = $controller->fetchReasons(array_column($reports, 'Id'));
 
 $maxPage = ceil(($report_count ?? 0) / PERPAGE);
 
 include 'views/header.phtml';
-include 'views/reports.phtml';
+include 'views/search.phtml';
+include 'views/searchResults.phtml';
 include 'views/footer.phtml';

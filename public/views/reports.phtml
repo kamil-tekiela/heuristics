@@ -1,0 +1,48 @@
+<?php
+
+foreach ($reports as $report) {
+	?>
+	<div class="container  mb-5 border">
+		<h2><a href="https://stackoverflow.com/a/<?=$report['answer_id']?>"><?=$report['answer_id']?></a></h2>
+		<div class="reported_at"><b>Date:</b> <?=$report['reported_at']?></div>
+		<div class="score">
+			<b>Score:</b> <span class="badge badge-primary"><?=$report['score']?></span>
+		</div>
+		<div class="score">
+			<b>Natty:</b> <span class="natty_score badge badge-secondary"><?=$report['natty_score']?></span>
+		</div>
+		<div class="summary"><a href="<?=REPORT_URL.'?id='.$report['Id']?>"><b>Report link</b></a></div>
+		<div class="body border shadow-sm p-3 mb-3 bg-white rounded"><?=$report['body']?></div>
+		<?php
+		if (isset($reasons[$report['Id']])) {
+			echo 'Reasons:';
+			echo '<ul class="reasons">';
+			foreach ($reasons[$report['Id']] as $reason) {
+				echo '<li>';
+				echo "<b>{$reason['type']} ({$reason['weight']}):</b> {$reason['value']}";
+				echo '</li>';
+			}
+			echo '</ul>';
+		} ?>
+	</div>
+	<?php
+}
+
+?>
+	<div class="container ">
+		<nav aria-label="Page navigation example" class="d-flex justify-content-center">
+		<ul class="pagination">
+		<?php if($page>1): ?>
+			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page'=>$page-1])); ?>">Previous</a></li>
+		<?php endif; 
+
+		for($i=max(1, $page-5); $i<=min($maxPage, $page+5); $i++){
+			echo '<li class="page-item"><a class="page-link" href="?'.http_build_query(array_merge($_GET, ['page'=>$i])).'">'.$i.'</a></li>';
+		}
+
+		if($page<$maxPage): ?>
+			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page'=>$page+1])); ?>">Next</a></li>
+		<?php endif; ?>
+		</ul>
+		</nav>
+	</div>
