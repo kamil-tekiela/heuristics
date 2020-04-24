@@ -100,7 +100,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/61120810';
+			$url .= '/61265711';
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),
@@ -247,13 +247,18 @@ class AnswerAPI {
 			}
 			if ($m = $h->noLatinLetters()) {
 				$reasons[] = 'No latin characters';
-				$score += 1.0;
+				$score += 2.0;
 				$triggers[] = ['type' => 'No latin characters', 'weight' => 1];
 			}
-			if ($m = $h->possibleSpam()) {
+			if ($m = $h->hasRepeatingChars()) {
 				$reasons[] = 'Filler text:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += 0.5;
 				$triggers[] = ['type' => 'Filler text', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
+			}
+			if ($m = $h->thanksInAdvance()) {
+				$reasons[] = 'Gratitude:"'.implode('","', array_column($m, 'Word')).'"';
+				$score += 3.0;
+				$triggers[] = ['type' => 'Gratitude', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 3.0];
 			}
 
 			if ($reasons) {
@@ -267,7 +272,11 @@ class AnswerAPI {
 					$score += $repFactor;
 				}
 				if ($score > 0) {
-					$this->reportAndLog($reasons, $score, $post, $triggers);
+					try {
+						$this->reportAndLog($reasons, $score, $post, $triggers);
+					} catch (\Exception $e) {
+						file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+					}
 				}
 			}
 
@@ -327,6 +336,8 @@ class AnswerAPI {
 		if (!DEBUG) {
 			// log to DB
 			$report_id = $this->logToDB($post, $score, $summary, $natty_score, $triggers);
+		} else {
+			$report_id = 0;
 		}
 
 		// report to Chat
@@ -340,7 +351,7 @@ class AnswerAPI {
 						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
 					} else {
 						if (!DEBUG) {
-							$reportJSON = json_decode($report);
+							// $reportJSON = json_decode($report);
 							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id;
 							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
 							// $reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;

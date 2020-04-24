@@ -181,9 +181,9 @@ class Heuristics {
 		return count(array_unique($m1[0])) <= 1;
 	}
 
-	function possibleSpam() {
+	function hasRepeatingChars() {
 		$return = preg_match_all(
-			'#(\S)\1{5,}#iu',
+			'#(\S)\1{7,}#iu',
 			strip_tags($this->item->bodyWithoutCode),
 			$m1,
 			PREG_SET_ORDER
@@ -193,11 +193,21 @@ class Heuristics {
 		if ($return) {
 			if (is_array($m1)) {
 				foreach ($m1 as $e) {
-					$m[] = ['Word' => $e[0], 'Type' => 'PossibleSpam'];
+					$m[] = ['Word' => $e[0], 'Type' => 'FillerText'];
 				}
 			}
 		}
 	
+		return $m;
+	}
+
+	public function thanksInAdvance() {
+		$m = [];
+		if (preg_match_all('#th?anks?\s*((?:\w+\s*){0,4}?)adv\w*#i', $this->item->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+			foreach ($matches as $e) {
+				$m[] = ['Word' => $e[0], 'Type' => 'ThanksInAdvance'];
+			}
+		}
 		return $m;
 	}
 }

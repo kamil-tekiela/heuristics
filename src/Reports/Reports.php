@@ -39,7 +39,8 @@ class Reports {
 
 		return $this->db->safeQuery('SELECT * 
 			FROM reports 
-			WHERE '.$statement, $statement->values());
+			WHERE '.$statement.' 
+			ORDER BY reported_At DESC', $statement->values());
 	}
 
 	public function fetchReasons(array $reports) {

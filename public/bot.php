@@ -1,7 +1,6 @@
 <?php
 
-define('DEBUG', 0);
-define('VERSION', '1.1');
+define('VERSION', '1.4');
 define('BASE_DIR', realpath(__DIR__.'/..'));
 define('REPORT_URL', 'https://bot.dharman.net/reports.php');
 
@@ -9,6 +8,7 @@ include BASE_DIR.'/vendor/autoload.php';
 
 $dotEnv = new DotEnv();
 $dotEnv->load(BASE_DIR.'/config.ini');
+define('DEBUG', (bool) $dotEnv->get('DEBUG'));
 
 $db = \ParagonIE\EasyDB\Factory::fromArray([
 	'sqlite:'.BASE_DIR.'/data/db.db'
