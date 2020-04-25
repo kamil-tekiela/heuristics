@@ -1,0 +1,37 @@
+[
+    {
+        "Word": "Thanks for your help",
+        "Type": "whitelist",
+        "Weight": "-0.5"
+    },
+    {
+        "Word": "Thank you for your help",
+        "Type": "whitelist",
+        "Weight": "-0.5"
+    },
+    {
+        "Word": "I solved",
+        "Type": "whitelist",
+        "Weight": "-0.5"
+    },
+    {
+        "Word": "Hope this helps",
+        "Type": "whitelist",
+        "Weight": "-0.5"
+    },
+    {
+        "Word": "Hope it helps",
+        "Type": "whitelist",
+        "Weight": "-0.5"
+    },
+    {
+        "Word": "it worked",
+        "Type": "whitelist",
+        "Weight": "-0.5"
+    },
+    {
+        "Word": "Have you tried",
+        "Type": "whitelist",
+        "Weight": "-1.0"
+    }
+]

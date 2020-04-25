@@ -1,0 +1,1092 @@
+[
+    {
+        "Word": "Thank you",
+        "Type": "salutation",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "Thanks",
+        "Type": "salutation",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "Thankyou",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Best Regards",
+        "Type": "salutation",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "Regards",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Lots of love",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I would appreciate your help.",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "cheers",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "thx",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Big thanks",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Thank's for your help",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "thanx",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "appreciated",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "could someone explain",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can anyone give me an answer",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "Stackoverflow won't let me comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Has this been an unresolved issue",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I want to solve this problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "sorry for posting this as an answer",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "how did you solve it",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I've tried everything with no luck",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "guide me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "have you been able to find a solution yet",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "did anyone find the solution for this",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "Could you solve this problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "have solution to this",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "these links",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this guide",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this blog",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this article",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "the link below",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this document",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "have you found the solution",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "have you found a solution",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "another question",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "were you able to figure out",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "give me a hand",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "you saved my life",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I also have this question",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "wont let me comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "won't let me comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "plz help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am facing the same problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i would like to know",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "does anybody know",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i am also facing the same issue",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "How can i",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "Any tips",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have the same question",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "help me",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "halp plz",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am trying the same",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Could anyone help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am facing issue",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "How to solve this error",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I get the same error",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "its not working",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "How do I",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "know what is wrong",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "help would be appreciated",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have a similar problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "You saved my",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "what to do if",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "But not working",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I cant get it right",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I can't get it right",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I can not get it right",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have tried the following",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have to do",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Worked a treat",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can you give me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have one doubt",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "What am I doing wrong?",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I need a solution",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Can someone help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this should be a comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am looking for it too",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "help is very appreciated",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "help is appreciated",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "It does not work for me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Does anyone know",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Help will be appreciated",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "how would you implement it",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "how can we",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Can I do",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Is there a solution",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can some let me know",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can someone let me know",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "answer to this?",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "answer to this question?",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "but nothing work",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "It didn't work for me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i need",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "problem solved yet?",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am having a similar problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I'm having a similar problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Solution is Not Working",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "save my day",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "saved my day",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have the following error",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have a question",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "I can't comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I cant comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I can not comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i want a program",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "kindly advice me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Looking forward to your answer.",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I emailed their support",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can you one tell me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can you tell me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Stupid question",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "have the same problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "This is actually a question",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I'm having the same problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Has anybody seen the same errors",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "does anyone know",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I too have the same issue",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I need to develop",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this tutorial",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can any one help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can you suggest",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have the exact same problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am struggling",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Can anyone help",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "anyone can help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "any help would",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can you explain",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "your help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "did not work",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "m getting error",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "Any help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am not able to",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "How do you",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this plugin",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "solve this?",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have already tried",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Do you have any idea",
+        "Type": "blacklist",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "Have you solved the problem",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "I cannot find",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "any help is highly appreciated",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "were you able to find a solution",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "not an answer",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i want to know",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am trying to",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "doesnt work",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have same problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "update on this",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "any solution",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "m facing the same problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am unable to open",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "amazing",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I cannot comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can you guide me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "kindly assist",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "can you share",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "can you post",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "customer care",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "???",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "\u00bf",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "not allowed to comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "was a life saver",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "ayuda",
+        "Type": "blacklist",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "Can anyone suggest",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "the link does not work",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Is it possible to",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Why?",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "Good afternoon",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "the same tutorial",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "Have you found",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "Can u suggest",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "buenas tardes",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "m'aider",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Have you solved it",
+        "Type": "blacklist",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "Would you mind sharing",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i dont know what to do",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Any luck",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "have a problem like this",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "lmao",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "Hi there",
+        "Type": "salutation",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "I have question",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "i am facing below error",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have the same issue",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "vous plait",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Aidez",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "be appreciated",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "I am new here",
+        "Type": "blacklist",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "any ideas",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have this problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Could you help me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I do not have an answer",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "tengo",
+        "Type": "blacklist",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "Could you update",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I need help",
+        "Type": "blacklist",
+        "Weight": "2.5"
+    },
+    {
+        "Word": "someone can help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I have similar",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "anyone has solution",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "getting the same error",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "you able to solve",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Is there any progress",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "to comment",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "how to revolve this issue",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "espero",
+        "Type": "blacklist",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "youtu.be",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "youtube.com",
+        "Type": "blacklist",
+        "Weight": "1.0 "
+    },
+    {
+        "Word": "Any ideias",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "medium.com",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "stackoverflow",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Why is this not working",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i am having problem",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "made any progress",
+        "Type": "blacklist",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "Thanks for answering",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "anyone solved",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "gives me error",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Plzz",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Is there a way",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "is there any",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Any updates on",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "What have you tried",
+        "Type": "blacklist",
+        "Weight": "2.0"
+    }
+]

@@ -1,6 +1,6 @@
 <?php
 
-define('VERSION', '1.4');
+define('VERSION', '2.0');
 define('BASE_DIR', realpath(__DIR__.'/..'));
 define('REPORT_URL', 'https://bot.dharman.net/reports.php');
 
@@ -26,5 +26,8 @@ $fetcher = new AnswerAPI($db, $client, $stackAPI, $chatAPI, $dotEnv);
 
 while (1) {
 	$fetcher->fetch();
+	if (DEBUG) {
+		break;
+	}
 	sleep(60);
 }

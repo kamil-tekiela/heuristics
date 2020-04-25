@@ -1,0 +1,32 @@
+[
+    {
+        "Word": "(?:(?:could|can)\\s+y?o?u\\s+)?\\bple?a?s+e?\\s*(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*",
+        "Type": "regex",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "(?:(?:could|can)\\s+y?o?u\\s+)?\\bple?a?s+e?\\s*(?:help)(?:\\s*me|\\s*us)?(?:\\s*(?:to|(?:re)solve?|fix|this|it|ing?))*",
+        "Type": "regex",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "(?:I\\s*)?(?:a|')?m\\s*(?:also\\s*)?(?:also\\s*)?stuck",
+        "Type": "regex",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "th?anks?\\s*((?:\\w+\\s*){0,4}?)adv\\w*",
+        "Type": "regex",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "(?:I\\s+)?(?:do ?no?'?t have |haven'?t got )?(?:(?:enough|low|the|50)\\s+)?reputation(?: to (?:post\\s+(?:the\\s+|a\\s+))?com+ent| points?)?",
+        "Type": "regex",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "did\\s+you(?:\\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\\b(?:a|the|this|any)\\b|how to do it))+",
+        "Type": "regex",
+        "Weight": "2.0"
+    }
+]

@@ -100,7 +100,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/61265711';
+			$url .= '/61416796';
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),
@@ -121,8 +121,9 @@ class AnswerAPI {
 		$contents = $this->stackAPI->request('GET', $url, $args);
 
 		// prepare blacklist
-		$blacklist = new Blacklist($this->db);
-		$whitelist = new Whitelist($this->db);
+		$blacklist = new \Blacklists\Blacklist();
+		$whitelist = new \Blacklists\Whitelist();
+		$reBlacklist = new \Blacklists\ReBlacklist();
 
 		// Collect question Ids
 		$questions = [];
@@ -158,6 +159,7 @@ class AnswerAPI {
 			$reasons = [];
 			$triggers = [];
 			$score = 0;
+
 			if ($m = $h->CompareAgainstBlacklist($blacklist)) {
 				$reasons[] = 'Blacklisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
@@ -172,6 +174,15 @@ class AnswerAPI {
 					$triggers[] = ['type' => 'Whitelisted phrase', 'value' => $bl['Word'], 'weight' => $bl['Weight']];
 				}
 			}
+
+			if ($m = $h->regexBlacklist($reBlacklist)) {
+				$reasons[] = 'RegEx Blacklisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
+				$score += array_sum(array_column($m, 'Weight'));
+				foreach ($m as $bl) {
+					$triggers[] = ['type' => 'RegEx Blacklisted phrase', 'value' => $bl['Word'], 'weight' => $bl['Weight']];
+				}
+			}
+
 			if ($h->HighLinkProportion()) {
 				$reasons[] = 'Probably link only';
 				$score += 1;
@@ -255,11 +266,11 @@ class AnswerAPI {
 				$score += 0.5;
 				$triggers[] = ['type' => 'Filler text', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
 			}
-			if ($m = $h->thanksInAdvance()) {
-				$reasons[] = 'Gratitude:"'.implode('","', array_column($m, 'Word')).'"';
-				$score += 3.0;
-				$triggers[] = ['type' => 'Gratitude', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 3.0];
-			}
+			// if ($m = $h->thanksInAdvance()) {
+			// 	$reasons[] = 'Gratitude:"'.implode('","', array_column($m, 'Word')).'"';
+			// 	$score += 3.0;
+			// 	$triggers[] = ['type' => 'Gratitude', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 3.0];
+			// }
 
 			if ($reasons) {
 				if ($repFactor = $h->OwnerRepFactor()) {
@@ -308,6 +319,7 @@ class AnswerAPI {
 		$line .= $score."\t".$summary.PHP_EOL;
 		if (DEBUG) {
 			echo $line;
+			return;
 		}
 		
 		// Report to file

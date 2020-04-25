@@ -122,6 +122,20 @@ class Heuristics {
 		return $matches;
 	}
 
+	public function regexBlacklist(ListOfWordsInterface $bl) {
+		$m = [];
+
+		foreach ($bl->list as ['Word' => $regex, 'Weight' => $weight]) {
+			if (preg_match_all('#'.$regex.'#i', $this->item->body, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $e) {
+					$m[] = ['Word' => $e[0], 'Type' => 'RegEx Blacklist', 'Weight' => $weight];
+				}
+			}
+		}
+
+		return $m;
+	}
+
 	public function OwnerRepFactor() {
 		if (!isset($this->item->owner->reputation) || $this->item->owner->reputation < 50) {
 			return 1;
@@ -201,13 +215,13 @@ class Heuristics {
 		return $m;
 	}
 
-	public function thanksInAdvance() {
-		$m = [];
-		if (preg_match_all('#th?anks?\s*((?:\w+\s*){0,4}?)adv\w*#i', $this->item->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
-			foreach ($matches as $e) {
-				$m[] = ['Word' => $e[0], 'Type' => 'ThanksInAdvance'];
-			}
-		}
-		return $m;
-	}
+	// public function thanksInAdvance() {
+	// 	$m = [];
+	// 	if (preg_match_all('#th?anks?\s*((?:\w+\s*){0,4}?)adv\w*#i', $this->item->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+	// 		foreach ($matches as $e) {
+	// 			$m[] = ['Word' => $e[0], 'Type' => 'ThanksInAdvance'];
+	// 		}
+	// 	}
+	// 	return $m;
+	// }
 }

@@ -89,7 +89,11 @@ class CommentAPI {
 				if ($ratio >= 0.75) {
 					file_put_contents('comments.txt', $line, FILE_APPEND);
 					if (!DEBUG) {
-						$this->flagPost($comment->id);
+						try {
+							$this->flagPost($comment->id);
+						} catch (\Exception $e) {
+							file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+						}
 					}
 				} else {
 					file_put_contents('comments_log.txt', $line, FILE_APPEND);
