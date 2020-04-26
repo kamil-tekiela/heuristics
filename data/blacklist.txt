@@ -13,5 +13,5 @@ https://regex101.com/r/pd797n/1
 (?:I\s+)?(?:do ?no?'?t have |haven'?t got )?(?:(?:enough|low|the|50)\s+)?reputation(?: to (?:post\s+(?:the\s+|a\s+))?com+ent| points?)?
 
 https://regex101.com/r/Co95ey/1
-did\s+you(?:\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\b(?:a|the|this|any)\b|how to do it))+
+did\s+you(?:\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\b(?:an?y?|the|this)\b|how to do it))+
 

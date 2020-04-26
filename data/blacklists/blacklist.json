@@ -962,7 +962,7 @@
     {
         "Word": "youtube.com",
         "Type": "blacklist",
-        "Weight": "1.0 "
+        "Weight": "1.0"
     },
     {
         "Word": "Any ideias",
@@ -1041,6 +1041,16 @@
     },
     {
         "Word": "Kindly help",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": ">enter image description here<\/a>",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "how can I fix this",
         "Type": "blacklist",
         "Weight": "1.0"
     }
