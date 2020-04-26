@@ -28,5 +28,10 @@
         "Word": "did\\s+you(?:\\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\\b(?:a|the|this|any)\\b|how to do it))+",
         "Type": "regex",
         "Weight": "2.0"
+    },
+    {
+        "Word": "((?:how\\s(?:can(?:\\si)?|to)\\s)?(?:fix|solve|answer)(?:\\s\\w+){0,3}\\s(?:problems?|questions?|issues?)\\??)",
+        "Type": "regex",
+        "Weight": "1.0"
     }
 ]
