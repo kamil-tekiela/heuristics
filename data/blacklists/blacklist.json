@@ -45,16 +45,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "Big thanks",
-        "Type": "salutation",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "Thank's for your help",
-        "Type": "salutation",
-        "Weight": "1.0"
-    },
-    {
         "Word": "thanx",
         "Type": "salutation",
         "Weight": "1.0"
@@ -897,7 +887,7 @@
     {
         "Word": "Could you help me",
         "Type": "blacklist",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "I do not have an answer",
@@ -1046,6 +1036,11 @@
     },
     {
         "Word": "How did you fix",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Kindly help",
         "Type": "blacklist",
         "Weight": "1.0"
     }
