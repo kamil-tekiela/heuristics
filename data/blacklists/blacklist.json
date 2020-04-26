@@ -350,11 +350,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "can you give me",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "I have one doubt",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -540,16 +535,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "can you one tell me",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "can you tell me",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "Stupid question",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -600,11 +585,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "can you suggest",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "I have the exact same problem",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -626,11 +606,6 @@
     },
     {
         "Word": "any help would",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "can you explain",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -760,22 +735,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "can you guide me",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "kindly assist",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "can you share",
-        "Type": "blacklist",
-        "Weight": "1.5"
-    },
-    {
-        "Word": "can you post",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -843,11 +803,6 @@
         "Word": "Have you found",
         "Type": "blacklist",
         "Weight": "1.5"
-    },
-    {
-        "Word": "Can u suggest",
-        "Type": "blacklist",
-        "Weight": "1.0"
     },
     {
         "Word": "buenas tardes",
@@ -1088,5 +1043,10 @@
         "Word": "What have you tried",
         "Type": "blacklist",
         "Weight": "2.0"
+    },
+    {
+        "Word": "How did you fix",
+        "Type": "blacklist",
+        "Weight": "1.0"
     }
 ]

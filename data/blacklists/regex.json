@@ -1,6 +1,6 @@
 [
     {
-        "Word": "(?:(?:could|can)\\s+y?o?u\\s+)?\\bple?a?s+e?\\s*(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*",
+        "Word": "(?:(?:(?:could|can)\\s+y?o?u\\s+)|\\bple?a?s+e?\\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*",
         "Type": "regex",
         "Weight": "1.5"
     },

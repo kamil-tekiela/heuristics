@@ -3,8 +3,8 @@ th?anks?\s*((?:\w+\s*){0,4}?)adv\w*
 https://regex101.com/r/VzbwV7/1
 (?:I\s*)?(?:a|')?m\s*(?:also\s*)?(?:also\s*)?stuck
 
-https://regex101.com/r/Z2ETGd/1
-(?:(?:could|can)\s+y?o?u\s+)?\bple?a?s+e?\s*(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify)(?:\s*me|\s*us)?(?:\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*
+https://regex101.com/r/Z2ETGd/2
+(?:(?:(?:could|can)\s+y?o?u\s+)|\bple?a?s+e?\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\s*me|\s*us)?(?:\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*
 
 https://regex101.com/r/f9UMM5/1
 (?:(?:could|can)\s+y?o?u\s+)?\bple?a?s+e?\s*(?:help)(?:\s*me|\s*us)?(?:\s*(?:to|(?:re)solve?|fix|this|it|ing?))*
@@ -14,3 +14,4 @@ https://regex101.com/r/pd797n/1
 
 https://regex101.com/r/Co95ey/1
 did\s+you(?:\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\b(?:a|the|this|any)\b|how to do it))+
+
