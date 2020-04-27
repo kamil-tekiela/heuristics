@@ -1,5 +1,25 @@
 [
     {
+        "Word": "(?:Stack\\s*overflow\\s+|so\\s+|it\\s+)?(?:will not|won'?t) let me com+ent",
+        "Type": "regex",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "does\\s+(?:any|some)\\s*(?:body|one|1) know",
+        "Type": "regex",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I can\\s*'?n?o?t\\s+com+ent",
+        "Type": "regex",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "were you able to find an? (?:answer|solution)?",
+        "Type": "regex",
+        "Weight": "1.0"
+    },
+    {
         "Word": "(?:(?:(?:could|can)\\s+y?o?u\\s+)|\\bple?a?s+e?\\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*",
         "Type": "regex",
         "Weight": "1.5"
@@ -30,8 +50,8 @@
         "Weight": "2.0"
     },
     {
-        "Word": "((?:how\\s(?:can(?:\\si)?|to)\\s)?(?:fix|solve|answer)(?:\\s\\w+){0,3}\\s(?:problems?|questions?|issues?)\\??)",
+        "Word": "((?:how\\s(?:can(?:\\si)?|to)\\s)?(?:fix\\w*|(?:re)?solve\\w*)(?:\\s\\w+){0,3}\\s*\\?+)",
         "Type": "regex",
-        "Weight": "1.0"
+        "Weight": "1.5"
     }
 ]

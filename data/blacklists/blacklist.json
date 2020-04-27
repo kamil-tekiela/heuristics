@@ -65,11 +65,6 @@
         "Weight": "1.5"
     },
     {
-        "Word": "Stackoverflow won't let me comment",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "Has this been an unresolved issue",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -185,16 +180,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "wont let me comment",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "won't let me comment",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "plz help",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -208,11 +193,6 @@
         "Word": "i would like to know",
         "Type": "blacklist",
         "Weight": "1.5"
-    },
-    {
-        "Word": "does anybody know",
-        "Type": "blacklist",
-        "Weight": "1.0"
     },
     {
         "Word": "i am also facing the same issue",
@@ -385,11 +365,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "Does anyone know",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "Help will be appreciated",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -450,11 +425,6 @@
         "Weight": "0.5"
     },
     {
-        "Word": "problem solved yet?",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "I am having a similar problem",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -488,21 +458,6 @@
         "Word": "I have a question",
         "Type": "blacklist",
         "Weight": "1.5"
-    },
-    {
-        "Word": "I can't comment",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "I cant comment",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "I can not comment",
-        "Type": "blacklist",
-        "Weight": "1.0"
     },
     {
         "Word": "i want a program",
@@ -546,11 +501,6 @@
     },
     {
         "Word": "Has anybody seen the same errors",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "does anyone know",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -635,11 +585,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "solve this?",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "I have already tried",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -661,11 +606,6 @@
     },
     {
         "Word": "any help is highly appreciated",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "were you able to find a solution",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -700,7 +640,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "any solution",
+        "Word": "Any solution",
         "Type": "blacklist",
         "Weight": "1.5"
     },
@@ -711,16 +651,6 @@
     },
     {
         "Word": "I am unable to open",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "amazing",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "I cannot comment",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -875,7 +805,7 @@
         "Weight": "1.5"
     },
     {
-        "Word": "any ideas",
+        "Word": "Any ideas",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -1051,6 +981,11 @@
     },
     {
         "Word": "how can I fix this",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Any suggestions?",
         "Type": "blacklist",
         "Weight": "1.0"
     }

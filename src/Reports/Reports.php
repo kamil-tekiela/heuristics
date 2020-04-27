@@ -62,7 +62,7 @@ class Reports {
 	public function fetchBySearch(int $page = 1, string $type, string $value) {
 		$statement = EasyStatement::open();
 		if ($value) {
-			$statement->andWith('value LIKE ?', '%' . $this->db->escapeLikeValue($value) . '%');
+			$statement->andWith('value LIKE ?', '%' . $value . '%');
 		}
 		if ($type) {
 			$statement->andWith('type LIKE ?', '%' . $this->db->escapeLikeValue($type) . '%');
@@ -87,7 +87,7 @@ class Reports {
 	public function getAvgScore(string $type, string $value) {
 		$statement = EasyStatement::open();
 		if ($value) {
-			$statement->andWith('value LIKE ?', '%' . $this->db->escapeLikeValue($value) . '%');
+			$statement->andWith('value LIKE ?', '%' . $value . '%');
 		}
 		if ($type) {
 			$statement->andWith('type LIKE ?', '%' . $this->db->escapeLikeValue($type) . '%');

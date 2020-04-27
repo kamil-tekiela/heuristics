@@ -15,3 +15,14 @@ https://regex101.com/r/pd797n/1
 https://regex101.com/r/Co95ey/1
 did\s+you(?:\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\b(?:an?y?|the|this)\b|how to do it))+
 
+https://regex101.com/r/bcq0M3/1
+((?:how\s(?:can(?:\si)?|to)\s)?(?:fix\w*|(?:re)?solve\w*)(?:\s\w+){0,3}\s*\?+)
+
+https://regex101.com/r/MkqbJ7/1
+does\s+(?:any|some)\s*(?:body|one|1) know
+
+https://regex101.com/r/96laUk/1
+I can\s*'?n?o?t\s+com+ent
+
+https://regex101.com/r/ML3DSf/1
+(?:Stack\s*overflow\s+|so\s+|it\s+)?(?:will not|won'?t) let me com+ent
