@@ -40,6 +40,8 @@ class AnswerAPI {
 	
 	private const AUTOFLAG_TRESHOLD = 6;
 
+	private const NATTY_FLAG_TRESHOLD = 7;
+
 	/**
 	 * Token for Dharman user. Secret!
 	 *
@@ -100,7 +102,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/61416796';
+			$url .= '/61433893';
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),
@@ -355,18 +357,23 @@ class AnswerAPI {
 		// report to Chat
 		if ($score >= 4) {
 			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
-			$report = $this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 			if ($score >= self::AUTOFLAG_TRESHOLD) {
 				$chatLine = 'Post auto-flagged.';
 				if ($shoudBeReportedByNatty) {
-					if ($natty_score >= 4) {
+					if ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
+						// If Natty flagged it, then do nothing. The post was not handled yet...
 						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
+					} elseif ($natty_score >= 4) {
+						// If score is above 6 and Natty was not confident to autoflag then let us flag it.
+						if (!DEBUG) {
+							$this->flagPost($post->id);
+						}
 					} else {
 						if (!DEBUG) {
-							// $reportJSON = json_decode($report);
+							// Natty missed it, report to Natty in SOBotics and flag the answer
 							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id;
 							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-							// $reportLink = 'https://chat.stackoverflow.com/transcript/message/'.$reportJSON->id;
 							$reportLink = REPORT_URL.'?id='.$report_id.' @Dharman';
 							$this->chatAPI->sendMessage($this->soboticsRoomId, 'Reported in '.$reportLink);
 							$this->flagPost($post->id);

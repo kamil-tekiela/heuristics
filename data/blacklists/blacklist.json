@@ -185,11 +185,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "I am facing the same problem",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "i would like to know",
         "Type": "blacklist",
         "Weight": "1.5"
@@ -525,11 +520,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "I have the exact same problem",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "I am struggling",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -546,11 +536,6 @@
     },
     {
         "Word": "any help would",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "your help",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -986,6 +971,11 @@
     },
     {
         "Word": "Any suggestions?",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Any idea?",
         "Type": "blacklist",
         "Weight": "1.0"
     }

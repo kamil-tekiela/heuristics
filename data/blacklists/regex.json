@@ -7,7 +7,7 @@
     {
         "Word": "does\\s+(?:any|some)\\s*(?:body|one|1) know",
         "Type": "regex",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "I can\\s*'?n?o?t\\s+com+ent",
