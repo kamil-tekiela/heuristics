@@ -9,7 +9,7 @@ include BASE_DIR.'/vendor/autoload.php';
 // define('DEBUG', (bool) $dotEnv->get('DEBUG'));
 
 $db = \ParagonIE\EasyDB\Factory::fromArray([
-	'sqlite:'.BASE_DIR.'/data/db.db'
+	'sqlite:'.BASE_DIR.'/data/blacklists.db'
 ]);
 
 

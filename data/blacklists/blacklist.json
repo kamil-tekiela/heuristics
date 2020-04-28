@@ -978,5 +978,15 @@
         "Word": "Any idea?",
         "Type": "blacklist",
         "Weight": "1.0"
+    },
+    {
+        "Word": "Good day",
+        "Type": "salutation",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Good morning",
+        "Type": "salutation",
+        "Weight": "1.0"
     }
 ]
