@@ -23,7 +23,7 @@ foreach ($reports as $report) {
 			echo '<ul class="reasons">';
 			foreach ($reasons[$report['Id']] as $reason) {
 				echo '<li>';
-				echo "<b>{$reason['type']} ({$reason['weight']}):</b> {$reason['value']}";
+				echo "<b>".htmlspecialchars($reason['type'])." (".htmlspecialchars($reason['weight'])."):</b> ".htmlspecialchars($reason['value']);
 				echo '</li>';
 			}
 			echo '</ul>';
