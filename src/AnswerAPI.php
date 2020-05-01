@@ -120,7 +120,11 @@ class AnswerAPI {
 		echo(date_create_from_format('U', (string) $args['fromdate'])->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
 		// Request answers
-		$contents = $this->stackAPI->request('GET', $url, $args);
+		try {
+			$contents = $this->stackAPI->request('GET', $url, $args);
+		} catch (\Exception $e) {
+			file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+		}
 
 		// prepare blacklist
 		$blacklist = new \Blacklists\Blacklist();
@@ -144,7 +148,11 @@ class AnswerAPI {
 			];
 
 			// Get questions
-			$questionsJSON = $this->stackAPI->request('GET', $url, $args);
+			try {
+				$questionsJSON = $this->stackAPI->request('GET', $url, $args);
+			} catch (\Exception $e) {
+				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+			}
 
 			$this->questions = [];
 			foreach ($questionsJSON->items as $postJSON) {

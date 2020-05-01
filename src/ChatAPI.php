@@ -54,6 +54,15 @@ class ChatAPI {
 	}
 
 	public function sendMessage(int $roomId, string $message): string {
+		if (strlen($message) > 500) {
+			$messages = wordwrap($message, 500, "\n", true);
+			$ret = '';
+			foreach (explode("\n", $messages) as $partialMessage) {
+				$ret .= $this->sendMessage($roomId, $partialMessage);
+			}
+			return $ret;
+		}
+
 		$chatFKey = $this->rooms[$roomId] ?? $this->joinRoom($roomId);
 
 		// Send message
