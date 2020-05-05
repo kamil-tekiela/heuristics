@@ -8,13 +8,6 @@ use ParagonIE\EasyDB\EasyDB;
 
 class TrackerAPI {
 	/**
-	 * DB link
-	 *
-	 * @var EasyDB
-	 */
-	private $db;
-
-	/**
 	 * Guzzle
 	 *
 	 * @var \GuzzleHttp\Client
@@ -27,15 +20,6 @@ class TrackerAPI {
 	 * @var int
 	 */
 	private $lastRequestTime;
-
-	/**
-	 * Time of last auto-flagging
-	 *
-	 * @var \DateTime
-	 */
-	private $lastFlagTime = null;
-	
-	private const AUTOFLAG_TRESHOLD = 5;
 
 	/**
 	 * Token for Dharman user. Secret!
@@ -60,8 +44,7 @@ class TrackerAPI {
 
 	private $logRoomId = null;
 
-	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, \StackAPI $stackAPI, \ChatAPI $chatAPI, \DotEnv $dotEnv) {
-		$this->db = $db;
+	public function __construct(\GuzzleHttp\Client $client, \StackAPI $stackAPI, \ChatAPI $chatAPI, \DotEnv $dotEnv) {
 		$this->client = $client;
 		$this->chatAPI = $chatAPI;
 		$this->stackAPI = $stackAPI;
@@ -106,7 +89,11 @@ class TrackerAPI {
 		echo(date_create_from_format('U', (string) $args['fromdate'])->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
 		// Request questions
-		$contents = $this->stackAPI->request('GET', $url, $args);
+		try {
+			$contents = $this->stackAPI->request('GET', $url, $args);
+		} catch (\Exception $e) {
+			file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+		}
 
 		foreach ($contents->items as $postJSON) {
 			$post = new Question($postJSON);
@@ -133,7 +120,11 @@ class TrackerAPI {
 				$tags = array_reduce($post->tags, function ($carry, $e) {
 					return $carry."[tag:{$e}] ";
 				});
-				$this->chatAPI->sendMessage($this->logRoomId, $tags.$line);
+				try {
+					$this->chatAPI->sendMessage($this->logRoomId, $tags.$line);
+				} catch (\Exception $e) {
+					file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+				}
 			}
 
 			// set last request
