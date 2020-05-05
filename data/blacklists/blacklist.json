@@ -225,11 +225,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "Could anyone help",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "I am facing issue",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -256,11 +251,6 @@
     },
     {
         "Word": "know what is wrong",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "help would be appreciated",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -330,11 +320,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "Can someone help",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "this should be a comment",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -345,22 +330,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "help is very appreciated",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "help is appreciated",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "It does not work for me",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "Help will be appreciated",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -515,27 +485,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "can any one help",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
         "Word": "I am struggling",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "Can anyone help",
-        "Type": "blacklist",
-        "Weight": "1.5"
-    },
-    {
-        "Word": "anyone can help",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "any help would",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -586,11 +536,6 @@
     },
     {
         "Word": "I cannot find",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "any help is highly appreciated",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -780,11 +725,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "be appreciated",
-        "Type": "blacklist",
-        "Weight": "0.5"
-    },
-    {
         "Word": "I am new here",
         "Type": "blacklist",
         "Weight": "1.5"
@@ -798,11 +738,6 @@
         "Word": "I have this problem",
         "Type": "blacklist",
         "Weight": "1.0"
-    },
-    {
-        "Word": "Could you help me",
-        "Type": "blacklist",
-        "Weight": "2.0"
     },
     {
         "Word": "I do not have an answer",
@@ -823,11 +758,6 @@
         "Word": "I need help",
         "Type": "blacklist",
         "Weight": "2.5"
-    },
-    {
-        "Word": "someone can help",
-        "Type": "blacklist",
-        "Weight": "1.0"
     },
     {
         "Word": "I have similar",

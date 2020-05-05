@@ -53,5 +53,20 @@
         "Word": "((?:how\\s(?:can(?:\\si)?|to)\\s)?(?:fix\\w*|(?:re)?solve\\w*)(?:\\s\\w+){0,3}\\s*\\?+)",
         "Type": "regex",
         "Weight": "1.5"
+    },
+    {
+        "Word": "(?:I|we)\\s+(?:\\w+\\s+)?get this error",
+        "Type": "regex",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "(?:any\\s+)?help\\s+(?:\\w+\\s+){0,4}?ap+reciated",
+        "Type": "regex",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "(?:(?:could|can)\\s+|(?:you|(?:any|some)\\s*(?:body|one|1))\\s+){2}help(?:\\s+me)?",
+        "Type": "regex",
+        "Weight": "2.0"
     }
 ]

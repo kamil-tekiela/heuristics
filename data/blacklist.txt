@@ -26,3 +26,9 @@ I can\s*'?n?o?t\s+com+ent
 
 https://regex101.com/r/ML3DSf/1
 (?:Stack\s*overflow\s+|so\s+|it\s+)?(?:will not|won'?t) let me com+ent
+
+(?:any\s+)?help\s+(?:\w+\s+){0,4}?ap+reciated
+
+(?:I|we)\s+(?:\w+\s+)?get this error
+
+(?:(?:could|can)\s+|(?:you|(?:any|some)\s*(?:body|one|1))\s+){2}help(?:\s+me)?
