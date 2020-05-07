@@ -64,15 +64,24 @@ class StackAPI {
 				$rq = $this->client->request($method, $url, ['form_params' => $args]);
 			}
 		} catch (RequestException $e) {
-			if (($json = json_decode($e->getResponse()->getBody()->getContents())) && isset($json->error_id) && $json->error_id == 502) {
-				sleep(10 * 60);
-				return $this->request($method, $url, $args);
+			$response = $e->getResponse();
+			if (isset($response)) {
+				if (($json = json_decode($response->getBody()->getContents())) && isset($json->error_id) && $json->error_id == 502) {
+					sleep(10 * 60);
+					return $this->request($method, $url, $args);
+				} else {
+					throw new Exception(Psr7\str($e->getResponse()));
+				}
 			} else {
-				throw new Exception(Psr7\str($e->getResponse()));
+				throw new Exception("Response is empty");
 			}
 		}
 		
-		$body = $rq->getBody()->getContents();
+		if (isset($rq)) {
+			$body = $rq->getBody()->getContents();
+		} else {
+			throw new Exception("Response is empty");
+		}
 
 		if (stripos($body, 'backoff') !== false) {
 			file_put_contents(BASE_DIR.'/data/data.json', $body);
