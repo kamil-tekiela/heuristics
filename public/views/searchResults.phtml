@@ -17,17 +17,25 @@ foreach ($reports as $report) {
 		</div>
 		<div class="summary"><a href="<?=REPORT_URL.'?id='.$report['Id']?>"><b>Report link</b></a></div>
 		<div class="body border shadow-sm p-3 mb-3 bg-white rounded"><?=$report['body']?></div>
-		<?php
-		if (isset($reasons[$report['Id']])) {
-			echo 'Reasons:';
-			echo '<ul class="reasons">';
-			foreach ($reasons[$report['Id']] as $reason) {
-				echo '<li>';
-				echo "<b>".htmlspecialchars($reason['type'])." (".htmlspecialchars($reason['weight'])."):</b> ".htmlspecialchars($reason['value']);
-				echo '</li>';
-			}
-			echo '</ul>';
-		} ?>
+		<div class="d-flex justify-content-between">
+			<div class="reasonsContainer">
+			<?php
+			if (isset($reasons[$report['Id']])) {
+				echo 'Reasons:';
+				echo '<ul class="reasons">';
+				foreach ($reasons[$report['Id']] as $reason) {
+					echo '<li>';
+					echo "<b>".htmlspecialchars($reason['type'])." (".htmlspecialchars($reason['weight'])."):</b> ".htmlspecialchars($reason['value']);
+					echo '</li>';
+				}
+				echo '</ul>';
+			} ?>
+			</div>
+			<?php
+			if (isset($report['user_id'])) {
+				echo '<small class="user">Posted by: <a href="https://stackoverflow.com/u/'.$report['user_id'].'">'.htmlspecialchars($report['username']).'</a></small>';
+			} ?>
+		</div>
 	</div>
 	<?php
 }

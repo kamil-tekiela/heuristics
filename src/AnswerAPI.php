@@ -403,6 +403,8 @@ class AnswerAPI {
 				'natty_score' => $natty_score,
 				'summary' => $summary,
 				'reported_at' => date('Y-m-d H:i:s'),
+				'user_id' => ($post->owner->user_id ?? null),
+				'username' => ($post->owner->display_name ?? null),
 			]
 		);
 
