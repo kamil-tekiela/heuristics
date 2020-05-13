@@ -366,6 +366,7 @@ class AnswerAPI {
 		if ($score >= 4) {
 			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
 			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+			
 			if ($score >= self::AUTOFLAG_TRESHOLD) {
 				$chatLine = 'Post auto-flagged.';
 				if ($shoudBeReportedByNatty) {
@@ -373,9 +374,11 @@ class AnswerAPI {
 						// If Natty flagged it, then do nothing. The post was not handled yet...
 						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
 					} elseif ($natty_score >= 4) {
-						// If score is above 6 and Natty was not confident to autoflag then let us flag it.
-						if (!DEBUG) {
-							$this->flagPost($post->id);
+						// If score is above 7 and Natty was not confident to autoflag then let us flag it.
+						if ($score >= 7) {
+							if (!DEBUG) {
+								$this->flagPost($post->id);
+							}
 						}
 					} else {
 						if (!DEBUG) {
