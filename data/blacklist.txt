@@ -32,3 +32,6 @@ https://regex101.com/r/ML3DSf/1
 (?:I|we)\s+(?:\w+\s+)?get this error
 
 (?:(?:could|can)\s+|(?:you|(?:any|some)\s*(?:body|one|1))\s+){2}help(?:\s+me)?
+
+https://regex101.com/r/cBIq7P/1
+(?:I(?:'d|'ll)?\s+|will\s+|would\s+)*be\s+(?:very\s+|much\s+|really\s+)*(?:gre?ate?ful+|thankful\b)

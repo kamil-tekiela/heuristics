@@ -120,11 +120,7 @@ class AnswerAPI {
 		echo(date_create_from_format('U', (string) $args['fromdate'])->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
 		// Request answers
-		try {
-			$contents = $this->stackAPI->request('GET', $url, $args);
-		} catch (\Exception $e) {
-			file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-		}
+		$contents = $this->stackAPI->request('GET', $url, $args);
 
 		// prepare blacklist
 		$blacklist = new \Blacklists\Blacklist();
@@ -148,11 +144,7 @@ class AnswerAPI {
 			];
 
 			// Get questions
-			try {
-				$questionsJSON = $this->stackAPI->request('GET', $url, $args);
-			} catch (\Exception $e) {
-				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-			}
+			$questionsJSON = $this->stackAPI->request('GET', $url, $args);
 
 			$this->questions = [];
 			foreach ($questionsJSON->items as $postJSON) {
@@ -379,6 +371,8 @@ class AnswerAPI {
 							if (!DEBUG) {
 								$this->flagPost($post->id);
 							}
+						} else {
+							$chatLine = 'Not flagged, because I am skimpy';
 						}
 					} else {
 						if (!DEBUG) {

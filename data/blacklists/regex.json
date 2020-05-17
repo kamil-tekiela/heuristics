@@ -68,5 +68,10 @@
         "Word": "(?:(?:could|can)\\s+|(?:you|(?:any|some)\\s*(?:body|one|1))\\s+){2}help(?:\\s+me)?",
         "Type": "regex",
         "Weight": "2.0"
+    },
+    {
+        "Word": "(?:I(?:'d|'ll)?\\s+|will\\s+|would\\s+)*be\\s+(?:very\\s+|much\\s+|really\\s+)*(?:gre?ate?ful+|thankful\\b)",
+        "Type": "regex",
+        "Weight": "2.0"
     }
 ]
