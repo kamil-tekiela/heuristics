@@ -928,5 +928,10 @@
         "Word": "also facing this",
         "Type": "blacklist",
         "Weight": "1.0"
+    },
+    {
+        "Word": "can i ask",
+        "Type": "blacklist",
+        "Weight": "1.0"
     }
 ]

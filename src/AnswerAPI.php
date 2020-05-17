@@ -366,8 +366,8 @@ class AnswerAPI {
 						// If Natty flagged it, then do nothing. The post was not handled yet...
 						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
 					} elseif ($natty_score >= 4) {
-						// If score is above 7 and Natty was not confident to autoflag then let us flag it.
-						if ($score >= 7) {
+						// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
+						if ($score >= 7 || date('N') >= 6) {
 							if (!DEBUG) {
 								$this->flagPost($post->id);
 							}
