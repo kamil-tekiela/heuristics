@@ -35,3 +35,6 @@ https://regex101.com/r/ML3DSf/1
 
 https://regex101.com/r/cBIq7P/1
 (?:I(?:'d|'ll)?\s+|will\s+|would\s+)*be\s+(?:very\s+|much\s+|really\s+)*(?:gre?ate?ful+|thankful\b)
+
+https://regex101.com/r/M3GrRf/1
+(?:do y?o?u|does\s+(?:any|some)\s*(?:body|one|1)) (?:have|has)(?:\s+(?:an?y?\s+\w+))?
