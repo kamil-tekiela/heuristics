@@ -948,5 +948,20 @@
         "Word": "help pls",
         "Type": "blacklist",
         "Weight": "2.0"
+    },
+    {
+        "Word": "Can anyone tell me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Could anyone tell me",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am getting this error",
+        "Type": "blacklist",
+        "Weight": "1.0"
     }
 ]
