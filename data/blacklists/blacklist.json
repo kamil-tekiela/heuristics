@@ -933,5 +933,20 @@
         "Word": "can i ask",
         "Type": "blacklist",
         "Weight": "1.0"
+    },
+    {
+        "Word": "Did you have a look",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Any suggestions please",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "help pls",
+        "Type": "blacklist",
+        "Weight": "2.0"
     }
 ]
