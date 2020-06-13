@@ -67,6 +67,8 @@ class AnswerAPI {
 
 	private $soboticsRoomId = 111347;
 
+	private $pingOwner = '';
+
 	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, StackAPI $stackAPI, ChatAPI $chatAPI, DotEnv $dotEnv) {
 		$this->db = $db;
 		$this->client = $client;
@@ -79,6 +81,8 @@ class AnswerAPI {
 		// if (DEBUG) {
 		// 	$this->lastRequestTime = strtotime('15 days ago');
 		// }
+
+		$this->pingOwner = $dotEnv->get('pingOwner');
 
 		$this->userToken = $dotEnv->get('key');
 		if (!$this->userToken) {
@@ -379,7 +383,10 @@ class AnswerAPI {
 							// Natty missed it, report to Natty in SOBotics and flag the answer
 							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id;
 							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-							$reportLink = REPORT_URL.'?id='.$report_id.' @Dharman';
+							$reportLink = REPORT_URL.'?id='.$report_id;
+							if ($this->pingOwner) {
+								$reportLink .= ' @'.$this->pingOwner;
+							}
 							$this->chatAPI->sendMessage($this->soboticsRoomId, 'Reported in '.$reportLink);
 							$this->flagPost($post->id);
 						}
