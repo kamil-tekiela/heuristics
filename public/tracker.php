@@ -1,10 +1,7 @@
 <?php
 
-if (isset($argv[1])) {
-	define('DEBUG', 1);
-} else {
-	define('DEBUG', 0);
-}
+$searchString = $argv[2] ?: null;
+define('DEBUG', isset($argv[1]) && $argv[1] == 1);
 define('BASE_DIR', realpath(__DIR__.'/..'));
 
 include BASE_DIR.'/vendor/autoload.php';
@@ -19,6 +16,11 @@ $chatAPI = new ChatAPI($dotEnv);
 $stackAPI = new StackAPI($client);
 
 $fetcher = new Tracker\TrackerAPI($client, $stackAPI, $chatAPI, $dotEnv);
+
+if ($searchString) {
+	$fetcher->fetch($searchString);
+	exit;
+}
 
 while (1) {
 	$fetcher->fetch();

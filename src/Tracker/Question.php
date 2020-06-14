@@ -77,9 +77,13 @@ class Question {
 		$this->owner = $json->owner;
 		$this->tags = $json->tags;
 		$this->bodyWithTitle = $json->title.PHP_EOL.$json->body;
-		$this->linkFormatted = '['.quotemeta($this->title).']('.$this->link.')';
+		$this->linkFormatted = '['.$this->quotemeta($this->title).']('.$this->link.')';
 
 		$this->bodyWithoutCode = preg_replace('#\s*(?:<pre>)?<code>.*?<\/code>(?:<\/pre>)?\s*#s', '', $this->body);
-		$this->bodyStrippedWithTitle = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->bodyWithoutCode));
+		$this->bodyStrippedWithTitle = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*|\s*<blockquote>.*?<\/blockquote>\s*|\s*<pre>.*?<\/pre>\s*#s', '', $this->bodyWithoutCode));
+	}
+
+	private function quotemeta($string) {
+		return str_replace(['\\', '[', ']', '(', ')'], ['\\\\', '\[', '\]', '\(', '\)'], $string);
 	}
 }
