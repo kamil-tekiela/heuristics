@@ -264,8 +264,8 @@ class AnswerAPI {
 			}
 			if ($m = $h->noLatinLetters()) {
 				$reasons[] = 'No latin characters';
-				$score += 2.0;
-				$triggers[] = ['type' => 'No latin characters', 'weight' => 1];
+				$score += 3.0;
+				$triggers[] = ['type' => 'No latin characters', 'weight' => 3];
 			}
 			if ($m = $h->hasRepeatingChars()) {
 				$reasons[] = 'Filler text:"'.implode('","', array_column($m, 'Word')).'"';

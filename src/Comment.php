@@ -64,7 +64,7 @@ class Comment {
 	}
 
 	public function yourWelcome(): array {
-		if (preg_match_all('#(?:(?:your\s+|you\'?re\s+|you are\s+)?welcome)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:(?:you(?:\'?re?| are)\s+)?welcome)+[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];
@@ -78,7 +78,7 @@ class Comment {
 	}
 
 	public function updated(): array {
-		if (preg_match_all('#(?:I\s+)?(?:updated|edited|fixed)+\s*(?:my|the|a)?\s*(?:answer|question|it|that|this)?[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:I\s+)?(?:done|updated|edited|fixed)+\s*(?:my|the|a)?\s*(?:answer|question|it|that|this)?[!\.:()\s]*#i', $this->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
 			return array_column($matches, 0);
 		}
 		return [];
