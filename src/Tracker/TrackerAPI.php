@@ -87,6 +87,10 @@ class TrackerAPI {
 			throw new \Exception('Please provide valid room ID!');
 		}
 
+		if(DEBUG){
+			$this->roomIdCVpls = $this->logRoomId;
+		}
+
 		// Say hello
 		$this->chatAPI->sendMessage($this->logRoomId, 'TrackerBot started on '.gethostname());
 	}
@@ -115,7 +119,7 @@ class TrackerAPI {
 			'page' => '1',
 			'filter' => '7yrx3gca'
 		];
-		if (!DEBUG) {
+		if (!DEBUG && !$searchString) {
 			$args['fromdate'] = $this->lastRequestTime + 1;
 		} else {
 			$args['fromdate'] = 0;
@@ -123,6 +127,7 @@ class TrackerAPI {
 
 		if ($searchString) {
 			$args['q'] = $searchString;
+			$this->chatAPI->sendMessage($this->roomIdCVpls, 'Started search for: '.$searchString);
 		}
 
 		do {
@@ -169,19 +174,21 @@ class TrackerAPI {
 					}
 				}
 
-				if ($lang = $this->checkLanguage($post)) {
-					$line = "[tag:cv-pls] ".self::LANGS[$lang]." {$post->linkFormatted}".PHP_EOL;
-					try {
-						$this->chatAPI->sendMessage($this->roomIdCVpls, $line);
-					} catch (\Exception $e) {
-						file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-					}
-				} elseif ($this->noLatinLetters($post)) {
-					$line = "[tag:cv-pls] probably non-english {$post->linkFormatted}".PHP_EOL;
-					try {
-						$this->chatAPI->sendMessage($this->roomIdCVpls, $line);
-					} catch (\Exception $e) {
-						file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+				if (!$post->closed_date) {
+					if ($lang = $this->checkLanguage($post)) {
+						$line = "[tag:cv-pls] ".self::LANGS[$lang]." {$post->linkFormatted}".PHP_EOL;
+						try {
+							$this->chatAPI->sendMessage($this->roomIdCVpls, $line);
+						} catch (\Exception $e) {
+							file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+						}
+					} elseif ($this->noLatinLetters($post)) {
+						$line = "[tag:cv-pls] probably non-english {$post->linkFormatted}".PHP_EOL;
+						try {
+							$this->chatAPI->sendMessage($this->roomIdCVpls, $line);
+						} catch (\Exception $e) {
+							file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+						}
 					}
 				}
 
@@ -191,14 +198,18 @@ class TrackerAPI {
 			$args['page']++;
 		} while ($contents->has_more);
 
+		if ($searchString) {
+			$this->chatAPI->sendMessage($this->roomIdCVpls, 'Search is over. Quota remaining: '.$contents->quota_remaining);
+		}
+
 		// end processing
 		echo 'Processing finished at: '.date_create()->format('Y-m-d H:i:s').PHP_EOL;
 	}
 
 	private function checkLanguage(Question $post) {
 		$langKeywords = [
-			'es' => 'codigo|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|ayud(?:a|eme)|estoy|Buenos|SALUDO|vamos|Gracias',
-			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b',
+			'es' => 'codigo|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|ayud(?:a|r?eme)|estoy|Buenos|SALUDO|vamos|Gracias|nuevo|\bAQUI\b|por adelantado|anticipación|¿|¡|\bpued(?:o|a)\b|aplicación|solución|espero|alguien|\buna\b|siguiente',
+			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo',
 			'ru' => '\p{Cyrillic}{3,}',
 			'ar' => '\p{Arabic}{3,}',
 			'bn' => '\p{Bengali}{3,}',
@@ -213,18 +224,19 @@ class TrackerAPI {
 			'ml' => '\p{Malayalam}{3,}',
 			'te' => '\p{Telugu}{3,}',
 			'th' => '\p{Thai}{3,}',
-			'fr' => 'Bonjour|j\'ai|Merci|problème|Aidez(?:-| )moi|s\'il vous plaît|\baider\b|\bje\b|Erreur',
+			'fr' => 'Bonjour|j\'ai|Merci|problème|Aidez(?:-| )moi|s\'il vous plaît|\baider\b|\bje\b|Erreur|\bavec\b|\bmoi\b|\bsais\b|\bdeux\b|J\'aimerai|\bune\b|j\'essaye|\bvous\b|\bavons\b|création|\bvotre\b|voudrais|\bavoir\b',
 			'id' => 'Tolong|Selamat|masalah|bagaimana|\bkapan\b|\bsaya\b|\bsudah\b|Terima kasih|\bjual\b|\bobat\b', //indonesian
 			'vi' => 'cảm ơn|Tôi có|xin chào', // vietnamese
-			'it' => 'per favore|\baiuto\b|aiutami|Buongiorno|buona serata|io ho|domanda', // italian
+			'it' => 'per favore|\baiuto\b|aiutami|Buongiorno|buona serata|io ho|domanda|\bpagina\b', // italian
 		];
 
 		$m = [];
 
 		foreach ($langKeywords as $lang => $keywords) {
 			if (preg_match_all('#'.$keywords.'#iu', $post->bodyStrippedWithTitle, $matches, PREG_SET_ORDER)) {
-				if (count($matches) >= 3) {
-					$m[$lang] = array_column($matches, 0);
+				$vals = array_unique(array_column($matches, 0));
+				if (count($vals) >= 3) {
+					$m[$lang] = $vals;
 				}
 			}
 		}

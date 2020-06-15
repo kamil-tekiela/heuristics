@@ -41,6 +41,11 @@ class Question {
 	/**
 	 * @var string
 	 */
+	public $closed_date;
+
+	/**
+	 * @var string
+	 */
 	public $link;
 
 	/**
@@ -70,6 +75,7 @@ class Question {
 	public function __construct(\stdClass $json) {
 		$this->id = $json->question_id;
 		$this->score = $json->score;
+		$this->closed_date = $json->closed_date ?? '';
 		$this->creation_date = date_create_from_format('U', $json->creation_date);
 		$this->link = $json->link;
 		$this->title = $json->title;
