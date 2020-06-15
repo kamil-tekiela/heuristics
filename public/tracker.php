@@ -1,6 +1,6 @@
 <?php
 
-$searchString = $argv[2] ?: null;
+$searchString = $argv[2] ?? null;
 define('DEBUG', isset($argv[1]) && $argv[1] == 1);
 define('BASE_DIR', realpath(__DIR__.'/..'));
 

@@ -216,7 +216,7 @@ class TrackerAPI {
 
 		$langKeywords = [
 			'es' => '\bcodigos?\b|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|ayud(?:a|r?eme)|est(?:oy|á)|Buenos|SALUDO|vamos|Gracias|nuevo|\bAQUI\b|por adelantado|anticipación|¿|¡|\bpued(?:o|a)\b|aplicación|solución|función|espero|alguien|\buna\b|siguiente|Alguna|sugerencia|selección',
-			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo|\bnão\b',
+			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo|\bnão\b|\bpassar\b',
 			'fr' => 'Bonjour|j\'ai|Merci|problème|Aidez(?:-| )moi|s\'il vous plaît|\baider\b|\bje\b|Erreur|\bavec\b|\bmoi\b|\bsais\b|\bdeux\b|J\'aimerai|\bune\b|j\'essaye|\bvous\b|\bavons\b|création|\bvotre\b|voudrais|\bavoir\b',
 			'id' => 'Tolong|Selamat|masalah|bagaimana|\bkapan\b|\bsaya\b|\bsudah\b|Terima kasih|\bjual\b|\bobat\b', //indonesian
 			'vi' => 'cảm ơn|Tôi có|xin chào', // vietnamese
