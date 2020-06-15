@@ -87,7 +87,7 @@ class TrackerAPI {
 			throw new \Exception('Please provide valid room ID!');
 		}
 
-		if(DEBUG){
+		if (DEBUG) {
 			$this->roomIdCVpls = $this->logRoomId;
 		}
 
@@ -127,6 +127,7 @@ class TrackerAPI {
 
 		if ($searchString) {
 			$args['q'] = $searchString;
+			$args['closed'] = 'False';
 			$this->chatAPI->sendMessage($this->roomIdCVpls, 'Started search for: '.$searchString);
 		}
 
@@ -138,6 +139,10 @@ class TrackerAPI {
 				$contents = $this->stackAPI->request('GET', $url, $args);
 			} catch (\Exception $e) {
 				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+			}
+
+			if (!$contents) {
+				continue;
 			}
 
 			foreach ($contents->items as $postJSON) {
@@ -207,35 +212,47 @@ class TrackerAPI {
 	}
 
 	private function checkLanguage(Question $post) {
+		$m = [];
+
 		$langKeywords = [
-			'es' => 'codigo|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|ayud(?:a|r?eme)|estoy|Buenos|SALUDO|vamos|Gracias|nuevo|\bAQUI\b|por adelantado|anticipación|¿|¡|\bpued(?:o|a)\b|aplicación|solución|espero|alguien|\buna\b|siguiente',
-			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo',
-			'ru' => '\p{Cyrillic}{3,}',
-			'ar' => '\p{Arabic}{3,}',
-			'bn' => '\p{Bengali}{3,}',
-			'zh' => '\p{Han}{3,}',
-			'ta' => '\p{Tamil}{3,}', // tamil
-			'Deva' => '\p{Devanagari}{3,}',
-			'el' => '\p{Greek}{3,}',
-			'gu' => '\p{Gujarati}{3,}',
-			'ko' => '\p{Hangul}{3,}',
-			'kn' => '\p{Kannada}{3,}',
-			'Kana' => '\p{Katakana}{3,}',
-			'ml' => '\p{Malayalam}{3,}',
-			'te' => '\p{Telugu}{3,}',
-			'th' => '\p{Thai}{3,}',
+			'es' => '\bcodigos?\b|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|ayud(?:a|r?eme)|est(?:oy|á)|Buenos|SALUDO|vamos|Gracias|nuevo|\bAQUI\b|por adelantado|anticipación|¿|¡|\bpued(?:o|a)\b|aplicación|solución|función|espero|alguien|\buna\b|siguiente|Alguna|sugerencia|selección',
+			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo|\bnão\b',
 			'fr' => 'Bonjour|j\'ai|Merci|problème|Aidez(?:-| )moi|s\'il vous plaît|\baider\b|\bje\b|Erreur|\bavec\b|\bmoi\b|\bsais\b|\bdeux\b|J\'aimerai|\bune\b|j\'essaye|\bvous\b|\bavons\b|création|\bvotre\b|voudrais|\bavoir\b',
 			'id' => 'Tolong|Selamat|masalah|bagaimana|\bkapan\b|\bsaya\b|\bsudah\b|Terima kasih|\bjual\b|\bobat\b', //indonesian
 			'vi' => 'cảm ơn|Tôi có|xin chào', // vietnamese
 			'it' => 'per favore|\baiuto\b|aiutami|Buongiorno|buona serata|io ho|domanda|\bpagina\b', // italian
+			'th' => '\p{Thai}{3,}',
 		];
-
-		$m = [];
 
 		foreach ($langKeywords as $lang => $keywords) {
 			if (preg_match_all('#'.$keywords.'#iu', $post->bodyStrippedWithTitle, $matches, PREG_SET_ORDER)) {
 				$vals = array_unique(array_column($matches, 0));
 				if (count($vals) >= 3) {
+					$m[$lang] = $vals;
+				}
+			}
+		}
+
+		$langRegexes = [
+			'ru' => '\p{Cyrillic}{3,}', // has spaces
+			'ar' => '\p{Arabic}{3,}', // has spaces
+			'bn' => '\p{Bengali}{3,}', // has spaces
+			'zh' => '\p{Han}',
+			'ta' => '\p{Tamil}{3,}', // has spaces
+			'Deva' => '\p{Devanagari}{2,}', // has spaces
+			'el' => '\p{Greek}{3,}', // has spaces
+			'gu' => '\p{Gujarati}{3,}', // has spaces
+			'ko' => '\p{Hangul}{2,}', // has spaces
+			'kn' => '\p{Kannada}{3,}', // has spaces
+			'Kana' => '[\p{Han}\p{Katakana}\p{Hiragana}]',
+			'ml' => '\p{Malayalam}', 
+			'te' => '\p{Telugu}',
+		];
+
+		foreach ($langRegexes as $lang => $keywords) {
+			if (preg_match_all('#'.$keywords.'#iu', $post->bodyStrippedWithTitle, $matches, PREG_SET_ORDER)) {
+				$vals = array_unique(array_column($matches, 0));
+				if (count($vals) >= 8) {
 					$m[$lang] = $vals;
 				}
 			}
@@ -258,6 +275,6 @@ class TrackerAPI {
 			$m1,
 		);
 
-		return count(array_unique($m1[0])) <= 5;
+		return count(array_unique($m1[0])) <= 6;
 	}
 }
