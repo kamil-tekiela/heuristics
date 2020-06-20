@@ -223,7 +223,7 @@ class TrackerAPI {
 			'vi' => 'cảm|ơn|Tôi|có|chào|với|giúp|đó|lệnh|lỗi|này|mình|làm|nào|ngày|có|thể|nhỏ|tốt', // vietnamese
 			'it' => 'per favore|\baiuto\b|aiutami|Buongiorno|buona serata|io ho|domanda|\bpagina\b', // italian
 			'th' => '\p{Thai}{3,}',
-			'tr' => 'içine|olucak|sayfası|değişken|oluşturudum|kalmıyor|gün|içinde|siliniyor|oluşturup|çıkıyor|istediğim|Sahibim|ihtiyacım|ihtiyaç|Teşekkür(?:ler)?|Merhaba|Günaydın|Nasıl|ne zaman|\bhata\b|calismiyor|kodlari?|verip|lütfen|Yardım|arkadaşlar|oluştu', // turkish
+			'tr' => 'içine|olucak|sayfası|değişken|oluşturudum|kalmıyor|gün|içinde|siliniyor|oluşturup|çıkıyor|istediğim|Sahibim|ihtiyacım|ihtiyaç|Teşekkür(?:ler)?|Merhaba|Günaydın|Nasıl|ne zaman|\bhata\b|calismiyor|kodlari?|verip|lütfen|Yardım|arkadaşlar|oluştu|herşey|calışmıyor|olmadı|yaptım', // turkish
 		];
 
 		foreach ($langKeywords as $lang => $keywords) {
