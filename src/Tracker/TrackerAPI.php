@@ -67,6 +67,7 @@ class TrackerAPI {
 		'ml' => 'Malayalam',
 		'te' => 'Telugu',
 		'th' => 'Thai',
+		'tr' => 'Turkish',
 	];
 
 	public function __construct(\GuzzleHttp\Client $client, \StackAPI $stackAPI, \ChatAPI $chatAPI, \DotEnv $dotEnv) {
@@ -135,11 +136,11 @@ class TrackerAPI {
 			echo(date_create_from_format('U', (string) $this->lastRequestTime)->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
 			// Request questions
-			try {
+			// try {
 				$contents = $this->stackAPI->request('GET', $url, $args);
-			} catch (\Exception $e) {
-				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-			}
+			// } catch (\Exception $e) {
+			// 	file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+			// }
 
 			if (!$contents) {
 				continue;
@@ -171,11 +172,11 @@ class TrackerAPI {
 						$tags = array_reduce($post->tags, function ($carry, $e) {
 							return $carry."[tag:{$e}] ";
 						});
-						try {
+						// try {
 							$this->chatAPI->sendMessage($this->logRoomId, $tags.$line." {$post->linkFormatted}".PHP_EOL);
-						} catch (\Exception $e) {
-							file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-						}
+						// } catch (\Exception $e) {
+						// 	file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+						// }
 					}
 				}
 
@@ -219,9 +220,10 @@ class TrackerAPI {
 			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo|\bnão\b|\bpassar\b',
 			'fr' => 'Bonjour|j\'ai|Merci|problème|Aidez(?:-| )moi|s\'il vous plaît|\baider\b|\bje\b|Erreur|\bavec\b|\bmoi\b|\bsais\b|\bdeux\b|J\'aimerai|\bune\b|j\'essaye|\bvous\b|\bavons\b|création|\bvotre\b|voudrais|\bavoir\b',
 			'id' => 'Tolong|Selamat|masalah|bagaimana|\bkapan\b|\bsaya\b|\bsudah\b|Terima kasih|\bjual\b|\bobat\b', //indonesian
-			'vi' => 'cảm ơn|Tôi có|xin chào', // vietnamese
+			'vi' => 'cảm|ơn|Tôi|có|chào|với|giúp|đó|lệnh|lỗi|này|mình|làm|nào|ngày|có|thể|nhỏ|tốt', // vietnamese
 			'it' => 'per favore|\baiuto\b|aiutami|Buongiorno|buona serata|io ho|domanda|\bpagina\b', // italian
 			'th' => '\p{Thai}{3,}',
+			'tr' => 'içine|olucak|sayfası|değişken|oluşturudum|kalmıyor|gün|içinde|siliniyor|oluşturup|çıkıyor|istediğim|Sahibim|ihtiyacım|ihtiyaç|Teşekkür(?:ler)?|Merhaba|Günaydın|Nasıl|ne zaman|\bhata\b|calismiyor|kodlari?|verip|lütfen|Yardım|arkadaşlar|oluştu', // turkish
 		];
 
 		foreach ($langKeywords as $lang => $keywords) {
