@@ -160,11 +160,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "were you able to figure out",
-        "Type": "blacklist",
-        "Weight": "1.5"
-    },
-    {
         "Word": "give me a hand",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -968,5 +963,10 @@
         "Word": "Voc\u00ea",
         "Type": "blacklist",
         "Weight": "1.0"
+    },
+    {
+        "Word": "any thoughts",
+        "Type": "blacklist",
+        "Weight": "1.5"
     }
 ]
