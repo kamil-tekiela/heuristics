@@ -968,5 +968,50 @@
         "Word": "any thoughts",
         "Type": "blacklist",
         "Weight": "1.5"
+    },
+    {
+        "Word": "est\u00e1",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "C\u00f3mo",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "ent\u00e3o",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Gracias",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "de dados",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "porque",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "n\u00e3o",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "sirva",
+        "Type": "blacklist",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "c\u00f3digo",
+        "Type": "blacklist",
+        "Weight": "1.0"
     }
 ]

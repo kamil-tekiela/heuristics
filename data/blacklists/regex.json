@@ -88,5 +88,10 @@
         "Word": "have you got(?: (?:an?|the))? answer",
         "Type": "regex",
         "Weight": "2.0"
+    },
+    {
+        "Word": "obrigad(?:a|o)",
+        "Type": "regex",
+        "Weight": "1.0"
     }
 ]
