@@ -73,7 +73,7 @@ class StackAPI {
 					throw new Exception(Psr7\str($e->getResponse()));
 				}
 			} else {
-				throw new Exception("Response is empty");
+				throw $e;
 			}
 		}
 		
