@@ -216,7 +216,7 @@ class TrackerAPI {
 		$m = [];
 
 		$langKeywords = [
-			'es' => '\bcodigos?\b|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|\bcomo\b|ayud(?:a|r?eme)|est(?:oy|á)|Buenos|SALUDO|vamos|Gracias|nuevo|\bAQUI\b|por adelantado|anticipación|¿|¡|\bpued(?:o|a)\b|aplicación|solución|función|espero|alguien|\buna\b|siguiente|Alguna|sugerencia|selección|Tenemos|llamar|palabra|Cómo|codifcar|podria|mucho|Queremos|tiempo|haciendo|\bparar\b|usuario|número|\bdatos\b|código|\bmuy\b|\besto\b|encontré|\bobjeto\b|había',
+			'es' => '\bcodigos?\b|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|\bcomo\b|ayud(?:a|r?eme)|est(?:oy|á|e)|Buenos|SALUDO|vamos|Gracias|nuevo|\bAQUI\b|por adelantado|anticipación|¿|¡|\bpued(?:o|a)\b|aplicación|solución|función|espero|alguien|\buna\b|siguiente|Alguna|sugerencia|selección|Tenemos|llamar|palabra|Cómo|codifcar|podria|mucho|Queremos|tiempo|haciendo|\bparar\b|usuario|número|\bdatos\b|código|\bmuy\b|\besto\b|encontré|\bobjeto\b|había|\bentrar\b|\bque\b|\bpude\b|ustedes|algunos',
 			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|estão|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo|\bnão\b|\bpassar\b|têm|\bparar\b|código|\bfazer\b|\btoda\b|senha|conseguir|será|Alguém',
 			'fr' => 'Bonjour|j\'ai|Merci|problème|Aidez(?:-| )moi|s\'il vous plaît|\baider\b|\bje\b|Erreur|\bavec\b|\bmoi\b|\bsais\b|\bdeux\b|J\'aimerai|\bune\b|j\'essaye|\bvous\b|\bavons\b|création|\bvotre\b|voudrais|\bavoir\b',
 			'id' => 'Tolong|Selamat|masalah|bagaimana|\bkapan\b|\bsaya\b|\bsudah\b|Terima kasih|\bjual\b|\bobat\b', //indonesian
