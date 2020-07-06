@@ -1013,5 +1013,10 @@
         "Word": "c\u00f3digo",
         "Type": "blacklist",
         "Weight": "1.0"
+    },
+    {
+        "Word": "boa tarde",
+        "Type": "blacklist",
+        "Weight": "1.0"
     }
 ]
