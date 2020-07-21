@@ -71,6 +71,8 @@ class AnswerAPI {
 
 	private $pingOwner = '';
 
+	private $autoflagging = false;
+
 	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, StackAPI $stackAPI, ChatAPI $chatAPI, DotEnv $dotEnv) {
 		$this->db = $db;
 		$this->client = $client;
@@ -85,6 +87,8 @@ class AnswerAPI {
 		// }
 
 		$this->pingOwner = $dotEnv->get('pingOwner');
+
+		$this->autoflagging = $dotEnv->get('autoflagging');
 
 		$this->userToken = $dotEnv->get('key');
 		if (!$this->userToken) {
@@ -454,6 +458,10 @@ class AnswerAPI {
 	 * @return void
 	 */
 	private function flagPost(int $question_id) {
+		if(!$this->autoflagging){
+			return;
+		}
+
 		// throttle
 		if ($this->lastFlagTime && $this->lastFlagTime >= ($now = date_create('5 seconds ago'))) {
 			sleep($now->diff($this->lastFlagTime)->s + 1);
