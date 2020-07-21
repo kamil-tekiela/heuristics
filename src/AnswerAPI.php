@@ -65,6 +65,8 @@ class AnswerAPI {
 
 	private $logRoomId = null;
 
+	private $personalRoomId = null;
+
 	private $soboticsRoomId = 111347;
 
 	private $pingOwner = '';
@@ -92,6 +94,7 @@ class AnswerAPI {
 		if (!$this->logRoomId) {
 			throw new \Exception('Please provide valid room ID!');
 		}
+		$this->personalRoomId = (int) $dotEnv->get('trackRoomId');
 
 		// Say hello
 		$this->chatAPI->sendMessage($this->logRoomId, 'v.'.\VERSION.' Started on '.gethostname());
@@ -113,7 +116,7 @@ class AnswerAPI {
 			'site' => 'stackoverflow',
 			'order' => 'asc',
 			'sort' => 'creation',
-			'filter' => 'eA4nsiKhnQiMog4It1'
+			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru'
 		];
 		if (DEBUG) {
 			$args['fromdate'] = strtotime('5 years ago');
@@ -295,6 +298,13 @@ class AnswerAPI {
 						file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
 					}
 				}
+			}
+
+			// while we are at it check if there is fluff to be removed
+			try {
+				$this->removeClutter($post);
+			} catch (\Exception $e) {
+				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
 			}
 
 			// set last request
@@ -483,5 +493,38 @@ class AnswerAPI {
 		$contentsJSON = $this->stackAPI->request('POST', $url, $args);
 
 		$this->lastFlagTime = new DateTime();
+	}
+
+	private function removeClutter(Post $post) {
+		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that) helps?( you\b)?(\s|:-?\)|[!,.])*?$/mi';
+		$bodyCleansed = preg_replace($re, '', $post->bodyMarkdown);
+	
+		if ($bodyCleansed === $post->bodyMarkdown) {
+			// 'Nothing changed.'
+			return;
+		}
+
+		$apiEndpoint = 'answers';
+		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
+		$url .= '/'.$post->id;
+		$url .= '/edit';
+		$args = [
+			'site' => 'stackoverflow',
+			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru',
+			'preview' => 'false',
+			'access_token' => $this->userToken,
+			'comment' => 'Stack Overflow is like an encyclopedia, so we prefer to omit these types of phrases. It is assumed that everyone here is trying to be helpful.',
+		];
+	
+		$args['body'] = $bodyCleansed;
+
+		if (mb_strlen($bodyCleansed) < 30) {
+			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
+			return;
+		}
+	
+		$this->stackAPI->request('POST', $url, $args);
+	
+		$this->chatAPI->sendMessage($this->personalRoomId, "Answer edited: [Post link]({$post->link})");
 	}
 }

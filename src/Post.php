@@ -19,6 +19,11 @@ class Post {
 	/**
 	 * @var string
 	 */
+	public $bodyMarkdown;
+
+	/**
+	 * @var string
+	 */
 	public $bodyWithoutCode;
 
 	/**
@@ -57,6 +62,7 @@ class Post {
 		$this->link = $json->link;
 		$this->title = $json->title;
 		$this->body = $json->body;
+		$this->bodyMarkdown = $json->body_markdown;
 		$this->owner = $json->owner;
 
 		$this->bodyWithoutCode = preg_replace('#\s*(?:<pre>)?<code>.*?<\/code>(?:<\/pre>)?\s*#s', '', $this->body);
