@@ -1018,5 +1018,25 @@
         "Word": "boa tarde",
         "Type": "blacklist",
         "Weight": "1.0"
+    },
+    {
+        "Word": "todas",
+        "Type": "blacklist",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "solucion",
+        "Type": "blacklist",
+        "Weight": "2.5"
+    },
+    {
+        "Word": "soluci\u00f3n",
+        "Type": "blacklist",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "saludos",
+        "Type": "blacklist",
+        "Weight": "1.5"
     }
 ]

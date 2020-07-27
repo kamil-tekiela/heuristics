@@ -93,5 +93,10 @@
         "Word": "obrigad(?:a|o)",
         "Type": "regex",
         "Weight": "1.0"
+    },
+    {
+        "Word": "\\bmism(?:o|a)\\b",
+        "Type": "regex",
+        "Weight": "2.5"
     }
 ]
