@@ -23,15 +23,15 @@ class Reports {
 	public function fetch(int $minScore = 0, int $page = 1) {
 		$offset = PERPAGE * ($page - 1);
 
-		$this->rowCount = $this->db->single('SELECT COUNT(*)
-			FROM reports 
-			WHERE score >= ?', [$minScore]);
-
-		return $this->db->safeQuery('SELECT *
+		$data = $this->db->safeQuery('SELECT *
 			FROM reports 
 			WHERE score >= ?
-			ORDER BY reported_At DESC
-			LIMIT 100 OFFSET ?', [$minScore, $offset]);
+			ORDER BY id DESC
+			LIMIT 600 OFFSET ?', [$minScore, $offset]);
+		
+		$this->rowCount = $offset + count($data);
+
+		return array_slice($data, 0, PERPAGE);
 	}
 
 	public function getCount() {
@@ -44,7 +44,7 @@ class Reports {
 		return $this->db->safeQuery('SELECT * 
 			FROM reports 
 			WHERE '.$statement.' 
-			ORDER BY reported_At DESC', $statement->values());
+			ORDER BY id DESC', $statement->values());
 	}
 
 	public function fetchReasons(array $reports) {
@@ -60,28 +60,28 @@ class Reports {
 	}
 
 	public function fetchBySearch(int $page = 1, string $type, string $value) {
+		$offset = PERPAGE * ($page - 1);
+
 		$statement = EasyStatement::open();
 		if ($value) {
-			$statement->andWith('value LIKE ?', '%' . $value . '%');
+			$statement->andWith('reasons.value LIKE ?', '%' . $value . '%');
 		}
 		if ($type) {
-			$statement->andWith('type LIKE ?', '%' . $this->db->escapeLikeValue($type) . '%');
+			$statement->andWith('reasons.type LIKE ?', '%' . $this->db->escapeLikeValue($type) . '%');
 		}
-		$values = array_merge($statement->values(), [PERPAGE * ($page - 1)]);
+		$values = array_merge($statement->values(), [$offset]);
 
-		$this->rowCount = $this->db->single('SELECT COUNT(DISTINCT report_id)
+		$data = $this->db->safeQuery("SELECT * 
 			FROM reports 
-			LEFT JOIN reasons ON reasons.report_id=reports.Id
-			WHERE '.$statement.' 
-			 ', $statement->values());
-
-		return $this->db->safeQuery('SELECT * 
-			FROM reports 
-			LEFT JOIN reasons ON reasons.report_id=reports.Id
-			WHERE '.$statement.' 
+			INNER JOIN reasons ON reasons.report_id=reports.Id
+			WHERE {$statement} 
 			GROUP BY report_id
-			ORDER BY reported_At DESC
-			LIMIT 100 OFFSET ?', $values);
+			ORDER BY reports.Id DESC
+			LIMIT 600 OFFSET ?", $values);
+		
+		$this->rowCount = $offset + count($data);
+
+		return array_slice($data, 0, PERPAGE);
 	}
 
 	public function getAvgScore(string $type, string $value) {
@@ -93,12 +93,13 @@ class Reports {
 			$statement->andWith('type LIKE ?', '%' . $this->db->escapeLikeValue($type) . '%');
 		}
 
-		return $this->db->single('SELECT AVG(score) 
+		$score = $this->db->single("SELECT AVG(score) 
 			FROM reports 
 			WHERE Id IN (
 				SELECT report_id FROM reasons
-				WHERE '.$statement.' 
-				GROUP BY report_id
-			)', $statement->values());
+				WHERE {$statement} 
+			)", $statement->values());
+
+		return round($score, 2);
 	}
 }
