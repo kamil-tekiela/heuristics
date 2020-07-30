@@ -308,7 +308,7 @@ class AnswerAPI {
 			try {
 				$this->removeClutter($post);
 			} catch (\Exception $e) {
-				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $post->id.PHP_EOL.$e->__toString());
 			}
 
 			// set last request
@@ -504,7 +504,7 @@ class AnswerAPI {
 	}
 
 	private function removeClutter(Post $post) {
-		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that) helps?( you\b)?(\s|:-?\)|[!,.])*?$/mi';
+		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b)? helps?( you\b)?(\s|:-?\)|🙂️|[!,.])*?$/mi';
 		$bodyCleansed = preg_replace($re, '', $post->bodyMarkdown);
 	
 		if ($bodyCleansed === $post->bodyMarkdown) {
