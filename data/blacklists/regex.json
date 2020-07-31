@@ -77,7 +77,7 @@
     {
         "Word": "(?:do y?o?u|does\\s+(?:any|some)\\s*(?:body|one|1)) (?:have|has)(?:\\s+(?:an?y?\\s+\\w+))?",
         "Type": "regex",
-        "Weight": "2.0"
+        "Weight": "3.0"
     },
     {
         "Word": "(?:have you|(?:Were you|have you been) able to) figured?(?:\\s+(?:this\\s|it\\s|that\\s)?out|\\s+\\w+\\s+\\w+\\?)?",

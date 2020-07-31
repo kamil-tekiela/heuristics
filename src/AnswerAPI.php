@@ -526,7 +526,7 @@ class AnswerAPI {
 	
 		$args['body'] = $bodyCleansed;
 
-		if (mb_strlen($bodyCleansed) < 30) {
+		if (mb_strlen(trim($bodyCleansed)) < 30) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;
 		}

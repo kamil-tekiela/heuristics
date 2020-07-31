@@ -33,5 +33,10 @@
         "Word": "Have you tried",
         "Type": "whitelist",
         "Weight": "-1.0"
+    },
+    {
+        "Word": "can you try",
+        "Type": "whitelist",
+        "Weight": "-1.5"
     }
 ]

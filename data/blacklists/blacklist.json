@@ -520,11 +520,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "Do you have any idea",
-        "Type": "blacklist",
-        "Weight": "2.0"
-    },
-    {
         "Word": "Have you solved the problem",
         "Type": "blacklist",
         "Weight": "1.5"
@@ -581,11 +576,6 @@
     },
     {
         "Word": "kindly assist",
-        "Type": "blacklist",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "customer care",
         "Type": "blacklist",
         "Weight": "1.0"
     },
@@ -1038,5 +1028,10 @@
         "Word": "saludos",
         "Type": "blacklist",
         "Weight": "1.5"
+    },
+    {
+        "Word": "see these links",
+        "Type": "blacklist",
+        "Weight": "1.0"
     }
 ]
