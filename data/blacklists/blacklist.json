@@ -1012,7 +1012,7 @@
     {
         "Word": "todas",
         "Type": "blacklist",
-        "Weight": "2.0"
+        "Weight": "1.0"
     },
     {
         "Word": "solucion",
