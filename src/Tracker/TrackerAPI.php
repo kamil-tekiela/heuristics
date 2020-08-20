@@ -4,16 +4,7 @@ declare(strict_types=1);
 
 namespace Tracker;
 
-use ParagonIE\EasyDB\EasyDB;
-
 class TrackerAPI {
-	/**
-	 * Guzzle
-	 *
-	 * @var \GuzzleHttp\Client
-	 */
-	private $client;
-
 	/**
 	 * Timestamp
 	 *
@@ -44,7 +35,14 @@ class TrackerAPI {
 
 	private $logRoomId = null;
 
-	private $roomIdCVpls = 215913;
+	private $chatrooms = [];
+
+	/**
+	 * What to say when a post is reported
+	 *
+	 * @var string
+	 */
+	private $reportText = '';
 
 	const LANGS = [
 		'es' => 'Spanish',
@@ -70,8 +68,7 @@ class TrackerAPI {
 		'tr' => 'Turkish',
 	];
 
-	public function __construct(\GuzzleHttp\Client $client, \StackAPI $stackAPI, \ChatAPI $chatAPI, \DotEnv $dotEnv) {
-		$this->client = $client;
+	public function __construct(\StackAPI $stackAPI, \ChatAPI $chatAPI, \DotEnv $dotEnv) {
 		$this->chatAPI = $chatAPI;
 		$this->stackAPI = $stackAPI;
 		
@@ -88,8 +85,11 @@ class TrackerAPI {
 			throw new \Exception('Please provide valid room ID!');
 		}
 
+		$this->reportText = $dotEnv->get('NELQA_report_text');
+		$this->chatrooms = $dotEnv->get('chatrooms');
+
 		if (DEBUG) {
-			$this->roomIdCVpls = $this->logRoomId;
+			$this->chatrooms = [$this->logRoomId];
 		}
 
 		// Say hello
@@ -97,7 +97,7 @@ class TrackerAPI {
 	}
 
 	/**
-	 * Entry point. Fetches a bunch of answers and their questions and then parses them.
+	 * Entry point. Fetches a bunch of questions and then parses them.
 	 *
 	 * @return void
 	 */
@@ -108,9 +108,7 @@ class TrackerAPI {
 			$apiEndpoint = 'questions';
 		}
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
-		if (DEBUG && !$searchString) {
-			$url .= '/60882508';
-		}
+
 		$args = [
 			'todate' => strtotime('2 minutes ago'),
 			'site' => 'stackoverflow',
@@ -129,18 +127,14 @@ class TrackerAPI {
 		if ($searchString) {
 			$args['q'] = $searchString;
 			$args['closed'] = 'False';
-			$this->chatAPI->sendMessage($this->roomIdCVpls, 'Started search for: '.$searchString);
+			$this->chatAPI->sendMessage($this->logRoomId, 'Started search for: '.$searchString);
 		}
 
 		do {
 			echo(date_create_from_format('U', (string) $this->lastRequestTime)->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
 			// Request questions
-			// try {
-				$contents = $this->stackAPI->request('GET', $url, $args);
-			// } catch (\Exception $e) {
-			// 	file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-			// }
+			$contents = $this->stackAPI->request('GET', $url, $args);
 
 			if (!$contents) {
 				continue;
@@ -149,6 +143,7 @@ class TrackerAPI {
 			foreach ($contents->items as $postJSON) {
 				$post = new Question($postJSON);
 
+				// Watch for mysqli keywords
 				if (!$searchString) {
 					// Our rules
 					$line = '';
@@ -172,28 +167,22 @@ class TrackerAPI {
 						$tags = array_reduce($post->tags, function ($carry, $e) {
 							return $carry."[tag:{$e}] ";
 						});
-						// try {
-							$this->chatAPI->sendMessage($this->logRoomId, $tags.$line." {$post->linkFormatted}".PHP_EOL);
-						// } catch (\Exception $e) {
-						// 	file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-						// }
+						$this->chatAPI->sendMessage($this->logRoomId, $tags.$line." {$post->linkFormatted}".PHP_EOL);
 					}
 				}
 
+				// for all non-closed questions, execute non-English language question analysis
 				if (!$post->closed_date) {
+					$reason = '';
 					if ($lang = $this->checkLanguage($post)) {
-						$line = "[tag:cv-pls] ".self::LANGS[$lang]." {$post->linkFormatted}".PHP_EOL;
-						try {
-							$this->chatAPI->sendMessage($this->roomIdCVpls, $line);
-						} catch (\Exception $e) {
-							file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
-						}
+						$reason = self::LANGS[$lang]." content detected";
 					} elseif ($this->noLatinLetters($post)) {
-						$line = "[tag:cv-pls] probably non-english {$post->linkFormatted}".PHP_EOL;
-						try {
-							$this->chatAPI->sendMessage($this->roomIdCVpls, $line);
-						} catch (\Exception $e) {
-							file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+						$reason = 'Probably non-English question or VLQ';
+					}
+					// report in all relevant rooms
+					if ($reason) {
+						foreach ($this->chatrooms as $roomId) {
+							$this->chatAPI->sendMessage($roomId, sprintf($this->reportText, $post->link, $reason));
 						}
 					}
 				}
@@ -205,7 +194,7 @@ class TrackerAPI {
 		} while ($contents->has_more);
 
 		if ($searchString) {
-			$this->chatAPI->sendMessage($this->roomIdCVpls, 'Search is over. Quota remaining: '.$contents->quota_remaining);
+			$this->chatAPI->sendMessage($this->logRoomId, 'Search is over. Quota remaining: '.$contents->quota_remaining);
 		}
 
 		// end processing
@@ -215,6 +204,7 @@ class TrackerAPI {
 	private function checkLanguage(Question $post) {
 		$m = [];
 
+		// Watch for most common words/phrases appearing in Stack Overflow's questions
 		$langKeywords = [
 			'es' => '\bcodigos?\b|\bpero\b|resultado|\bc(?:o|ó)mo\b|\bHola\b|tengo|\bcomo\b|ayud(?:a|r?eme)|est(?:oy|á|e)|Buenos|SALUDO|vamos|Gracias|nuevo|\bAQUI\b|por adelantado|anticipación|¿|¡|\bpued(?:o|a)\b|aplicación|solución|función|espero|alguien|\buna\b|siguiente|Alguna|sugerencia|selección|Tenemos|llamar|palabra|Cómo|codifcar|podria|mucho|Queremos|tiempo|haciendo|\bparar\b|usuario|número|\bdatos\b|código|\bmuy\b|\bestoy?\b|encontré|\bobjeto\b|había|\bentrar\b|\bque\b|\bpude\b|ustedes|algunos?|puedo',
 			'pt' => 'boa tarde|ajude|\btodas\b|\bvoc(?:ê|e)\b|\best(?:á|a)\b|estão|\bcomo\b|vamos|\bestou\b|minha|quando|então|tenho|\bquero\b|\bquem\b|porque|obrigad(?:a|o)|\bJá\b|\bTento\b|\berro\b|(?:de )?dados|\bfunciona\b|Olá|resultou|RESULTADO|Alguma|linha|antecipadamente|dúvida|minha|aplicação|versão|\bpagina\b|\bdois\b|Sou novo|\bnão\b|\bpassar\b|têm|\bparar\b|código|\bfazer\b|\btoda\b|senha|conseguir|será|Alguém',
@@ -235,6 +225,7 @@ class TrackerAPI {
 			}
 		}
 
+		// Watch for non-latin scripts
 		$langRegexes = [
 			'ru' => '\p{Cyrillic}{3,}', // has spaces
 			'ar' => '\p{Arabic}{3,}', // has spaces
@@ -247,7 +238,7 @@ class TrackerAPI {
 			'ko' => '\p{Hangul}{2,}', // has spaces
 			'kn' => '\p{Kannada}{3,}', // has spaces
 			'Kana' => '[\p{Han}\p{Katakana}\p{Hiragana}]',
-			'ml' => '\p{Malayalam}', 
+			'ml' => '\p{Malayalam}',
 			'te' => '\p{Telugu}',
 		];
 
@@ -266,7 +257,7 @@ class TrackerAPI {
 		}
 	}
 
-	function noLatinLetters($post) {
+	private function noLatinLetters($post) {
 		if (strlen($post->bodyStrippedWithTitle) < 10) {
 			return false;
 		}
@@ -277,6 +268,7 @@ class TrackerAPI {
 			$m1,
 		);
 
+		// If there are less than 7 latin characters in the non-formatted text then it is likely the post is not in English or VLQ
 		return count(array_unique($m1[0])) <= 6;
 	}
 }

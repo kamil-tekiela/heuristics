@@ -15,13 +15,15 @@ $chatAPI = new ChatAPI($dotEnv);
 
 $stackAPI = new StackAPI($client);
 
-$fetcher = new Tracker\TrackerAPI($client, $stackAPI, $chatAPI, $dotEnv);
+$fetcher = new Tracker\TrackerAPI($stackAPI, $chatAPI, $dotEnv);
 
 if ($searchString) {
+	// if executed from CLI then perform a search instead
 	$fetcher->fetch($searchString);
 	exit;
 }
 
+// watch new questions constantly
 $failedTries = 0;
 while (1) {
 	try {

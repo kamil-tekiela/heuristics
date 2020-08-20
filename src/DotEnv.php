@@ -35,9 +35,9 @@ class DotEnv
 	 * Getter for config. Returns the configuration variable
 	 *
 	 * @param string $key
-	 * @return string|null
+	 * @return mixed
 	 */
-	public static function get(string $key): ?string
+	public static function get(string $key)
 	{
 		return self::$config[\strtolower($key)] ?? null;
 	}
