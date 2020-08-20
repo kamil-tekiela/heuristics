@@ -75,9 +75,9 @@
         "Weight": "2.0"
     },
     {
-        "Word": "(?:do y?o?u|does\\s+(?:any|some)\\s*(?:body|one|1)) (?:have|has)(?:\\s+(?:an?y?\\s+\\w+))?",
+        "Word": "do\\s+y?o?u\\s+(?:have|has)(?:\\s+(?:an?y?\\s+\\w+))+",
         "Type": "regex",
-        "Weight": "3.0"
+        "Weight": "2.0"
     },
     {
         "Word": "(?:have you|(?:Were you|have you been) able to) figured?(?:\\s+(?:this\\s|it\\s|that\\s)?out|\\s+\\w+\\s+\\w+\\?)?",
@@ -98,5 +98,10 @@
         "Word": "\\bmism(?:o|a)\\b",
         "Type": "regex",
         "Weight": "2.5"
+    },
+    {
+        "Word": "does\\s+(?:any|some)\\s*(?:body|one|1)\\s+(?:have|has)(?:\\s+(?:an?y?\\s+\\w+))?",
+        "Type": "regex",
+        "Weight": "4.0"
     }
 ]
