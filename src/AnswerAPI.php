@@ -279,11 +279,6 @@ class AnswerAPI {
 				$score += 0.5;
 				$triggers[] = ['type' => 'Filler text', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
 			}
-			// if ($m = $h->thanksInAdvance()) {
-			// 	$reasons[] = 'Gratitude:"'.implode('","', array_column($m, 'Word')).'"';
-			// 	$score += 3.0;
-			// 	$triggers[] = ['type' => 'Gratitude', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 3.0];
-			// }
 
 			if ($reasons) {
 				if ($repFactor = $h->OwnerRepFactor()) {
@@ -394,15 +389,14 @@ class AnswerAPI {
 						}
 					} else {
 						if (!DEBUG) {
-							// Natty missed it, report to Natty in SOBotics and flag the answer
-							$reportNatty = '@Natty report https://stackoverflow.com/a/'.$post->id;
-							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-							$reportLink = REPORT_URL.'?id='.$report_id;
-							if ($this->pingOwner) {
-								$reportLink .= ' @'.$this->pingOwner;
-							}
-							$this->chatAPI->sendMessage($this->soboticsRoomId, 'Reported in '.$reportLink);
 							$this->flagPost($post->id);
+							// Natty missed it, report to Natty in SOBotics and flag the answer
+							$reportLink = REPORT_URL.'?id='.$report_id;
+							$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id} [Report link]({$reportLink})";
+							if ($this->pingOwner) {
+								$reportNatty .= ' @'.$this->pingOwner;
+							}
+							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
 						}
 					}
 				}
@@ -458,7 +452,7 @@ class AnswerAPI {
 	 * @return void
 	 */
 	private function flagPost(int $question_id) {
-		if(!$this->autoflagging){
+		if (!$this->autoflagging) {
 			return;
 		}
 

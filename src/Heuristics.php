@@ -210,14 +210,4 @@ class Heuristics {
 	
 		return $m;
 	}
-
-	// public function thanksInAdvance() {
-	// 	$m = [];
-	// 	if (preg_match_all('#th?anks?\s*((?:\w+\s*){0,4}?)adv\w*#i', $this->item->bodyWithoutCode, $matches, PREG_SET_ORDER)) {
-	// 		foreach ($matches as $e) {
-	// 			$m[] = ['Word' => $e[0], 'Type' => 'ThanksInAdvance'];
-	// 		}
-	// 	}
-	// 	return $m;
-	// }
 }
