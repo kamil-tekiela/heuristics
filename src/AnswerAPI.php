@@ -391,8 +391,10 @@ class AnswerAPI {
 						if (!DEBUG) {
 							$this->flagPost($post->id);
 							// Natty missed it, report to Natty in SOBotics and flag the answer
+							$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
+							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
 							$reportLink = REPORT_URL.'?id='.$report_id;
-							$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id} [Report link]({$reportLink})";
+							$reportNatty = "[Report link]({$reportLink})";
 							if ($this->pingOwner) {
 								$reportNatty .= ' @'.$this->pingOwner;
 							}
@@ -498,7 +500,7 @@ class AnswerAPI {
 	}
 
 	private function removeClutter(Post $post) {
-		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b)? helps?( you\b)?(\s|:-?\)|🙂️|[!,.])*?$/mi';
+		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b)? helps?( (you|someone(?:\s*else)?)\b)?(:-?\)|🙂️|[!.;,\s])+(\s*(cheers|good ?luck)\s*([!,.]*))?$/mi';
 		$bodyCleansed = preg_replace($re, '', $post->bodyMarkdown);
 	
 		if ($bodyCleansed === $post->bodyMarkdown) {
