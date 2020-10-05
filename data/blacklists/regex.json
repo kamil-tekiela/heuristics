@@ -105,9 +105,9 @@
         "Weight": "4.0"
     },
     {
-        "Word": "(no idea|(?:i\\s+)do\\s*n'?o?t know) how to fix",
+        "Word": "(?:no idea|(?:i\\s+)?do\\s*n'?o?t know) how to (?:fix|solve)",
         "Type": "regex",
-        "Weight": "1.5"
+        "Weight": "2.0"
     },
     {
         "Word": "can'?(?:no)?t find the solution",
