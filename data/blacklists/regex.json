@@ -103,5 +103,15 @@
         "Word": "does\\s+(?:any|some)\\s*(?:body|one|1)\\s+(?:have|has)(?:\\s+(?:an?y?\\s+\\w+))?",
         "Type": "regex",
         "Weight": "4.0"
+    },
+    {
+        "Word": "(no idea|(?:i\\s+)do\\s*n'?o?t know) how to fix",
+        "Type": "regex",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "can'?(?:no)?t find the solution",
+        "Type": "regex",
+        "Weight": "1.5"
     }
 ]

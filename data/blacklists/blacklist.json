@@ -1058,5 +1058,10 @@
         "Word": "contact me if",
         "Type": "blacklist",
         "Weight": "0.5"
+    },
+    {
+        "Word": "What can i do",
+        "Type": "blacklist",
+        "Weight": "1.0"
     }
 ]
