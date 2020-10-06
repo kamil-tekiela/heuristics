@@ -145,16 +145,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "have you found the solution",
-        "Type": "blacklist",
-        "Weight": "1.5"
-    },
-    {
-        "Word": "have you found a solution",
-        "Type": "blacklist",
-        "Weight": "1.5"
-    },
-    {
         "Word": "another question",
         "Type": "blacklist",
         "Weight": "1.0"
@@ -633,11 +623,6 @@
         "Word": "the same tutorial",
         "Type": "blacklist",
         "Weight": "0.5"
-    },
-    {
-        "Word": "Have you found",
-        "Type": "blacklist",
-        "Weight": "1.5"
     },
     {
         "Word": "buenas tardes",

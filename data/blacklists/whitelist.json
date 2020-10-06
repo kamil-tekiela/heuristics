@@ -48,5 +48,10 @@
         "Word": "I fixed",
         "Type": "whitelist",
         "Weight": "-1.0"
+    },
+    {
+        "Word": "this is my solution",
+        "Type": "whitelist",
+        "Weight": "-2.0"
     }
 ]

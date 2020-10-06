@@ -113,5 +113,10 @@
         "Word": "can'?(?:no)?t find the solution",
         "Type": "regex",
         "Weight": "1.5"
+    },
+    {
+        "Word": "Have you( +\\w*)? found( +\\w*)*",
+        "Type": "regex",
+        "Weight": "2.5"
     }
 ]
