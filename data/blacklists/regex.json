@@ -20,7 +20,7 @@
         "Weight": "1.5"
     },
     {
-        "Word": "(?:(?:could|can)\\s+y?o?u\\s+)?\\bple?a?s+e?\\s*(?:help)(?:\\s*me|\\s*us)?(?:\\s*(?:to|(?:re)solve?|fix|this|it|ing?))*",
+        "Word": "(?:(?:could|can)\\s+y?o?u\\s+)?\\bple?a?s+e?\\h*(?:help)(?:\\h*me|\\h*us)?(?:\\h*(?:to|(?:re)solve?|fix|this|it|ing?))*",
         "Weight": "3.0"
     },
     {
@@ -28,7 +28,7 @@
         "Weight": "1.5"
     },
     {
-        "Word": "th?anks?\\s*((?:\\w+\\s*){0,4}?)adv\\w*",
+        "Word": "(th?anks?|thx)\\h*(?:\\w+\\h*){0,4}?adv\\w*",
         "Weight": "3.0"
     },
     {
@@ -53,7 +53,7 @@
     },
     {
         "Word": "(?:(?:could|can)\\s+|(?:you|(?:any|some)\\s*(?:body|one|1))\\s+){2}help(?:\\s+me)?",
-        "Weight": "2.0"
+        "Weight": "3.0"
     },
     {
         "Word": "(?:I(?:'d|'ll)?\\s+|will\\s+|would\\s+)*be\\s+(?:very\\s+|much\\s+|really\\s+)*(?:gre?ate?ful+|thankful\\b)",

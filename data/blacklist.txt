@@ -1,4 +1,5 @@
-th?anks?\s*((?:\w+\s*){0,4}?)adv\w*
+https://regex101.com/r/cbxm83/1
+(th?anks?|thx)\h*(?:\w+\h*){0,4}?adv\w*
 
 https://regex101.com/r/VzbwV7/1
 (?:I\s*)?(?:a|')?m\s*(?:also\s*)?(?:also\s*)?stuck

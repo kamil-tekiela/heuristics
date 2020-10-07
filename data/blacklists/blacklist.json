@@ -24,8 +24,8 @@
         "Weight": "1.0"
     },
     {
-        "Word": "I would appreciate your help.",
-        "Weight": "1.0"
+        "Word": "appreciate your help",
+        "Weight": "2.0"
     },
     {
         "Word": "cheers",
@@ -849,6 +849,30 @@
     },
     {
         "Word": "bhai",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "any help please",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "please any help",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "kindly help me",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "help me please",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "help me out",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "i need your help",
         "Weight": "2.0"
     }
 ]
