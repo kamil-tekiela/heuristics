@@ -1,6 +1,6 @@
 [
     {
-        "Word": "(?:Stack\\s*overflow\\s+|so\\s+|it\\s+)?(?:will not|won'?t) let me com+ent",
+        "Word": "(?:stack\\s*overflow\\s+|so\\s+|it\\s+)?(?:will not|won'?t) let me com+ent",
         "Weight": "1.0"
     },
     {
@@ -8,7 +8,7 @@
         "Weight": "2.0"
     },
     {
-        "Word": "I can\\s*'?n?o?t\\s+com+ent",
+        "Word": "i can\\s*'?n?o?t\\s+com+ent",
         "Weight": "1.0"
     },
     {
@@ -24,7 +24,7 @@
         "Weight": "3.0"
     },
     {
-        "Word": "(?:I\\s*)?(?:a|')?m\\s*(?:also\\s*)?(?:also\\s*)?stuck",
+        "Word": "(?:i\\s*)?(?:a|')?m\\s*(?:also\\s*)?(?:also\\s*)?stuck",
         "Weight": "1.5"
     },
     {
@@ -32,7 +32,7 @@
         "Weight": "3.0"
     },
     {
-        "Word": "(?:I\\s+)?(?:do ?no?'?t have |haven'?t got )?(?:(?:enough|low|the|50)\\s+)?reputation(?: to (?:post\\s+(?:the\\s+|a\\s+))?com+ent| points?)?",
+        "Word": "(?:i\\s+)?(?:do ?no?'?t have |haven'?t got )?(?:(?:enough|low|the|50)\\s+)?reputation(?: to (?:post\\s+(?:the\\s+|a\\s+))?com+ent| points?)?",
         "Weight": "1.0"
     },
     {
@@ -44,7 +44,7 @@
         "Weight": "1.5"
     },
     {
-        "Word": "(?:I|we)\\s+(?:\\w+\\s+)?get this error",
+        "Word": "(?:i|we)\\s+(?:\\w+\\s+)?get this error",
         "Weight": "2.0"
     },
     {
@@ -56,7 +56,7 @@
         "Weight": "3.0"
     },
     {
-        "Word": "(?:I(?:'d|'ll)?\\s+|will\\s+|would\\s+)*be\\s+(?:very\\s+|much\\s+|really\\s+)*(?:gre?ate?ful+|thankful\\b)",
+        "Word": "(?:i(?:'d|'ll)?\\s+|will\\s+|would\\s+)*be\\s+(?:very\\s+|much\\s+|really\\s+)*(?:gre?ate?ful+|thankful\\b)",
         "Weight": "2.0"
     },
     {
@@ -64,7 +64,7 @@
         "Weight": "2.0"
     },
     {
-        "Word": "(?:have you|(?:Were you|have you been) able to) figured?(?:\\s+(?:this\\s|it\\s|that\\s)?out|\\s+\\w+\\s+\\w+\\?)?",
+        "Word": "(?:have you|(?:were you|have you been) able to) figured?(?:\\s+(?:this\\s|it\\s|that\\s)?out|\\s+\\w+\\s+\\w+\\?)?",
         "Weight": "3.0"
     },
     {
@@ -96,7 +96,7 @@
         "Weight": "1.5"
     },
     {
-        "Word": "Have you( +\\w*)? found( +\\w*)*",
+        "Word": "have you( +\\w*)? found( +\\w*)*",
         "Weight": "2.5"
     }
 ]

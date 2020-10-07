@@ -4,7 +4,7 @@
         "Weight": "-0.5"
     },
     {
-        "Word": "I (?:(?:re)?solved|fixed)",
+        "Word": "i (?:(?:re)?solved|fixed)",
         "Weight": "-1.0"
     },
     {
@@ -16,7 +16,7 @@
         "Weight": "-0.5"
     },
     {
-        "Word": "Have you tried",
+        "Word": "have you tried",
         "Weight": "-1.0"
     },
     {
