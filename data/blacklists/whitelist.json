@@ -1,57 +1,50 @@
 [
     {
-        "Word": "Thanks for your help",
-        "Type": "whitelist",
+        "Word": "thanks?(?:\\s+you)? for your help",
         "Weight": "-0.5"
     },
     {
-        "Word": "Thank you for your help",
-        "Type": "whitelist",
-        "Weight": "-0.5"
-    },
-    {
-        "Word": "I solved",
-        "Type": "whitelist",
+        "Word": "I (?:(?:re)?solved|fixed)",
         "Weight": "-1.0"
     },
     {
-        "Word": "Hope this helps",
-        "Type": "whitelist",
-        "Weight": "-0.5"
-    },
-    {
-        "Word": "Hope it helps",
-        "Type": "whitelist",
-        "Weight": "-0.5"
+        "Word": "hope (?:it|this|that)(?: will\\b| can\\b)? helps?",
+        "Weight": "-1.0"
     },
     {
         "Word": "it worked",
-        "Type": "whitelist",
         "Weight": "-0.5"
     },
     {
         "Word": "Have you tried",
-        "Type": "whitelist",
         "Weight": "-1.0"
     },
     {
         "Word": "can you try",
-        "Type": "whitelist",
         "Weight": "-2.0"
     },
     {
-        "Word": "I resolved",
-        "Type": "whitelist",
-        "Weight": "-1.0"
-    },
-    {
-        "Word": "I fixed",
-        "Type": "whitelist",
-        "Weight": "-1.0"
-    },
-    {
         "Word": "this is my solution",
-        "Type": "whitelist",
+        "Weight": "-2.0"
+    },
+    {
+        "Word": "this worked for me",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "hope it works",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "you can do something like this",
+        "Weight": "-0.5"
+    },
+    {
+        "Word": "try the following",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "you can do it like this",
         "Weight": "-2.0"
     }
 ]

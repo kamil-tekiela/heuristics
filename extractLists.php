@@ -13,11 +13,11 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 ]);
 
 
-$bl = $db->run("SELECT * FROM blacklist WHERE Type<>'whitelist' AND Type<>'regex' ");
+$bl = $db->run("SELECT Word, Weight FROM blacklist WHERE Type<>'whitelist' AND Type<>'regex' ");
 file_put_contents(BASE_DIR.'/data/blacklists/blacklist.json', json_encode($bl, JSON_PRETTY_PRINT));
 
-$bl = $db->run("SELECT * FROM blacklist WHERE Type='whitelist'");
+$bl = $db->run("SELECT Word, Weight FROM blacklist WHERE Type='whitelist'");
 file_put_contents(BASE_DIR.'/data/blacklists/whitelist.json', json_encode($bl, JSON_PRETTY_PRINT));
 
-$bl = $db->run("SELECT * FROM blacklist WHERE Type='regex'");
+$bl = $db->run("SELECT Word, Weight FROM blacklist WHERE Type='regex'");
 file_put_contents(BASE_DIR.'/data/blacklists/regex.json', json_encode($bl, JSON_PRETTY_PRINT));

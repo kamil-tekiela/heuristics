@@ -180,7 +180,7 @@ class AnswerAPI {
 					$triggers[] = ['type' => 'Blacklisted phrase', 'value' => $bl['Word'], 'weight' => $bl['Weight']];
 				}
 			}
-			if ($m = $h->CompareAgainstBlacklist($whitelist)) {
+			if ($m = $h->CompareAgainstRegexList($whitelist)) {
 				$reasons[] = 'Whitelisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
 				foreach ($m as $bl) {
@@ -188,7 +188,7 @@ class AnswerAPI {
 				}
 			}
 
-			if ($m = $h->regexBlacklist($reBlacklist)) {
+			if ($m = $h->CompareAgainstRegexList($reBlacklist)) {
 				$reasons[] = 'RegEx Blacklisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
 				foreach ($m as $bl) {
@@ -500,7 +500,7 @@ class AnswerAPI {
 	}
 
 	private function removeClutter(Post $post) {
-		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b)? helps?( (you|someone(?:\s*else)?)\b)?(:-?\)|🙂️|[!.;,\s])*?(\s*(cheers|good ?luck)\s*([!,.]*))?$/mi';
+		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b| can\b)? helps?( (you|someone(?:\s*else)?)\b)?(:-?\)|🙂️|[!.;,\s])*?(\s*(cheers|good ?luck)\s*([!,.]*))?$/mi';
 		$bodyCleansed = preg_replace($re, '', $post->bodyMarkdown);
 	
 		if ($bodyCleansed === $post->bodyMarkdown) {

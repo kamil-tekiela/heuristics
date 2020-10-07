@@ -1,122 +1,102 @@
 [
     {
         "Word": "(?:Stack\\s*overflow\\s+|so\\s+|it\\s+)?(?:will not|won'?t) let me com+ent",
-        "Type": "regex",
         "Weight": "1.0"
     },
     {
         "Word": "does\\s+(?:any|some)\\s*(?:body|one|1) know",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "I can\\s*'?n?o?t\\s+com+ent",
-        "Type": "regex",
         "Weight": "1.0"
     },
     {
         "Word": "were you able to find an? (?:answer|solution)?",
-        "Type": "regex",
         "Weight": "1.0"
     },
     {
         "Word": "(?:(?:(?:could|can)\\s+y?o?u\\s+)|\\bple?a?s+e?\\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*",
-        "Type": "regex",
         "Weight": "1.5"
     },
     {
         "Word": "(?:(?:could|can)\\s+y?o?u\\s+)?\\bple?a?s+e?\\s*(?:help)(?:\\s*me|\\s*us)?(?:\\s*(?:to|(?:re)solve?|fix|this|it|ing?))*",
-        "Type": "regex",
         "Weight": "3.0"
     },
     {
         "Word": "(?:I\\s*)?(?:a|')?m\\s*(?:also\\s*)?(?:also\\s*)?stuck",
-        "Type": "regex",
         "Weight": "1.5"
     },
     {
         "Word": "th?anks?\\s*((?:\\w+\\s*){0,4}?)adv\\w*",
-        "Type": "regex",
         "Weight": "3.0"
     },
     {
         "Word": "(?:I\\s+)?(?:do ?no?'?t have |haven'?t got )?(?:(?:enough|low|the|50)\\s+)?reputation(?: to (?:post\\s+(?:the\\s+|a\\s+))?com+ent| points?)?",
-        "Type": "regex",
         "Weight": "1.0"
     },
     {
         "Word": "did\\s+you(?:\\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\\b(?:an?y?|the|this)\\b|how to do it))+",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "((?:how\\s(?:can(?:\\si)?|to)\\s)?(?:fix\\w*|(?:re)?solve\\w*)(?:\\s\\w+){0,3}\\s*\\?+)",
-        "Type": "regex",
         "Weight": "1.5"
     },
     {
         "Word": "(?:I|we)\\s+(?:\\w+\\s+)?get this error",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "(?:any\\s+)?help\\s+(?:\\w+\\s+){0,4}?ap+reciated",
-        "Type": "regex",
         "Weight": "3.0"
     },
     {
         "Word": "(?:(?:could|can)\\s+|(?:you|(?:any|some)\\s*(?:body|one|1))\\s+){2}help(?:\\s+me)?",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "(?:I(?:'d|'ll)?\\s+|will\\s+|would\\s+)*be\\s+(?:very\\s+|much\\s+|really\\s+)*(?:gre?ate?ful+|thankful\\b)",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "do\\s+y?o?u\\s+(?:have|has)(?:\\s+(?:an?y?\\s+\\w+))+",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "(?:have you|(?:Were you|have you been) able to) figured?(?:\\s+(?:this\\s|it\\s|that\\s)?out|\\s+\\w+\\s+\\w+\\?)?",
-        "Type": "regex",
         "Weight": "3.0"
     },
     {
         "Word": "have you got(?: (?:an?|the))? answer",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "obrigad(?:a|o)",
-        "Type": "regex",
         "Weight": "1.0"
     },
     {
         "Word": "\\bmism(?:o|a)\\b",
-        "Type": "regex",
         "Weight": "2.5"
     },
     {
         "Word": "does\\s+(?:any|some)\\s*(?:body|one|1)\\s+(?:have|has)(?:\\s+(?:an?y?\\s+\\w+))?",
-        "Type": "regex",
         "Weight": "4.0"
     },
     {
+        "Word": "(?:check|see) (?:this|the(?:se)?) links?",
+        "Weight": "1.0"
+    },
+    {
         "Word": "(?:no idea|(?:i\\s+)?do\\s*n'?o?t know) how to (?:fix|solve)",
-        "Type": "regex",
         "Weight": "2.0"
     },
     {
         "Word": "can'?(?:no)?t find the solution",
-        "Type": "regex",
         "Weight": "1.5"
     },
     {
         "Word": "Have you( +\\w*)? found( +\\w*)*",
-        "Type": "regex",
         "Weight": "2.5"
     }
 ]

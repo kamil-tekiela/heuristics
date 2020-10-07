@@ -102,7 +102,7 @@ class Heuristics {
 		$m = [];
 		if (preg_match_all('#(?:^@\S{3,})|(?:(?<!\S)@\S{3,})|(?:\buser\d+\b)#i', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode)), $matches, PREG_SET_ORDER)) {
 			foreach ($matches as $e) {
-				$m[] = ['Word' => $e[0], 'Type' => 'userMentioned'];
+				$m[] = ['Word' => $e[0]];
 			}
 		}
 		return $m;
@@ -118,13 +118,13 @@ class Heuristics {
 		return $matches;
 	}
 
-	public function regexBlacklist(ListOfWordsInterface $bl) {
+	public function CompareAgainstRegexList(ListOfWordsInterface $bl) {
 		$m = [];
 
 		foreach ($bl->list as ['Word' => $regex, 'Weight' => $weight]) {
 			if (preg_match_all('#'.$regex.'#i', $this->item->body, $matches, PREG_SET_ORDER)) {
 				foreach (array_unique(array_column($matches, 0)) as $e) {
-					$m[] = ['Word' => $e, 'Type' => 'RegEx Blacklist', 'Weight' => $weight];
+					$m[] = ['Word' => $e, 'Weight' => $weight];
 				}
 			}
 		}
@@ -173,7 +173,7 @@ class Heuristics {
 		if ($return) {
 			if (is_array($m1)) {
 				foreach ($m1 as $e) {
-					$m[] = ['Word' => $e[0], 'Type' => 'StartsWithAQuestion'];
+					$m[] = ['Word' => $e[0]];
 				}
 			}
 		}
@@ -203,7 +203,7 @@ class Heuristics {
 		if ($return) {
 			if (is_array($m1)) {
 				foreach ($m1 as $e) {
-					$m[] = ['Word' => $e[0], 'Type' => 'FillerText'];
+					$m[] = ['Word' => $e[0]];
 				}
 			}
 		}
