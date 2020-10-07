@@ -846,5 +846,9 @@
     {
         "Word": "a good tutorial",
         "Weight": "1.5"
+    },
+    {
+        "Word": "bhai",
+        "Weight": "2.0"
     }
 ]

@@ -389,16 +389,23 @@ class AnswerAPI {
 						}
 					} else {
 						if (!DEBUG) {
-							$this->flagPost($post->id);
-							// Natty missed it, report to Natty in SOBotics and flag the answer
-							$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
-							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-							$reportLink = REPORT_URL.'?id='.$report_id;
-							$reportNatty = "[Report link]({$reportLink})";
-							if ($this->pingOwner) {
-								$reportNatty .= ' @'.$this->pingOwner;
+							try {
+								// Natty missed it, report to Natty in SOBotics and flag the answer
+								$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
+								$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
+								$reportLink = REPORT_URL.'?id='.$report_id;
+								$reportNatty = "[Report link]({$reportLink})";
+								if ($this->pingOwner) {
+									$reportNatty .= ' @'.$this->pingOwner;
+								}
+								$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
+							} catch (Throwable $e) {
+								// don't do anything, just rethrow
+								throw $e;
+							} finally {
+								// flag it ourselves
+								$this->flagPost($post->id);
 							}
-							$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
 						}
 					}
 				}

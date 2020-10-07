@@ -12,8 +12,8 @@ https://regex101.com/r/f9UMM5/1
 https://regex101.com/r/pd797n/1
 (?:I\s+)?(?:do ?no?'?t have |haven'?t got )?(?:(?:enough|low|the|50)\s+)?reputation(?: to (?:post\s+(?:the\s+|a\s+))?com+ent| points?)?
 
-https://regex101.com/r/Co95ey/1
-did\s+you(?:\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\b(?:an?y?|the|this)\b|how to do it))+
+https://regex101.com/r/yHnGX6/1
+did\s+(?:yo)?u\b(?:\h*(?:ever|finally|figured?|out|find|found|fix(?:ed)?|g(?:e|o)t|manage|(?:re)?solved?|your|answer|solution|problem|a way|\b(?:an?y?|the|this|it|that)\b|\bto\b|have any luck|end up finding))+
 
 https://regex101.com/r/bcq0M3/1
 ((?:how\s(?:can(?:\si)?|to)\s)?(?:fix\w*|(?:re)?solve\w*)(?:\s\w+){0,3}\s*\?+)

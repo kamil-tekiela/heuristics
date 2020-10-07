@@ -36,7 +36,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "did\\s+you(?:\\s*(?:ever|finally|figure|out|find|fix|get|manage to|solve|your|answer|solution|problem|\\b(?:an?y?|the|this)\\b|how to do it))+",
+        "Word": "did\\s+(?:yo)?u\\b(?:\\h*(?:ever|finally|figured?|out|find|found|fix(?:ed)?|g(?:e|o)t|manage|(?:re)?solved?|your|answer|solution|problem|a way|\\b(?:an?y?|the|this|it|that)\\b|\\bto\\b|have any luck|end up finding))+",
         "Weight": "2.0"
     },
     {
