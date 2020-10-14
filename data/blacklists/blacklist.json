@@ -336,8 +336,8 @@
         "Weight": "1.0"
     },
     {
-        "Word": "looking forward to your answer.",
-        "Weight": "1.0"
+        "Word": "looking forward to your",
+        "Weight": "1.5"
     },
     {
         "Word": "i emailed their support",
@@ -873,6 +873,26 @@
     },
     {
         "Word": "i need your help",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "no luck",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "could you solve",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "please reply",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "what could be the reason",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I am also facing issue",
         "Weight": "2.0"
     }
 ]
