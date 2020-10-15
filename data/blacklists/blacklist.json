@@ -84,10 +84,6 @@
         "Weight": "1.5"
     },
     {
-        "Word": "could you solve this problem",
-        "Weight": "1.0"
-    },
-    {
         "Word": "have solution to this",
         "Weight": "1.0"
     },
@@ -857,10 +853,6 @@
     },
     {
         "Word": "please any help",
-        "Weight": "2.0"
-    },
-    {
-        "Word": "kindly help me",
         "Weight": "2.0"
     },
     {

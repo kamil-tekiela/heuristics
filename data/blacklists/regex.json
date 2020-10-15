@@ -98,5 +98,9 @@
     {
         "Word": "have you( +\\w*)? found( +\\w*)*",
         "Weight": "2.5"
+    },
+    {
+        "Word": "This post is hidden\\. It was deleted.*\u2666",
+        "Weight": "3.0"
     }
 ]

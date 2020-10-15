@@ -507,7 +507,7 @@ class AnswerAPI {
 	}
 
 	private function removeClutter(Post $post) {
-		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b| can\b)? helps?( (you|someone(?:\s*else)?)\b)?(:-?\)|🙂️|[!.;,\s])*?(\s*(cheers|good ?luck)\s*([!,.]*))?$/mi';
+		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b| can\b)? helps?( (you|someone(?:\h*else)?)\b)?(:-?\)|🙂️|[!.;,\s])*?(\s*(cheers|good ?luck)([!,.]*))?$/mi';
 		$bodyCleansed = preg_replace($re, '', $post->bodyMarkdown);
 	
 		if ($bodyCleansed === $post->bodyMarkdown) {
