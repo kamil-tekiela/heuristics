@@ -46,5 +46,9 @@
     {
         "Word": "you can do it like this",
         "Weight": "-2.0"
+    },
+    {
+        "Word": "i found (?:the|a) fix",
+        "Weight": "-1.0"
     }
 ]

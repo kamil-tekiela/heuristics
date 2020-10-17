@@ -4,10 +4,6 @@ define('BASE_DIR', realpath(__DIR__.'/.'));
 
 include BASE_DIR.'/vendor/autoload.php';
 
-// $dotEnv = new DotEnv();
-// $dotEnv->load(BASE_DIR.'/config.ini');
-// define('DEBUG', (bool) $dotEnv->get('DEBUG'));
-
 $db = \ParagonIE\EasyDB\Factory::fromArray([
 	'sqlite:'.BASE_DIR.'/data/blacklists.db'
 ]);

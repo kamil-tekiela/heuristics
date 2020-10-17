@@ -113,7 +113,7 @@ class AnswerAPI {
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		if (DEBUG) {
-			$url .= '/61433893';
+			$url .= '/'.DEBUG;
 		}
 		$args = [
 			'todate' => strtotime('5 minutes ago'),
@@ -300,10 +300,12 @@ class AnswerAPI {
 			}
 
 			// while we are at it check if there is fluff to be removed
-			try {
-				$this->removeClutter($post);
-			} catch (\Exception $e) {
-				file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $post->id.PHP_EOL.$e->__toString());
+			if ($score < self::AUTOFLAG_TRESHOLD) {
+				try {
+					$this->removeClutter($post);
+				} catch (\Exception $e) {
+					file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $post->id.PHP_EOL.$e->__toString());
+				}
 			}
 
 			// set last request
@@ -507,8 +509,22 @@ class AnswerAPI {
 	}
 
 	private function removeClutter(Post $post) {
+		$editSummary = '';
+		$count = 0;
+		$bodyCleansed = $post->bodyMarkdown;
+
 		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b| can\b)? helps?( (you|someone(?:\h*else)?)\b)?(:-?\)|🙂️|[!.;,\s])*?(\s*(cheers|good ?luck)([!,.]*))?$/mi';
-		$bodyCleansed = preg_replace($re, '', $post->bodyMarkdown);
+		$bodyCleansed = preg_replace($re, '', $bodyCleansed, -1, $count);
+		if ($count) {
+			$editSummary .= 'Stack Overflow is like an encyclopedia, so we prefer to omit these types of phrases. It is assumed that everyone here is trying to be helpful. ';
+		}
+
+		$count = 0;
+		$re = '/^Welcome to (SO|Stack\h*(Overflow|exchange))[!.\h]*\v+/i';
+		$bodyCleansed = preg_replace($re, '', $bodyCleansed, -1, $count);
+		if ($count) {
+			$editSummary .= 'Please, do not add unnecessary fluff.';
+		}
 	
 		if ($bodyCleansed === $post->bodyMarkdown) {
 			// 'Nothing changed.'
@@ -524,10 +540,15 @@ class AnswerAPI {
 			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru',
 			'preview' => 'false',
 			'access_token' => $this->userToken,
-			'comment' => 'Stack Overflow is like an encyclopedia, so we prefer to omit these types of phrases. It is assumed that everyone here is trying to be helpful.',
+			'comment' => trim($editSummary),
 		];
 	
 		$args['body'] = $bodyCleansed;
+
+		// if(DEBUG){
+		// 	var_dump($bodyCleansed);
+		// 	return;
+		// }
 
 		if (mb_strlen(trim($bodyCleansed)) < 30) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
