@@ -16,7 +16,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "(?:(?:(?:could|can)\\s+y?o?u\\s+)|\\bple?a?s+e?\\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |a )?(?:code|solution|answer|question)))*",
+        "Word": "(?:(?:(?:could|can)\\h+(?:y?o?u|(?:any|some)\\h*(?:body|one|1)?)\\h+)|\\bple?a?s+e?\\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |an? )?(?:code|solution|answer|question)))*",
         "Weight": "1.5"
     },
     {
@@ -102,5 +102,9 @@
     {
         "Word": "This post is hidden\\. It was deleted.*\u2666",
         "Weight": "3.0"
+    },
+    {
+        "Word": "help us\\b",
+        "Weight": "1.0"
     }
 ]

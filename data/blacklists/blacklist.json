@@ -44,14 +44,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "could someone explain",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "can anyone give me an answer",
-        "Weight": "1.5"
-    },
-    {
         "Word": "has this been an unresolved issue",
         "Weight": "1.0"
     },
@@ -268,14 +260,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "can some let me know",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "can someone let me know",
-        "Weight": "1.0"
-    },
-    {
         "Word": "answer to this?",
         "Weight": "1.0"
     },
@@ -470,10 +454,6 @@
     {
         "Word": "ayuda",
         "Weight": "2.0"
-    },
-    {
-        "Word": "can anyone suggest",
-        "Weight": "1.5"
     },
     {
         "Word": "the link does not work",
@@ -732,14 +712,6 @@
         "Weight": "2.0"
     },
     {
-        "Word": "can anyone tell me",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "could anyone tell me",
-        "Weight": "1.0"
-    },
-    {
         "Word": "i am getting this error",
         "Weight": "3.0"
     },
@@ -886,5 +858,17 @@
     {
         "Word": "I am also facing issue",
         "Weight": "2.0"
+    },
+    {
+        "Word": "anyone found",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "anyone knows",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "days now",
+        "Weight": "1.0"
     }
 ]
