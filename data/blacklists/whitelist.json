@@ -50,5 +50,9 @@
     {
         "Word": "i found (?:the|a) fix",
         "Weight": "-1.0"
+    },
+    {
+        "Word": "i figured out",
+        "Weight": "-1.0"
     }
 ]
