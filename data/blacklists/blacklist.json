@@ -145,7 +145,7 @@
     },
     {
         "Word": "help me",
-        "Weight": "1.5"
+        "Weight": "1.0"
     },
     {
         "Word": "halp plz",
@@ -870,5 +870,13 @@
     {
         "Word": "days now",
         "Weight": "1.0"
+    },
+    {
+        "Word": "help me to fix",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "help me plz",
+        "Weight": "2.0"
     }
 ]
