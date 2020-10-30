@@ -27,6 +27,11 @@ class Post {
 	public $bodyWithoutCode;
 
 	/**
+	 * @var string
+	 */
+	public $bodyWithoutCodeAndWithoutLinks;
+
+	/**
 	 * @var bool
 	 */
 	public $is_accepted;
@@ -66,5 +71,6 @@ class Post {
 		$this->owner = $json->owner;
 
 		$this->bodyWithoutCode = preg_replace('#\s*(?:<pre>)?<code>.*?<\/code>(?:<\/pre>)?\s*#s', '', $this->body);
+		$this->bodyWithoutCodeAndWithoutLinks = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->bodyWithoutCode));
 	}
 }

@@ -23,7 +23,7 @@ class Heuristics {
 	}
 
 	public function PostLengthUnderThreshold(): float {
-		$text = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->body));
+		$text = html_entity_decode(strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->body)));
 		$bodyLength = mb_strlen($text);
 		if ($bodyLength < 40) {
 			return 2;
@@ -100,7 +100,7 @@ class Heuristics {
 
 	public function userMentioned() {
 		$m = [];
-		if (preg_match_all('#(?:^@\S{3,})|(?:(?<!\S)@\S{3,})|(?:\buser\d+\b)#i', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode)), $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#(?:^@\S{3,})|(?:(?<!\S)@\S{3,})|(?:\buser\d+\b)#i', $this->item->bodyWithoutCodeAndWithoutLinks, $matches, PREG_SET_ORDER)) {
 			foreach ($matches as $e) {
 				$m[] = ['Word' => $e[0]];
 			}
@@ -147,7 +147,7 @@ class Heuristics {
 
 	public function endsInQuestion() {
 		return preg_match('#\?(?:[.\s<\/p>]|Thanks|Thank you|thx|thanx|Thanks in Advance)*$#', $this->item->body)
-			|| preg_match('#\?\s*(?:\w+[!\.,:()\s]*){0,3}$#', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->bodyWithoutCode)));
+			|| preg_match('#\?\s*(?:\w+[!\.,:()\s]*){0,3}$#', $this->item->bodyWithoutCodeAndWithoutLinks);
 	}
 
 	public function containsQuestion() {
@@ -184,7 +184,7 @@ class Heuristics {
 	function noLatinLetters() {
 		preg_match_all(
 			'#[a-z]#iu',
-			strip_tags($this->item->body),
+			html_entity_decode(strip_tags($this->item->body)),
 			$m1,
 		);
 
@@ -194,7 +194,7 @@ class Heuristics {
 	function hasRepeatingChars() {
 		$return = preg_match_all(
 			'#(\S)\1{7,}#iu',
-			strip_tags($this->item->bodyWithoutCode),
+			html_entity_decode(strip_tags($this->item->bodyWithoutCode)),
 			$m1,
 			PREG_SET_ORDER
 		);
