@@ -168,7 +168,7 @@ class AnswerAPI {
 
 		foreach ($contents->items as $postJSON) {
 			$post = new \Post($postJSON);
-			$h = new \Heuristics($this->db, $post);
+			$h = new \Heuristics($post);
 			$reasons = [];
 			$triggers = [];
 			$score = 0;

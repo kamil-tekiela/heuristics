@@ -10,15 +10,7 @@ class Heuristics {
 	 */
 	private $item;
 
-	/**
-	 * DB link
-	 *
-	 * @var EasyDB
-	 */
-	private $db;
-
-	public function __construct(EasyDB $db, \Post $post) {
-		$this->db = $db;
+	public function __construct(\Post $post) {
 		$this->item = $post;
 	}
 
@@ -182,13 +174,16 @@ class Heuristics {
 	}
 
 	function noLatinLetters() {
+		$subject = html_entity_decode(strip_tags($this->item->body));
 		preg_match_all(
 			'#[a-z]#iu',
-			html_entity_decode(strip_tags($this->item->body)),
+			$subject,
 			$m1,
 		);
 
-		return count(array_unique($m1[0])) <= 1;
+		$uniqueAZ = count(array_unique($m1[0]));
+
+		return $uniqueAZ <= 1 || count($m1[0]) / mb_strlen($subject) < 0.1;
 	}
 
 	function hasRepeatingChars() {
