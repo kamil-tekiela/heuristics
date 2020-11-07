@@ -182,7 +182,6 @@ class Heuristics {
 		);
 
 		$uniqueAZ = count(array_unique($m1[0]));
-		var_dump(count($m1[0]) / mb_strlen($subject));
 
 		return $uniqueAZ <= 1 || count($m1[0]) / mb_strlen($subject) < 0.1;
 	}
