@@ -37,7 +37,7 @@ class AnswerAPI {
 	private $lastFlagTime = null;
 
 	private $questions = [];
-	
+
 	private const AUTOFLAG_TRESHOLD = 6;
 
 	private const NATTY_FLAG_TRESHOLD = 7;
@@ -279,6 +279,11 @@ class AnswerAPI {
 				$score += 0.5;
 				$triggers[] = ['type' => 'Filler text', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
 			}
+			if ($m = $h->lowEntropy()) {
+				$reasons[] = 'Low entropy';
+				$score += 0.5;
+				$triggers[] = ['type' => 'Low entropy', 'weight' => 0.5];
+			}
 
 			if ($reasons) {
 				if ($repFactor = $h->OwnerRepFactor()) {
@@ -338,7 +343,7 @@ class AnswerAPI {
 			echo $line;
 			return;
 		}
-		
+
 		// Report to file
 		$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
 		if ($score >= self::AUTOFLAG_TRESHOLD) {
@@ -373,7 +378,7 @@ class AnswerAPI {
 		if ($score >= 4) {
 			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
 			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
-			
+
 			if ($score >= self::AUTOFLAG_TRESHOLD) {
 				$chatLine = 'Post auto-flagged.';
 				if ($shoudBeReportedByNatty) {
@@ -439,7 +444,7 @@ class AnswerAPI {
 				'weight' => $trigger['weight'] ?? null
 			]);
 		}
-		
+
 		return $report_id;
 	}
 
@@ -525,7 +530,7 @@ class AnswerAPI {
 		if ($count) {
 			$editSummary .= 'Please, do not add unnecessary fluff.';
 		}
-	
+
 		if ($bodyCleansed === $post->bodyMarkdown) {
 			// 'Nothing changed.'
 			return;
@@ -542,7 +547,7 @@ class AnswerAPI {
 			'access_token' => $this->userToken,
 			'comment' => trim($editSummary),
 		];
-	
+
 		$args['body'] = $bodyCleansed;
 
 		// if(DEBUG){
@@ -554,9 +559,9 @@ class AnswerAPI {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;
 		}
-	
+
 		$this->stackAPI->request('POST', $url, $args);
-	
+
 		$this->chatAPI->sendMessage($this->personalRoomId, "Answer edited: [Post link]({$post->link})");
 	}
 }

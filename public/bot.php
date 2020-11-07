@@ -1,6 +1,6 @@
 <?php
 
-define('VERSION', '2.15');
+define('VERSION', '2.16');
 define('BASE_DIR', realpath(__DIR__.'/..'));
 define('REPORT_URL', 'https://bot.dharman.net/reports.php');
 

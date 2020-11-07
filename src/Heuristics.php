@@ -79,7 +79,7 @@ class Heuristics {
 	public function MeTooAnswer() {
 		// https://regex101.com/r/xEn0Rc/5
 		$r1 = '(\b(?:i\s+(?:am\s+)?|i\'m\s+)?(?:also\s+)?(?:(?<!was\s)(?:face?|have?|get+)(?:ing)?\s+)?)(?:had|faced|solved|was\s(?:face?|have?|get+)(?:ing))\s+((?:exactly\s+)?(?:the\s+|a\s+)?(?:exact\s+)?(?:same\s+|similar\s+)(?:problem|question|issue|error))(*SKIP)(*F)|(\b(?1)(?2))';
-	
+
 		$m = [];
 		if (preg_match_all('#'.$r1.'#i', $this->item->body, $m1, PREG_SET_ORDER)) {
 			foreach (array_unique(array_column($m1, 0)) as $e) {
@@ -169,11 +169,11 @@ class Heuristics {
 				}
 			}
 		}
-	
+
 		return $m;
 	}
 
-	function noLatinLetters() {
+	public function noLatinLetters() {
 		$subject = html_entity_decode(strip_tags($this->item->body));
 		preg_match_all(
 			'#[a-z]#iu',
@@ -182,11 +182,12 @@ class Heuristics {
 		);
 
 		$uniqueAZ = count(array_unique($m1[0]));
+		var_dump(count($m1[0]) / mb_strlen($subject));
 
 		return $uniqueAZ <= 1 || count($m1[0]) / mb_strlen($subject) < 0.1;
 	}
 
-	function hasRepeatingChars() {
+	public function hasRepeatingChars() {
 		$return = preg_match_all(
 			'#(\S)\1{7,}#iu',
 			html_entity_decode(strip_tags($this->item->bodyWithoutCode)),
@@ -202,7 +203,20 @@ class Heuristics {
 				}
 			}
 		}
-	
+
 		return $m;
+	}
+
+	public function lowEntropy() {
+		$prob = 0;
+		$data = strip_tags($this->item->body);
+		$len = mb_strlen($data);
+		$chars = mb_str_split($data);
+		$chc = array_count_values($chars);
+		foreach ($chars as $char) {
+			$prob -= log($chc[$char] / $len, 2);
+		}
+
+		return $prob / $len <= 2;
 	}
 }
