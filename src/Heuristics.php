@@ -216,6 +216,6 @@ class Heuristics {
 			$prob -= log($chc[$char] / $len, 2);
 		}
 
-		return $prob / $len <= 2;
+		return $prob / $len <= 2.2;
 	}
 }
