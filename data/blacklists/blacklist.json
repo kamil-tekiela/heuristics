@@ -44,10 +44,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "has this been an unresolved issue",
-        "Weight": "1.0"
-    },
-    {
         "Word": "i want to solve this problem",
         "Weight": "1.0"
     },
@@ -60,8 +56,8 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i've tried everything with no luck",
-        "Weight": "1.0"
+        "Word": "i've tried everything",
+        "Weight": "0.5"
     },
     {
         "Word": "guide me",
@@ -318,10 +314,6 @@
     {
         "Word": "looking forward to your",
         "Weight": "1.5"
-    },
-    {
-        "Word": "i emailed their support",
-        "Weight": "1.0"
     },
     {
         "Word": "stupid question",
@@ -852,7 +844,7 @@
         "Weight": "1.5"
     },
     {
-        "Word": "what could be the reason",
+        "Word": "what could be",
         "Weight": "1.0"
     },
     {

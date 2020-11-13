@@ -81,7 +81,7 @@
     },
     {
         "Word": "does\\s+(?:any|some)\\s*(?:body|one|1)\\s+(?:have|has)(?:\\s+(?:an?y?\\s+\\w+))?",
-        "Weight": "4.0"
+        "Weight": "3.0"
     },
     {
         "Word": "(?:check|see) (?:this|the(?:se)?) links?",
