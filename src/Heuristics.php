@@ -92,9 +92,9 @@ class Heuristics {
 
 	public function userMentioned() {
 		$m = [];
-		if (preg_match_all('#(?:^@\S{3,})|(?:(?<!\S)@\S{3,})|(?:\buser\d+\b)#i', $this->item->bodyWithoutCodeAndWithoutLinks, $matches, PREG_SET_ORDER)) {
+		if (preg_match_all('#((?<!\S)@[[:alnum:]][-\'[:word:]]{2,})[[:punct:]]*(?!\S)|(\buser\d+\b)#iu', $this->item->bodyWithoutCodeAndWithoutLinks, $matches, PREG_SET_ORDER)) {
 			foreach ($matches as $e) {
-				$m[] = ['Word' => $e[0]];
+				$m[] = ['Word' => $e[1] ?: $e[2]];
 			}
 		}
 		return $m;
