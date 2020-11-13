@@ -227,10 +227,11 @@ class AnswerAPI {
 			}
 			if ($m = $h->MeTooAnswer()) {
 				$reasons[] = 'Me too answer:"'.implode('","', array_column($m, 'Word')).'"';
-				// $score += count($m) * 2;
-				$score += 2;
+				$weight = 2;
+				$score += $weight;
 				foreach ($m as $bl) {
-					$triggers[] = ['type' => 'Me too answer', 'value' => $bl['Word'], 'weight' => 2];
+					$triggers[] = ['type' => 'Me too answer', 'value' => $bl['Word'], 'weight' => $weight];
+					$weight = 0;
 				}
 			}
 			if ($m = $h->endsInQuestion()) {
@@ -249,8 +250,12 @@ class AnswerAPI {
 			}
 			if ($m = $h->userMentioned()) {
 				$reasons[] = 'User mentioned:"'.implode('","', array_column($m, 'Word')).'"';
-				$score += 1; // false positives are present. Cap to 1
-				$triggers[] = ['type' => 'User mentioned', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 1];
+				$weight = 1;
+				$score += $weight;
+				foreach ($m as $bl) {
+					$triggers[] = ['type' => 'User mentioned', 'value' => $bl['Word'], 'weight' => $weight];
+					$weight = 0;
+				}
 			}
 			if (isset($this->questions[$postJSON->question_id]['owner'], $postJSON->owner->user_id)) {
 				if (isset($this->questions[$postJSON->question_id]['owner']) && $this->questions[$postJSON->question_id]['owner'] === $postJSON->owner->user_id) {
@@ -264,10 +269,10 @@ class AnswerAPI {
 				$score += 0.5;
 				$triggers[] = ['type' => 'Has no white space', 'weight' => 0.5];
 			}
-			if ($m = $h->badStart()) {
-				$reasons[] = 'Starts with a question:"'.implode('","', array_column($m, 'Word')).'"';
+			if ($bw = $h->badStart()) {
+				$reasons[] = 'Starts with a question:"'.$bw['Word'].'"';
 				$score += 0.5;
-				$triggers[] = ['type' => 'Starts with a question', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
+				$triggers[] = ['type' => 'Starts with a question', 'value' => $bw['Word'], 'weight' => 0.5];
 			}
 			if ($m = $h->noLatinLetters()) {
 				$reasons[] = 'No latin characters';
@@ -276,8 +281,12 @@ class AnswerAPI {
 			}
 			if ($m = $h->hasRepeatingChars()) {
 				$reasons[] = 'Filler text:"'.implode('","', array_column($m, 'Word')).'"';
-				$score += 0.5;
-				$triggers[] = ['type' => 'Filler text', 'value' => implode('","', array_column($m, 'Word')), 'weight' => 0.5];
+				$weight = 0.5;
+				$score += $weight;
+				foreach ($m as $bl) {
+					$triggers[] = ['type' => 'Filler text', 'value' => $bl['Word'], 'weight' => $weight];
+					$weight = 0;
+				}
 			}
 			if ($m = $h->lowEntropy()) {
 				$reasons[] = 'Low entropy';
