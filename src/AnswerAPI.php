@@ -180,6 +180,7 @@ class AnswerAPI {
 					$triggers[] = ['type' => 'Blacklisted phrase', 'value' => $bl['Word'], 'weight' => $bl['Weight']];
 				}
 			}
+
 			if ($m = $h->CompareAgainstRegexList($whitelist)) {
 				$reasons[] = 'Whitelisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
@@ -201,11 +202,13 @@ class AnswerAPI {
 				$score += 1;
 				$triggers[] = ['type' => 'Probably link only', 'weight' => 1];
 			}
+
 			if ($h->ContainsSignature()) {
 				$reasons[] = 'Contains signature';
 				$score += 1;
 				$triggers[] = ['type' => 'Contains signature', 'weight' => 1];
 			}
+
 			if ($lenFactor = $h->PostLengthUnderThreshold()) {
 				$lenFactor = floor($lenFactor * 2) / 2; // round to nearest half
 				if ($lenFactor > 0) {
@@ -217,6 +220,7 @@ class AnswerAPI {
 				}
 				$score += $lenFactor;
 			}
+
 			if ($h->hasNoCode()) {
 				$reasons[] = 'No code block';
 				$score += 0.5;
@@ -225,6 +229,7 @@ class AnswerAPI {
 				$score += -0.5;
 				$triggers[] = ['type' => 'Has code block', 'weight' => -0.5];
 			}
+
 			if ($m = $h->MeTooAnswer()) {
 				$reasons[] = 'Me too answer:"'.implode('","', array_column($m, 'Word')).'"';
 				$weight = 2;
@@ -234,6 +239,7 @@ class AnswerAPI {
 					$weight = 0;
 				}
 			}
+
 			if ($m = $h->endsInQuestion()) {
 				$reasons[] = 'Ends in question mark';
 				$score += 2.0;
@@ -243,11 +249,13 @@ class AnswerAPI {
 				$score += 0.5;
 				$triggers[] = ['type' => 'Contains question mark', 'weight' => 0.5];
 			}
+
 			if ($post->owner->user_type === 'unregistered') {
 				$reasons[] = 'Unregistered user';
 				$score += 0.5;
 				$triggers[] = ['type' => 'Unregistered user', 'weight' => 0.5];
 			}
+
 			if ($m = $h->userMentioned()) {
 				$reasons[] = 'User mentioned:"'.implode('","', array_column($m, 'Word')).'"';
 				$weight = 1;
@@ -257,6 +265,7 @@ class AnswerAPI {
 					$weight = 0;
 				}
 			}
+
 			if (isset($this->questions[$postJSON->question_id]['owner'], $postJSON->owner->user_id)) {
 				if (isset($this->questions[$postJSON->question_id]['owner']) && $this->questions[$postJSON->question_id]['owner'] === $postJSON->owner->user_id) {
 					$reasons[] = 'Self-answer';
@@ -264,21 +273,25 @@ class AnswerAPI {
 					$triggers[] = ['type' => 'Self-answer', 'weight' => 0.5];
 				}
 			}
+
 			if ($h->containsNoWhiteSpace()) {
 				$reasons[] = 'Has no white space';
 				$score += 0.5;
 				$triggers[] = ['type' => 'Has no white space', 'weight' => 0.5];
 			}
+
 			if ($bw = $h->badStart()) {
 				$reasons[] = 'Starts with a question:"'.$bw['Word'].'"';
 				$score += 0.5;
 				$triggers[] = ['type' => 'Starts with a question', 'value' => $bw['Word'], 'weight' => 0.5];
 			}
+
 			if ($m = $h->noLatinLetters()) {
 				$reasons[] = 'No latin characters';
 				$score += 3.0;
 				$triggers[] = ['type' => 'No latin characters', 'weight' => 3];
 			}
+
 			if ($m = $h->hasRepeatingChars()) {
 				$reasons[] = 'Filler text:"'.implode('","', array_column($m, 'Word')).'"';
 				$weight = 0.5;
@@ -288,6 +301,7 @@ class AnswerAPI {
 					$weight = 0;
 				}
 			}
+
 			if ($m = $h->lowEntropy()) {
 				$reasons[] = 'Low entropy';
 				$score += 2;

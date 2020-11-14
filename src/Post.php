@@ -66,7 +66,7 @@ class Post {
 		$this->creation_date = date_create_from_format('U', $json->creation_date);
 		$this->link = $json->link;
 		$this->title = $json->title;
-		$this->body = $json->body;
+		$this->body = htmlspecialchars_decode($json->body);
 		$this->bodyMarkdown = $json->body_markdown;
 		$this->owner = $json->owner;
 

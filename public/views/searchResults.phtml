@@ -15,8 +15,8 @@ foreach ($reports as $report) {
 		<div class="score">
 			<b>Natty:</b> <span class="natty_score badge badge-secondary"><?=$report['natty_score']?></span>
 		</div>
-		<div class="summary"><a href="<?=REPORT_URL.'?id='.$report['Id']?>"><b>Report link</b></a></div>
-		<div class="body border shadow-sm p-3 mb-3 bg-white rounded"><?=$report['body']?></div>
+		<div class="summary"><a href="?id=<?=$report['Id']?>"><b>Report link</b></a></div>
+		<div class="body border shadow-sm p-3 mb-3 bg-white rounded"><?=htmlspecialchars($report['body'], ENT_QUOTES | ENT_HTML5, 'UTF-8', false)?></div>
 		<div class="d-flex justify-content-between">
 			<div class="reasonsContainer">
 			<?php
@@ -44,16 +44,16 @@ foreach ($reports as $report) {
 	<div class="container ">
 		<nav aria-label="Page navigation example" class="d-flex justify-content-center">
 		<ul class="pagination">
-		<?php if($page>1): ?>
-			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page'=>$page-1])); ?>">Previous</a></li>
-		<?php endif; 
+		<?php if ($page > 1): ?>
+			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page' => $page - 1])); ?>">Previous</a></li>
+		<?php endif;
 
-		for($i=max(1, $page-5); $i<=min($maxPage, $page+5); $i++){
-			echo '<li class="page-item"><a class="page-link" href="?'.http_build_query(array_merge($_GET, ['page'=>$i])).'">'.$i.'</a></li>';
+		for ($i = max(1, $page - 5); $i <= min($maxPage, $page + 5); $i++) {
+			echo '<li class="page-item"><a class="page-link" href="?'.http_build_query(array_merge($_GET, ['page' => $i])).'">'.$i.'</a></li>';
 		}
 
-		if($page<$maxPage): ?>
-			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page'=>$page+1])); ?>">Next</a></li>
+		if ($page < $maxPage): ?>
+			<li class="page-item"><a class="page-link" href="?<?=http_build_query(array_merge($_GET, ['page' => $page + 1])); ?>">Next</a></li>
 		<?php endif; ?>
 		</ul>
 		</nav>

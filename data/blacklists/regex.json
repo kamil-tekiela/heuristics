@@ -4,6 +4,10 @@
         "Weight": "1.0"
     },
     {
+        "Word": "i have \\w+ doubt",
+        "Weight": "2.0"
+    },
+    {
         "Word": "does\\s+(?:any|some)\\s*(?:body|one|1) know",
         "Weight": "2.0"
     },
@@ -14,6 +18,10 @@
     {
         "Word": "wh?ere you able to find an? (?:answer|solution)?",
         "Weight": "1.0"
+    },
+    {
+        "Word": "i am facing \\w+ error",
+        "Weight": "1.5"
     },
     {
         "Word": "(?:(?:(?:could|can)\\h+(?:y?o?u|(?:any|some)\\h*(?:body|one|1)?)\\h+)|\\bple?a?s+e?\\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |an? )?(?:code|solution|answer|question)))*",
@@ -32,11 +40,11 @@
         "Weight": "3.0"
     },
     {
-        "Word": "(?:i\\s+)?(?:do ?no?'?t have |haven'?t got )?(?:(?:enough|low|the|50)\\s+)?reputation(?: to (?:post\\s+(?:the\\s+|a\\s+))?com+ent| points?)?",
-        "Weight": "1.0"
+        "Word": "(?:i\\s+)?(?:do ?no?'?t have |haven'?t got |lack )?(?:(?:enough|low|the|50)\\s+)?reputation(?: to (?:post\\s+(?:the\\s+|a\\s+))?com+ent| points?)?",
+        "Weight": "1.5"
     },
     {
-        "Word": "did\\s+(?:yo)?u\\b(?:\\h*(?:ever|finally|figured?|out|find|found|fix(?:ed)?|g(?:e|o)t|manage|(?:re)?solved?|your|answer|solution|problem|a way|\\b(?:an?y?|the|this|it|that)\\b|\\bto\\b|have any luck|end up finding))+",
+        "Word": "did\\h+(?:y?o?u|(?:any|some)\\h*(?:body|one|1)?)(?:\\h*(?:ever|finally|figured?|out|find|found|fix(?:ed)?|g(?:e|o)t|manage|(?:re)?solved?|your|answer|solution|problem|a way|\\b(?:an?y?|the|this|it|that)\\b|\\bto\\b|have any luck|end up finding))+",
         "Weight": "2.0"
     },
     {
@@ -100,11 +108,15 @@
         "Weight": "2.5"
     },
     {
-        "Word": "This post is hidden\\. It was deleted.*\u2666",
+        "Word": "this post is hidden\\. it was deleted.*\u2666",
         "Weight": "3.0"
     },
     {
         "Word": "help us\\b",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "i want\\b",
         "Weight": "1.0"
     }
 ]

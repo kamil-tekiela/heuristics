@@ -15,7 +15,7 @@ class Heuristics {
 	}
 
 	public function PostLengthUnderThreshold(): float {
-		$text = html_entity_decode(strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->body)));
+		$text = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->item->body));
 		$bodyLength = mb_strlen($text);
 		if ($bodyLength < 40) {
 			return 2;
@@ -101,13 +101,18 @@ class Heuristics {
 	}
 
 	public function CompareAgainstBlacklist(ListOfWordsInterface $bl) {
-		$matches = [];
-		foreach ($bl->list as $word) {
-			if (stripos($this->item->body, $word['Word']) !== false) {
-				$matches[] = $word;
+		$m = [];
+
+		// or regex method
+		foreach ($bl->list as ['Word' => $regex, 'Weight' => $weight]) {
+			if (preg_match_all('#'.$regex.'#i', $this->item->body, $matches, PREG_SET_ORDER)) {
+				foreach (array_unique(array_column($matches, 0)) as $e) {
+					$m[] = ['Word' => $e, 'Weight' => $weight];
+				}
 			}
 		}
-		return $matches;
+
+		return $m;
 	}
 
 	public function CompareAgainstRegexList(ListOfWordsInterface $bl) {
@@ -175,7 +180,7 @@ class Heuristics {
 	}
 
 	public function noLatinLetters() {
-		$subject = html_entity_decode(strip_tags($this->item->body));
+		$subject = strip_tags($this->item->body);
 		preg_match_all(
 			'#[a-z]#iu',
 			$subject,
@@ -190,7 +195,7 @@ class Heuristics {
 	public function hasRepeatingChars() {
 		$return = preg_match_all(
 			'#(\S)\1{7,}#iu',
-			html_entity_decode(strip_tags($this->item->bodyWithoutCode)),
+			strip_tags($this->item->bodyWithoutCode),
 			$m1,
 			PREG_SET_ORDER
 		);

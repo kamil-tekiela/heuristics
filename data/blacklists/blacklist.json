@@ -20,10 +20,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "lots of love",
-        "Weight": "1.0"
-    },
-    {
         "Word": "appreciate your help",
         "Weight": "2.0"
     },
@@ -44,10 +40,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i want to solve this problem",
-        "Weight": "1.0"
-    },
-    {
         "Word": "sorry for posting this as an answer",
         "Weight": "1.0"
     },
@@ -64,11 +56,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "have you been able to find a solution yet",
-        "Weight": "1.5"
-    },
-    {
-        "Word": "did anyone find the solution for this",
+        "Word": "have you been able to",
         "Weight": "1.5"
     },
     {
@@ -144,10 +132,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "halp plz",
-        "Weight": "1.0"
-    },
-    {
         "Word": "i am trying the same",
         "Weight": "1.0"
     },
@@ -192,18 +176,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i cant get it right",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "i can't get it right",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "i can not get it right",
-        "Weight": "1.0"
-    },
-    {
         "Word": "i have tried the following",
         "Weight": "1.0"
     },
@@ -216,11 +188,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i have one doubt",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "what am i doing wrong?",
+        "Word": "what am i doing wrong\\?",
         "Weight": "1.0"
     },
     {
@@ -232,15 +200,15 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i am looking for it too",
-        "Weight": "1.0"
+        "Word": "i am looking for",
+        "Weight": "2.0"
     },
     {
         "Word": "it does not work for me",
         "Weight": "1.0"
     },
     {
-        "Word": "how would you implement it",
+        "Word": "how would you",
         "Weight": "1.0"
     },
     {
@@ -256,11 +224,11 @@
         "Weight": "1.0"
     },
     {
-        "Word": "answer to this?",
+        "Word": "answer to this\\?",
         "Weight": "1.0"
     },
     {
-        "Word": "answer to this question?",
+        "Word": "answer to this question\\?",
         "Weight": "1.0"
     },
     {
@@ -304,14 +272,6 @@
         "Weight": "1.5"
     },
     {
-        "Word": "i want a program",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "kindly advice me",
-        "Weight": "1.0"
-    },
-    {
         "Word": "looking forward to your",
         "Weight": "1.5"
     },
@@ -332,15 +292,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "has anybody seen the same errors",
-        "Weight": "1.0"
-    },
-    {
         "Word": "i too have the same issue",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "i need to develop",
         "Weight": "1.0"
     },
     {
@@ -420,7 +372,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i am unable to open",
+        "Word": "video link",
         "Weight": "1.0"
     },
     {
@@ -428,7 +380,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "???",
+        "Word": "\\?\\?\\?",
         "Weight": "1.0"
     },
     {
@@ -456,7 +408,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "why?",
+        "Word": "why\\?",
         "Weight": "0.5"
     },
     {
@@ -506,10 +458,6 @@
     {
         "Word": "i have question",
         "Weight": "1.5"
-    },
-    {
-        "Word": "i am facing below error",
-        "Weight": "1.0"
     },
     {
         "Word": "i have the same issue",
@@ -584,19 +532,15 @@
         "Weight": "2.0"
     },
     {
-        "Word": "youtu.be",
+        "Word": "youtu\\.be",
         "Weight": "1.0"
     },
     {
-        "Word": "youtube.com",
+        "Word": "youtube\\.com",
         "Weight": "1.0"
     },
     {
-        "Word": "any ideias",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "medium.com",
+        "Word": "medium\\.com",
         "Weight": "0.5"
     },
     {
@@ -656,7 +600,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": ">enter image description here<\/a>",
+        "Word": "\\>enter image description here\\<\/a\\>",
         "Weight": "1.0"
     },
     {
@@ -664,11 +608,11 @@
         "Weight": "1.0"
     },
     {
-        "Word": "any suggestions?",
+        "Word": "any suggestions\\?",
         "Weight": "1.0"
     },
     {
-        "Word": "any idea?",
+        "Word": "any idea\\?",
         "Weight": "1.0"
     },
     {
@@ -848,7 +792,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "I am also facing issue",
+        "Word": "i am also facing issue",
         "Weight": "2.0"
     },
     {
@@ -870,5 +814,9 @@
     {
         "Word": "help me plz",
         "Weight": "2.0"
+    },
+    {
+        "Word": "\ud83d\ude4f",
+        "Weight": "1.0"
     }
 ]
