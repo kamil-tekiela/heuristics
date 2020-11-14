@@ -189,7 +189,7 @@ class Heuristics {
 
 		$uniqueAZ = count(array_unique($m1[0]));
 
-		return $uniqueAZ <= 1 || count($m1[0]) / mb_strlen($subject) < 0.1;
+		return $uniqueAZ <= 1 || count($m1[0]) / mb_strlen($subject) < 0.08;
 	}
 
 	public function hasRepeatingChars() {
