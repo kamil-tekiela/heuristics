@@ -449,7 +449,7 @@ class AnswerAPI {
 			'reports',
 			[
 				'answer_id' => $post->id,
-				'body' => $post->body,
+				'body' => $post->bodySafe,
 				'score' => $score,
 				'natty_score' => $natty_score,
 				'summary' => $summary,
