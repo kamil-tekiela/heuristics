@@ -22,3 +22,5 @@ output.txt
 comments2.txt
 filter.txt
 testapi.php
+data/db.db.bak
+data/oldDB.db

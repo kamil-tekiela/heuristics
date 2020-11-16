@@ -34,7 +34,7 @@ class Post {
 	/**
 	 * @var string
 	 */
-	public $bodyWithoutCodeAndWithoutLinks;
+	public $bodyStripped;
 
 	/**
 	 * @var bool
@@ -71,12 +71,22 @@ class Post {
 		$this->creation_date = date_create_from_format('U', $json->creation_date);
 		$this->link = $json->link;
 		$this->title = $json->title;
+		/** HTML ready version of the post */
 		$this->bodySafe = $json->body;
-		$this->body = htmlspecialchars_decode($json->body);
+		$this->body = $json->body;
+		/** Used in automatic edits */
 		$this->bodyMarkdown = $json->body_markdown;
 		$this->owner = $json->owner;
 
 		$this->bodyWithoutCode = preg_replace('#\s*(?:<pre>)?<code>.*?<\/code>(?:<\/pre>)?\s*#s', '', $this->body);
-		$this->bodyWithoutCodeAndWithoutLinks = strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->bodyWithoutCode));
+		$this->bodyStripped = $this->stripAndDecode($this->removeLinks($this->bodyWithoutCode));
+	}
+
+	public function stripAndDecode(string $str) {
+		return trim(htmlspecialchars_decode(strip_tags($str)));
+	}
+
+	public function removeLinks(string $str) {
+		return preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $str);
 	}
 }

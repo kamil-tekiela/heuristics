@@ -302,6 +302,12 @@ class AnswerAPI {
 				}
 			}
 
+			if ($m = $h->lowEntropy()) {
+				$reasons[] = 'Low entropy';
+				$score += 0.5;
+				$triggers[] = ['type' => 'Low entropy', 'weight' => 2];
+			}
+
 			if ($reasons) {
 				if ($repFactor = $h->OwnerRepFactor()) {
 					if ($repFactor > 0) {
