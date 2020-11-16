@@ -139,7 +139,10 @@ class Heuristics {
 		if ($this->item->owner->reputation < 2000) {
 			return 0;
 		}
-		return -1;
+		if ($this->item->owner->reputation < 10000) {
+			return -1;
+		}
+		return -2;
 	}
 
 	public function endsInQuestion() {
