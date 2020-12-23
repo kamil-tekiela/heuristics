@@ -302,7 +302,7 @@ class AnswerAPI {
 			if ($m = $h->lowEntropy()) {
 				$reasons[] = 'Low entropy';
 				$score += 0.5;
-				$triggers[] = ['type' => 'Low entropy', 'weight' => 2];
+				$triggers[] = ['type' => 'Low entropy', 'weight' => 0.5];
 			}
 
 			if ($reasons) {
