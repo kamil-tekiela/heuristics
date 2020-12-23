@@ -96,22 +96,6 @@ class Heuristics {
 		return $m;
 	}
 
-	public function CompareAgainstBlacklist(ListOfWordsInterface $bl) {
-		$m = [];
-
-		// or regex method
-		$haystack = $this->item->stripAndDecode($this->item->body);
-		foreach ($bl->list as ['Word' => $regex, 'Weight' => $weight]) {
-			if (preg_match_all('#'.$regex.'#i', $haystack, $matches, PREG_SET_ORDER)) {
-				foreach (array_unique(array_column($matches, 0)) as $e) {
-					$m[] = ['Word' => $e, 'Weight' => $weight];
-				}
-			}
-		}
-
-		return $m;
-	}
-
 	public function CompareAgainstRegexList(ListOfWordsInterface $bl) {
 		$m = [];
 

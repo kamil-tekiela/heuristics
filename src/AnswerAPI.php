@@ -173,7 +173,7 @@ class AnswerAPI {
 			$triggers = [];
 			$score = 0;
 
-			if ($m = $h->CompareAgainstBlacklist($blacklist)) {
+			if ($m = $h->CompareAgainstRegexList($blacklist)) {
 				$reasons[] = 'Blacklisted phrase:"'.implode('","', array_column($m, 'Word')).'"';
 				$score += array_sum(array_column($m, 'Weight'));
 				foreach ($m as $bl) {
