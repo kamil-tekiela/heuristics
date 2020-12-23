@@ -28,7 +28,7 @@ class Reports {
 			WHERE score >= ?
 			ORDER BY id DESC
 			LIMIT 600 OFFSET ?', [$minScore, $offset]);
-		
+
 		$this->rowCount = $offset + count($data);
 
 		return array_slice($data, 0, PERPAGE);
@@ -53,7 +53,7 @@ class Reports {
 		}
 
 		$statement = EasyStatement::open()->in('report_id IN (?*)', $reports);
-		
+
 		return $this->db->safeQuery('SELECT reasons.* 
 			FROM reasons 
 			WHERE '.$statement, $statement->values(), PDO::FETCH_GROUP);
@@ -78,28 +78,9 @@ class Reports {
 			GROUP BY report_id
 			ORDER BY reports.Id DESC
 			LIMIT 600 OFFSET ?", $values);
-		
+
 		$this->rowCount = $offset + count($data);
 
 		return array_slice($data, 0, PERPAGE);
-	}
-
-	public function getAvgScore(string $type, string $value) {
-		$statement = EasyStatement::open();
-		if ($value) {
-			$statement->andWith('value LIKE ?', '%' . $value . '%');
-		}
-		if ($type) {
-			$statement->andWith('type LIKE ?', '%' . $this->db->escapeLikeValue($type) . '%');
-		}
-
-		$score = $this->db->single("SELECT AVG(score) 
-			FROM reports 
-			WHERE Id IN (
-				SELECT report_id FROM reasons
-				WHERE {$statement} 
-			)", $statement->values());
-
-		return round($score, 2);
 	}
 }

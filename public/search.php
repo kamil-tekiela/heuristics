@@ -22,12 +22,9 @@ $page = $_GET['page'] ?? 1;
 $searchType = $_GET['type'] ?? '';
 $searchValue = $_GET['value'] ?? '';
 
+$reports = [];
 if ($searchType || $searchValue) {
 	$reports = $controller->fetchBySearch($page, $searchType, $searchValue);
-	$avgScore = $controller->getAvgScore($searchType, $searchValue);
-} else {
-	$reports = [];
-	$avgScore = null;
 }
 
 $report_count = $controller->getCount();
