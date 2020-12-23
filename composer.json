@@ -1,8 +1,7 @@
 {
 	"require": {
-		"guzzlehttp/guzzle": "^6.5",
-		"paragonie/easydb": "^2.11",
-		"fabpot/goutte": "^4.0"
+		"guzzlehttp/guzzle": "^7",
+		"paragonie/easydb": "^2.11"
 	},
 	"autoload": {
 		"classmap": [
