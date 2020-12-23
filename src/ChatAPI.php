@@ -1,6 +1,5 @@
 <?php
 
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 
 class ChatAPI {
@@ -28,7 +27,7 @@ class ChatAPI {
 			'cookies' => $sessionCookieJar,
 			'allow_redirects' => false,
 		]);
-	
+
 		if ($rq->getStatusCode() == 200) {
 			$rq = $this->client->get($loginPage);
 			$fkey = $this->getFKey($rq->getBody()->getContents());

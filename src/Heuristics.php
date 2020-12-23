@@ -1,7 +1,5 @@
 <?php
 
-use ParagonIE\EasyDB\EasyDB;
-
 class Heuristics {
 	/**
 	 * The answer

@@ -2,8 +2,6 @@
 
 namespace Blacklists;
 
-use ParagonIE\EasyDB\EasyDB;
-
 class Blacklist implements \ListOfWordsInterface {
 	public $list = [];
 

@@ -1,6 +1,5 @@
 <?php
 
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Psr7\Message;
@@ -77,7 +76,7 @@ class StackAPI {
 				throw $e;
 			}
 		}
-		
+
 		if (isset($rq)) {
 			$body = $rq->getBody()->getContents();
 		} else {
@@ -96,7 +95,7 @@ class StackAPI {
 		file_put_contents(BASE_DIR.'/json/json1.json', $body);
 
 		$contents = json_decode($body);
-		
+
 		$this->nextRqPossibleAt = microtime(true);
 		if (isset($contents->backoff)) {
 			echo 'I was told to back off for '.$contents->backoff.' seconds'.PHP_EOL;

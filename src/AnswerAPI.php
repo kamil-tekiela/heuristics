@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 use ParagonIE\EasyDB\EasyDB;
 
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Exception\RequestException;
-
 class AnswerAPI {
 	/**
 	 * DB link
