@@ -1,5 +1,8 @@
 <?php
 
+use Dharman\ChatAPI;
+use Dharman\StackAPI;
+
 define('VERSION', '3.0');
 define('BASE_DIR', realpath(__DIR__.'/..'));
 define('REPORT_URL', 'https://bot.dharman.net/reports.php');
@@ -18,7 +21,7 @@ $client = new GuzzleHttp\Client();
 
 // DB_setup::setup($db);
 
-$chatAPI = new ChatAPI($dotEnv);
+$chatAPI = new ChatAPI($dotEnv->get('chatUserEmail'), $dotEnv->get('chatUserPassword'), BASE_DIR.'/data/chatAPI_cookies.json');
 
 $stackAPI = new StackAPI($client);
 

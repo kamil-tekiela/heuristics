@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Dharman\ChatAPI;
+use Dharman\StackAPI;
 use ParagonIE\EasyDB\EasyDB;
 
 class AnswerAPI {
@@ -47,6 +49,11 @@ class AnswerAPI {
 	private $userToken = '';
 
 	/**
+	 * My app key. Not secret
+	 */
+	private $app_key = null;
+
+	/**
 	 * Chat API to talk in the chat
 	 *
 	 * @var ChatAPI
@@ -87,6 +94,8 @@ class AnswerAPI {
 
 		$this->autoflagging = $dotEnv->get('autoflagging');
 
+		$this->app_key = $dotEnv->get('app_key');
+
 		$this->userToken = $dotEnv->get('key');
 		if (!$this->userToken) {
 			throw new \Exception('Please login first and provide valid user token!');
@@ -113,6 +122,7 @@ class AnswerAPI {
 			$url .= '/'.DEBUG;
 		}
 		$args = [
+			'key' => $this->app_key,
 			'todate' => strtotime('5 minutes ago'),
 			'site' => 'stackoverflow',
 			'order' => 'asc',
@@ -145,6 +155,7 @@ class AnswerAPI {
 			$questionList = implode(';', $questions);
 			$url = "https://api.stackexchange.com/2.2/questions/" . $questionList;
 			$args = [
+				'key' => $this->app_key,
 				'site' => 'stackoverflow',
 				'order' => 'desc',
 				'sort' => 'creation',
@@ -501,6 +512,7 @@ class AnswerAPI {
 		$url = 'https://api.stackexchange.com/2.2/answers/'.$question_id.'/flags/options';
 
 		$args = [
+			'key' => $this->app_key,
 			'site' => 'stackoverflow',
 			'access_token' => $this->userToken, // Dharman
 		];
@@ -561,6 +573,7 @@ class AnswerAPI {
 		$url .= '/'.$post->id;
 		$url .= '/edit';
 		$args = [
+			'key' => $this->app_key,
 			'site' => 'stackoverflow',
 			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru',
 			'preview' => 'false',

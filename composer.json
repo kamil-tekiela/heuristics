@@ -1,7 +1,8 @@
 {
 	"require": {
 		"guzzlehttp/guzzle": "^7",
-		"paragonie/easydb": "^2.11"
+		"paragonie/easydb": "^2.11",
+		"dharman/stackapi": "^1.0"
 	},
 	"autoload": {
 		"classmap": [
