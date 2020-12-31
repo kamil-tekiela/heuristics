@@ -3,7 +3,7 @@
 foreach ($reports as $report) {
 	?>
 	<div class="container  mb-5 border">
-		<h2><a href="https://stackoverflow.com/a/<?=$report['answer_id']?>"><?=$report['answer_id']?></a></h2>
+		<h2><a href="https://stackoverflow.com/a/<?=$report['answer_id']?>" class="postID"><?=$report['answer_id']?></a></h2>
 		<div class="reported_at"><b>Date:</b> <?=$report['reported_at']?></div>
 		<div class="score">
 			<b>Score:</b> <span class="badge badge-primary"><?=$report['score']?></span>
@@ -12,7 +12,7 @@ foreach ($reports as $report) {
 			<b>Natty:</b> <span class="natty_score badge badge-secondary"><?=$report['natty_score']?></span>
 		</div>
 		<div class="summary"><a href="<?=REPORT_URL.'?id='.$report['Id']?>"><b>Report link</b></a></div>
-		<div class="body border shadow-sm p-3 mb-3 bg-white rounded"><?=$report['body']?></div>
+		<div class="body border shadow-sm p-3 mb-3 rounded"><?=$report['body']?></div>
 		<div class="d-flex justify-content-between">
 			<div class="reasonsContainer">
 			<?php
