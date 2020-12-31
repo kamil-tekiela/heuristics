@@ -20,14 +20,22 @@ class Reports {
 
 	private $rowCount = 0;
 
-	public function fetch(int $minScore = 0, int $page = 1) {
+	public function fetch(int $page = 1, int $minScore = 0, ?int $maxScore = null) {
 		$offset = PERPAGE * ($page - 1);
 
-		$data = $this->db->safeQuery('SELECT *
+		if ($maxScore) {
+			$data = $this->db->safeQuery('SELECT *
+			FROM reports 
+			WHERE score >= ? AND score <= ?
+			ORDER BY id DESC
+			LIMIT 600 OFFSET ?', [$minScore, $maxScore, $offset]);
+		} else {
+			$data = $this->db->safeQuery('SELECT *
 			FROM reports 
 			WHERE score >= ?
 			ORDER BY id DESC
 			LIMIT 600 OFFSET ?', [$minScore, $offset]);
+		}
 
 		$this->rowCount = $offset + count($data);
 

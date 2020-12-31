@@ -23,7 +23,7 @@ $page = $_GET['page'] ?? 1;
 if (isset($_GET['id'])) {
 	$reports = $controller->fetchByIds(explode(';', $_GET['id']));
 } else {
-	$reports = $controller->fetch($_GET['minScore'] ?? 4, $page);
+	$reports = $controller->fetch($page, $_GET['minScore'] ?? 4, $_GET['maxScore'] ?? null);
 	$report_count = $controller->getCount();
 }
 $reasons = $controller->fetchReasons(array_column($reports, 'Id'));
