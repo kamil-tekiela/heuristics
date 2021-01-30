@@ -563,6 +563,13 @@ class AnswerAPI {
 			$editSummary .= 'Please, do not add unnecessary fluff.';
 		}
 
+		$count = 0;
+		$re = '/((?<=\.)|\s*^)\s*(good ?luck)([!,.]*)?\s*$/mi';
+		$bodyCleansed = preg_replace($re, '', $bodyCleansed, -1, $count);
+		if ($count) {
+			$editSummary = 'https://meta.stackoverflow.com/questions/402167/are-superfluous-comments-in-an-answer-such-as-good-luck-discouraged';
+		}
+
 		if ($bodyCleansed === $post->bodyMarkdown) {
 			// 'Nothing changed.'
 			return;
