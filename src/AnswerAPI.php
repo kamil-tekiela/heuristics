@@ -71,6 +71,8 @@ class AnswerAPI {
 
 	private $personalRoomId = null;
 
+	private $logEdits = false;
+
 	private $soboticsRoomId = 111347;
 
 	private $pingOwner = '';
@@ -105,6 +107,7 @@ class AnswerAPI {
 			throw new \Exception('Please provide valid room ID!');
 		}
 		$this->personalRoomId = (int) $dotEnv->get('trackRoomId');
+		$this->logEdits = (bool) $dotEnv->get('logEdits');
 
 		// Say hello
 		$this->chatAPI->sendMessage($this->logRoomId, 'v.'.\VERSION.' Started on '.gethostname());
@@ -602,6 +605,8 @@ class AnswerAPI {
 
 		$this->stackAPI->request('POST', $url, $args);
 
-		$this->chatAPI->sendMessage($this->personalRoomId, "Answer edited: [Post link]({$post->link})");
+		if ($this->logEdits) {
+			$this->chatAPI->sendMessage($this->personalRoomId, "Answer edited: [Post link]({$post->link})");
+		}
 	}
 }
