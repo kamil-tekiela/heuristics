@@ -144,10 +144,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i get the same error",
-        "Weight": "1.0"
-    },
-    {
         "Word": "its not working",
         "Weight": "1.0"
     },
@@ -261,10 +257,6 @@
     },
     {
         "Word": "saved my day",
-        "Weight": "1.0"
-    },
-    {
-        "Word": "i have the following error",
         "Weight": "1.0"
     },
     {
@@ -508,10 +500,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "getting the same error",
-        "Weight": "1.0"
-    },
-    {
         "Word": "you able to solve",
         "Weight": "1.0"
     },
@@ -649,7 +637,7 @@
     },
     {
         "Word": "i am getting this error",
-        "Weight": "3.0"
+        "Weight": "1.0"
     },
     {
         "Word": "voc\u00ea",
@@ -817,6 +805,26 @@
     },
     {
         "Word": "\ud83d\ude4f",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "\ud83d\ude02",
+        "Weight": "1.0"
+    },
+    {
+        "Word": " \\:\\(",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "poop",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "getting the below error",
+        "Weight": "1.5"
+    },
+    {
+        "Word": "bellow error",
         "Weight": "1.0"
     }
 ]

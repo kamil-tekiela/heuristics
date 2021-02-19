@@ -54,5 +54,13 @@
     {
         "Word": "i figured out",
         "Weight": "-1.0"
+    },
+    {
+        "Word": "it is solved",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "i was dealing with",
+        "Weight": "-1.0"
     }
 ]
