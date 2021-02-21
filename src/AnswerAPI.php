@@ -319,6 +319,12 @@ class AnswerAPI {
 				$triggers[] = ['type' => 'Low entropy', 'weight' => 1];
 			}
 
+			if ($m = $h->looksLikeComment()) {
+				$reasons[] = 'Looks like a comment';
+				$score += 0.5;
+				$triggers[] = ['type' => 'Looks like a comment', 'weight' => 0.5];
+			}
+
 			if ($reasons) {
 				if ($repFactor = $h->OwnerRepFactor()) {
 					if ($repFactor > 0) {

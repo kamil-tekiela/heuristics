@@ -207,4 +207,9 @@ class Heuristics {
 
 		return $prob / $len <= 2.2;
 	}
+
+	public function looksLikeComment(): bool {
+		$body = $this->item->stripAndDecode($this->item->body);
+		return 1 === preg_match('#(?s:@.*?\?($|.*?(best|thank|regards)))|^@.+$#i', $body, $matches, PREG_SET_ORDER);
+	}
 }
