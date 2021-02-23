@@ -210,6 +210,6 @@ class Heuristics {
 
 	public function looksLikeComment(): bool {
 		$body = $this->item->stripAndDecode($this->item->bodyWithoutCode);
-		return 1 === preg_match('#(?s:(@|\w+,).*?\?($|.*?(best|thank|regards)))|^@.+$#i', $body);
+		return 1 === preg_match('#(?s:((hi|hello|thanks|thank you)\h+)?(@|^\w+,).*?\?($|.*?(best|thank|regards)))|^((hi|hello|thanks|thank you)\h+)?@.+$#i', $body);
 	}
 }
