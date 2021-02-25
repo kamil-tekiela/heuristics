@@ -16,7 +16,7 @@
         "Weight": "-0.5"
     },
     {
-        "Word": "have you tried",
+        "Word": "(?<!what )have you tried",
         "Weight": "-1.0"
     },
     {
