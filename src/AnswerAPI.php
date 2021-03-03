@@ -321,8 +321,8 @@ class AnswerAPI {
 
 			if ($m = $h->looksLikeComment()) {
 				$reasons[] = 'Looks like a comment';
-				$score += 0.5;
-				$triggers[] = ['type' => 'Looks like a comment', 'weight' => 0.5];
+				$score += 1;
+				$triggers[] = ['type' => 'Looks like a comment', 'weight' => 1];
 			}
 
 			if ($reasons) {

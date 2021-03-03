@@ -101,7 +101,7 @@
     },
     {
         "Word": "this post is hidden\\. it was deleted.*\u2666",
-        "Weight": "3.0"
+        "Weight": "4.0"
     },
     {
         "Word": "help us\\b",

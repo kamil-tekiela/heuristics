@@ -805,7 +805,7 @@
     },
     {
         "Word": "\ud83d\ude4f",
-        "Weight": "1.0"
+        "Weight": "0.5"
     },
     {
         "Word": "\ud83d\ude02",
@@ -817,7 +817,7 @@
     },
     {
         "Word": "poop",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "getting the below error",
