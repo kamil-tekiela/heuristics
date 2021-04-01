@@ -464,10 +464,6 @@
         "Weight": "1.0"
     },
     {
-        "Word": "i am new here",
-        "Weight": "1.5"
-    },
-    {
         "Word": "any ideas",
         "Weight": "1.0"
     },
@@ -826,5 +822,9 @@
     {
         "Word": "were you able to fix it",
         "Weight": "3.0"
+    },
+    {
+        "Word": "good evening",
+        "Weight": "1.0"
     }
 ]
