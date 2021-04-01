@@ -130,5 +130,9 @@
     {
         "Word": "i can'?t find a solution",
         "Weight": "2.0"
+    },
+    {
+        "Word": "\\btia\\b",
+        "Weight": "2.0"
     }
 ]
