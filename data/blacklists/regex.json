@@ -100,6 +100,10 @@
         "Weight": "2.5"
     },
     {
+        "Word": "\\bbhai\\b",
+        "Weight": "2.0"
+    },
+    {
         "Word": "this post is hidden\\. it was deleted.*\u2666",
         "Weight": "4.0"
     },
