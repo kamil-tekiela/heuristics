@@ -126,5 +126,9 @@
     {
         "Word": "(?<!if )it still doesn't work",
         "Weight": "2.0"
+    },
+    {
+        "Word": "i can'?t find a solution",
+        "Weight": "2.0"
     }
 ]
