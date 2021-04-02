@@ -134,5 +134,9 @@
     {
         "Word": "\\btia\\b",
         "Weight": "2.0"
+    },
+    {
+        "Word": "down[ -]?vote",
+        "Weight": "2.0"
     }
 ]

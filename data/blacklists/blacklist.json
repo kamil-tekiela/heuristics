@@ -826,5 +826,9 @@
     {
         "Word": "good evening",
         "Weight": "1.0"
+    },
+    {
+        "Word": "stackoverflow\\.com\/help",
+        "Weight": "1.0"
     }
 ]
