@@ -5,7 +5,7 @@
     },
     {
         "Word": "i (?:(?:re)?solved|fixed)",
-        "Weight": "-1.0"
+        "Weight": "-2.0"
     },
     {
         "Word": "hope (?:it|this|that)(?: will\\b| can\\b)? helps?",
@@ -13,7 +13,7 @@
     },
     {
         "Word": "it worked",
-        "Weight": "-0.5"
+        "Weight": "-1.0"
     },
     {
         "Word": "(?<!what )have you tried",
@@ -37,7 +37,7 @@
     },
     {
         "Word": "you can do something like this",
-        "Weight": "-0.5"
+        "Weight": "-1.5"
     },
     {
         "Word": "try the following",
@@ -52,8 +52,8 @@
         "Weight": "-1.0"
     },
     {
-        "Word": "i figured out",
-        "Weight": "-1.0"
+        "Word": "i figured( it)? out",
+        "Weight": "-2.0"
     },
     {
         "Word": "it is solved",
@@ -62,5 +62,33 @@
     {
         "Word": "i was dealing with",
         "Weight": "-1.0"
+    },
+    {
+        "Word": "try this([:]| code)",
+        "Weight": "-2.0"
+    },
+    {
+        "Word": "try this(?![:]| code| video)",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "you can use",
+        "Weight": "-1.5"
+    },
+    {
+        "Word": "in your case",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "i had the same",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "this should work",
+        "Weight": "-2.0"
+    },
+    {
+        "Word": "i found the solution",
+        "Weight": "-2.0"
     }
 ]

@@ -581,7 +581,7 @@
     },
     {
         "Word": "kindly help",
-        "Weight": "1.0"
+        "Weight": "3.0"
     },
     {
         "Word": "enter image description here",
@@ -657,7 +657,7 @@
     },
     {
         "Word": "gracias",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "de dados",
@@ -673,11 +673,11 @@
     },
     {
         "Word": "sirva",
-        "Weight": "1.0"
+        "Weight": "1.5"
     },
     {
         "Word": "c\u00f3digo",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "boa tarde",
@@ -830,5 +830,17 @@
     {
         "Word": "stackoverflow\\.com\/help",
         "Weight": "1.0"
+    },
+    {
+        "Word": "try this video",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "check this video",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "give me some",
+        "Weight": "3.0"
     }
 ]
