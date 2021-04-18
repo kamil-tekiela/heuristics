@@ -138,5 +138,57 @@
     {
         "Word": "down[ -]?vote",
         "Weight": "2.0"
+    },
+    {
+        "Word": "kindly suggest\\b",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "why (?:isn't|can|is) (?:that|this)",
+        "Weight": "0.50"
+    },
+    {
+        "Word": "hey (?:were|did|i) (?:have|am)",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "sorry (?:about|this|for|i) (?:posting|writing|can't|have)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "hi (?:even|i) (?:have|am) (?:the|a|having)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "even (?:i('m|f)?) (?:have|am)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "has (?:anyone) (?:figured|solved|found|been|ever)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "was (?:this|your) (?:resolved|solved|fixed|issue|ever) (?:resolved|solved|ever)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "help\\h*(?:me|us),?\\h*(?:please|out)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "does (?:anybody|someone|anyone) (?:found|have|know|can|has|solve|else)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "do (?:you|we) (?:already|resolve|solved|found|solve|find|have|know|fix) (?:this|it|your|the|any|solution|an?|how|why)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "anyone\\h*(?:please|could|find|have|help|can|has|how)[ .!?,]{1,2}(?:please|solve|help)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "were (?:y?o?u) (?:able|ever)",
+        "Weight": "0.5"
     }
 ]

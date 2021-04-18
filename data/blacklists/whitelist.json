@@ -90,5 +90,9 @@
     {
         "Word": "i found the solution",
         "Weight": "-2.0"
+    },
+    {
+        "Word": "i have solved",
+        "Weight": "-2.0"
     }
 ]
