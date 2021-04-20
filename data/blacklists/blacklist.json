@@ -744,14 +744,6 @@
         "Weight": "2.0"
     },
     {
-        "Word": "help me please",
-        "Weight": "2.0"
-    },
-    {
-        "Word": "help me out",
-        "Weight": "2.0"
-    },
-    {
         "Word": "i need your help",
         "Weight": "2.0"
     },
@@ -790,10 +782,6 @@
     {
         "Word": "help me to fix",
         "Weight": "1.0"
-    },
-    {
-        "Word": "help me plz",
-        "Weight": "2.0"
     },
     {
         "Word": "\ud83d\ude4f",
