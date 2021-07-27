@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Dharman\ChatAPI;
 use Dharman\StackAPI;
+use GuzzleHttp\Exception\RequestException;
 use ParagonIE\EasyDB\EasyDB;
 
 class AnswerAPI {
@@ -608,8 +609,17 @@ class AnswerAPI {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;
 		}
-
-		$this->stackAPI->request('POST', $url, $args);
+		try {
+			$this->stackAPI->request('POST', $url, $args);
+		} catch (RequestException $e) {
+			$response = $e->getResponse();
+			if (isset($response)) {
+				if (($json = json_decode($response->getBody()->getContents())) && isset($json->error_id) && $json->error_id == 407) {
+					$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
+				}
+			}
+			throw $e;
+		}
 
 		if ($this->logEdits) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Answer edited: [Post link]({$post->link})");
