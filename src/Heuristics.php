@@ -165,7 +165,7 @@ class Heuristics {
 	public function noLatinLetters() {
 		$subject = $this->item->stripAndDecode($this->item->body);
 		preg_match_all(
-			'#[a-z]#iu',
+			'#[a-z\d]#iu',
 			$subject,
 			$m1,
 		);
