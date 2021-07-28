@@ -830,5 +830,9 @@
     {
         "Word": "give me some",
         "Weight": "3.0"
+    },
+    {
+        "Word": "estoy",
+        "Weight": "2.0"
     }
 ]
