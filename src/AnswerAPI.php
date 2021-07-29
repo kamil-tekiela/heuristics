@@ -560,7 +560,17 @@ class AnswerAPI {
 		$count = 0;
 		$bodyCleansed = $post->bodyMarkdown;
 
-		$re = '/((?<=\.)|\s*^)\s*(I )?hope (it|this|that)( will\b| can\b)? helps?( (you|someone(?:\h*else)?)\b)?(:-?\)|🙂️|[!.;,\s])*?(\s*(cheers|good ?luck)([!,.]*))?$/mi';
+		$username = preg_quote($post->owner->display_name, '/');
+		$re = '/(*ANYCRLF)						# $ matches both \r and \n
+			((?<=\.)|\s*^)\s*					# space before
+			(I\h)?hope\h(it|this|that)
+			(\hwill\b|\hcan\b)?
+			\hhelps?
+			(\h(you|someone(?:\h*else)?)\b)?
+			(:-?\)|🙂️|[!.;,\s])*?				# punctuation and emoji
+			(\s*(cheers|good\h?luck)([!,.]*))?	# sometimes appears on the same line or next
+			(?:[-~\s]*'.$username.')?
+			$/mix';
 		$bodyCleansed = preg_replace($re, '', $bodyCleansed, -1, $count);
 		if ($count) {
 			$editSummary .= 'Stack Overflow is like an encyclopedia, so we prefer to omit these types of phrases. It is assumed that everyone here is trying to be helpful. ';
@@ -609,7 +619,7 @@ class AnswerAPI {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;
 		}
-		
+
 		try {
 			$this->stackAPI->request('POST', $url, $args);
 		} catch (RequestException $e) {
