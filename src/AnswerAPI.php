@@ -609,12 +609,14 @@ class AnswerAPI {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;
 		}
+		
 		try {
 			$this->stackAPI->request('POST', $url, $args);
 		} catch (RequestException $e) {
 			$response = $e->getResponse();
-			if (isset($response)) {
-				if (($json = json_decode($response->getBody()->getContents())) && isset($json->error_id) && $json->error_id == 407) {
+			if ($response) {
+				$jsonResponse = json_decode((string) $response->getBody());
+				if ($jsonResponse->error_id == 407) {
 					$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 				}
 			}
