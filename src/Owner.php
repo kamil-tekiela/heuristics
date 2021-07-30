@@ -2,11 +2,8 @@
 
 class Owner {
 	public int $user_id;
-
 	public string $user_type;
-
 	public string $display_name;
-
 	public int $reputation;
 
 	public function __construct(stdClass $json) {

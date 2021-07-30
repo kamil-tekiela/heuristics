@@ -4,81 +4,42 @@ declare(strict_types=1);
 
 use Dharman\ChatAPI;
 use Dharman\StackAPI;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use ParagonIE\EasyDB\EasyDB;
 
 class AnswerAPI {
-	/**
-	 * DB link
-	 *
-	 * @var EasyDB
-	 */
-	private $db;
-
-	/**
-	 * Guzzle
-	 *
-	 * @var \GuzzleHttp\Client
-	 */
-	private $client;
-
+	private EasyDB $db;
+	private Client $client;
 	/**
 	 * Timestamp
 	 *
-	 * @var int
+	 * @var mixed
 	 */
 	private $lastRequestTime;
-
 	/**
 	 * Time of last auto-flagging
-	 *
-	 * @var \DateTime
 	 */
-	private $lastFlagTime = null;
-
-	private $questions = [];
-
+	private ?\DateTime $lastFlagTime = null;
+	private array $questions = [];
 	private const AUTOFLAG_TRESHOLD = 6;
-
 	private const NATTY_FLAG_TRESHOLD = 7;
-
 	/**
 	 * Token for Dharman user. Secret!
-	 *
-	 * @var string
 	 */
-	private $userToken = '';
-
+	private string $userToken = '';
 	/**
 	 * My app key. Not secret
 	 */
 	private $app_key = null;
-
-	/**
-	 * Chat API to talk in the chat
-	 *
-	 * @var ChatAPI
-	 */
-	private $chatAPI = null;
-
-	/**
-	 * Stack API class for using the official Stack Exchange API
-	 *
-	 * @var StackAPI
-	 */
-	private $stackAPI = null;
-
-	private $logRoomId = null;
-
-	private $personalRoomId = null;
-
-	private $logEdits = false;
-
-	private $soboticsRoomId = 111347;
-
-	private $pingOwner = '';
-
-	private $autoflagging = false;
+	private ChatAPI $chatAPI;
+	private StackAPI $stackAPI;
+	private int $logRoomId;
+	private ?int $personalRoomId = null;
+	private bool $logEdits = false;
+	private int $soboticsRoomId = 111347;
+	private string $pingOwner = '';
+	private bool $autoflagging = false;
 
 	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, StackAPI $stackAPI, ChatAPI $chatAPI, DotEnv $dotEnv) {
 		$this->db = $db;

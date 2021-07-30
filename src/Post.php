@@ -2,29 +2,17 @@
 
 class Post {
 	public int $id;
-
 	public int $question_id;
-
 	public string $bodySafe;
-
 	public string $body;
-
 	public string $bodyMarkdown;
-
 	public string $bodyWithoutCode;
-
 	public string $bodyStripped;
-
 	public bool $is_accepted;
-
 	public int $score;
-
 	public \DateTime $creation_date;
-
 	public string $link;
-
 	public string $title;
-
 	public $owner;
 
 	public function __construct(\stdClass $json) {

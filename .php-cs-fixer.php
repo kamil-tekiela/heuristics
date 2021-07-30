@@ -14,7 +14,7 @@ return $config
         'blank_line_after_opening_tag' => true,
         'braces' => ['allow_single_line_closure'=>true,'position_after_functions_and_oop_constructs'=>'same'],
         'cast_spaces' => true,
-        'class_attributes_separation' => true,
+        'class_attributes_separation' => ['elements'=>['const'=>'none','method'=>'one','property'=>'none']],
         'class_definition' => true,
         'compact_nullable_typehint' => true,
         'constant_case' => true,

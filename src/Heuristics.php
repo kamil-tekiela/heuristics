@@ -1,12 +1,7 @@
 <?php
 
 class Heuristics {
-	/**
-	 * The answer
-	 *
-	 * @var \Post
-	 */
-	private $item;
+	private \Post $item;
 
 	public function __construct(\Post $post) {
 		$this->item = $post;
