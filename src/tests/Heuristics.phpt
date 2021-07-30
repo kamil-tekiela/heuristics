@@ -29,8 +29,30 @@ JSON;
 $json = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 
 $post = new Post($json);
-var_dump($post->stripAndDecode($post->body));
+
+$expectDecoded = <<<'DECODED'
+you must be add the web.config
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <location path="." inheritInChildApplications="false">
+    <system.webServer>
+        <modules>
+        <remove name="WebDAVModule" />
+        </modules>
+        <handlers>
+            <remove name="WebDAV" />
+            <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModule" resourceType="Unspecified" />
+        </handlers>
+      <aspNetCore processPath=".\{{your_App}}.exe" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" hostingModel="InProcess" />
+    </system.webServer>
+  </location>
+</configuration>
+DECODED;
+
+assert($post->stripAndDecode($post->body) === $expectDecoded);
 
 $h = new Heuristics($post);
 
-var_dump($h->lowEntropy());
+assert($h->lowEntropy() === false);
+
+echo 'PASSED';

@@ -60,10 +60,11 @@ $json = <<<'JSON'
 }
 JSON;
 
-
 $json = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 
 $post = new Post($json);
 $h = new Heuristics($post);
 
 assert($h->lowEntropy() === true);
+
+echo 'PASSED';
