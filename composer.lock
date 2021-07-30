@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e99e03ba4b4ed75f6b003d873be9c657",
+    "content-hash": "50dcd19ff6bd0be94c1579d6ce71ddd6",
     "packages": [
         {
             "name": "dharman/stackapi",
@@ -608,7 +608,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.4|^8"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
 }
