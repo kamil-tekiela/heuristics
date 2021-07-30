@@ -1,65 +1,29 @@
 <?php
 
 class Post {
-	/**
-	 * @var int
-	 */
-	public $id;
+	public int $id;
 
-	/**
-	 * @var int
-	 */
-	public $question_id;
+	public int $question_id;
 
-	/**
-	 * @var string
-	 */
-	public $bodySafe;
+	public string $bodySafe;
 
-	/**
-	 * @var string
-	 */
-	public $body;
+	public string $body;
 
-	/**
-	 * @var string
-	 */
-	public $bodyMarkdown;
+	public string $bodyMarkdown;
 
-	/**
-	 * @var string
-	 */
-	public $bodyWithoutCode;
+	public string $bodyWithoutCode;
 
-	/**
-	 * @var string
-	 */
-	public $bodyStripped;
+	public string $bodyStripped;
 
-	/**
-	 * @var bool
-	 */
-	public $is_accepted;
+	public bool $is_accepted;
 
-	/**
-	 * @var int
-	 */
-	public $score;
+	public int $score;
 
-	/**
-	 * @var \DateTime
-	 */
-	public $creation_date;
+	public \DateTime $creation_date;
 
-	/**
-	 * @var string
-	 */
-	public $link;
+	public string $link;
 
-	/**
-	 * @var string
-	 */
-	public $title;
+	public string $title;
 
 	public $owner;
 
@@ -76,7 +40,7 @@ class Post {
 		$this->body = $json->body;
 		/** Used in automatic edits */
 		$this->bodyMarkdown = $json->body_markdown;
-		$this->owner = $json->owner;
+		$this->owner = new Owner($json->owner);
 
 		$this->bodyWithoutCode = preg_replace('#\s*(?:<pre>)?<code>.*?<\/code>(?:<\/pre>)?\s*#s', '', $this->body);
 		$this->bodyStripped = $this->stripAndDecode($this->removeLinks($this->bodyWithoutCode));
