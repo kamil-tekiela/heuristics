@@ -55,6 +55,11 @@ while (1) {
 
 $output = ob_get_clean();
 
-assert(1 === preg_match('/(*ANYCRLF)^\d{4}-\d{2}-\d{2}\h\d{2}:\d{2}:\d{2}\sto\h\d{4}-\d{2}-\d{2}\h\d{2}:\d{2}:\d{2}(\r|\n)+Processing finished at:\s\d{4}-\d{2}-\d{2}\h\d{2}:\d{2}:\d{2}\s*$/m', $output));
+assert(
+	1 === preg_match('/(*ANYCRLF)
+	^\d{4}-\d{2}-\d{2}\h\d{2}:\d{2}:\d{2}\sto\h\d{4}-\d{2}-\d{2}\h\d{2}:\d{2}:\d{2}(\r|\n)+
+	Processing\hfinished\hat:\s\d{4}-\d{2}-\d{2}\h\d{2}:\d{2}:\d{2}(\r|\n)+
+	$/x', $output)
+);
 
 echo 'PASSED';
