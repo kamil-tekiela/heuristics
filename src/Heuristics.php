@@ -50,7 +50,7 @@ class Heuristics {
 	}
 
 	public function HighLinkProportion(): bool {
-		$linkRegex = '#<a\shref="(?:[^"]*)"(?:.*?)>(.*?)</a>#i';
+		$linkRegex = '#<a\shref="(?:[^"]*)"(?:[^>]*)>(.*?)</a>#i';
 		preg_match_all($linkRegex, $this->item->bodyWithoutCode, $matches, PREG_SET_ORDER);
 
 		if (!$matches) {

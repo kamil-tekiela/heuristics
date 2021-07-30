@@ -134,7 +134,7 @@ class AnswerAPI {
 			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru'
 		];
 		if (DEBUG) {
-			$args['fromdate'] = strtotime('5 years ago');
+			$args['fromdate'] = strtotime('20 years ago');
 		} else {
 			$args['fromdate'] = $this->lastRequestTime + 1;
 		}
