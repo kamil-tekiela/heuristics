@@ -1,6 +1,6 @@
 <?php
 
-define('BASE_DIR', realpath(__DIR__.'/../..'));
+define('BASE_DIR', realpath(__DIR__.'/..'));
 include BASE_DIR.'/vendor/autoload.php';
 
 $json = <<<'JSON'
