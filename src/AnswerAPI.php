@@ -156,26 +156,7 @@ class AnswerAPI {
 		}
 		$questions = array_unique($questions);
 		if ($questions) {
-			$questionList = implode(';', $questions);
-			$url = "https://api.stackexchange.com/2.2/questions/" . $questionList;
-			$args = [
-				'key' => $this->app_key,
-				'site' => 'stackoverflow',
-				'order' => 'desc',
-				'sort' => 'creation',
-				'filter' => '4b*l8uK*lxO_LpAroX(a'
-			];
-
-			// Get questions
-			$questionsJSON = $this->stackAPI->request('GET', $url, $args);
-
-			$this->questions = [];
-			foreach ($questionsJSON->items as $postJSON) {
-				if (isset($postJSON->owner->user_id)) {
-					$this->questions[$postJSON->question_id]['owner'] = $postJSON->owner->user_id;
-				}
-				$this->questions[$postJSON->question_id]['creation_date'] = $postJSON->creation_date;
-			}
+			$this->loadQuestions($questions);
 		}
 
 		foreach ($contents->items as $postJSON) {
@@ -278,12 +259,10 @@ class AnswerAPI {
 				}
 			}
 
-			if (isset($this->questions[$postJSON->question_id]['owner'], $postJSON->owner->user_id)) {
-				if (isset($this->questions[$postJSON->question_id]['owner']) && $this->questions[$postJSON->question_id]['owner'] === $postJSON->owner->user_id) {
-					$reasons[] = 'Self-answer';
-					$score += 0.5;
-					$triggers[] = ['type' => 'Self-answer', 'weight' => 0.5];
-				}
+			if (isset($this->questions[$post->question_id]['owner']) && $this->questions[$post->question_id]['owner'] === $post->owner->user_id) {
+				$reasons[] = 'Self-answer';
+				$score += 0.5;
+				$triggers[] = ['type' => 'Self-answer', 'weight' => 0.5];
 			}
 
 			if ($h->containsNoWhiteSpace()) {
@@ -363,6 +342,31 @@ class AnswerAPI {
 		// save request time
 		if (!DEBUG) {
 			$this->db->run('UPDATE lastRequest SET `time` = ? WHERE rowid=1', $this->lastRequestTime);
+		}
+	}
+
+	private function loadQuestions(array $questions) {
+		if ($questions) {
+			$questionList = implode(';', $questions);
+			$url = "https://api.stackexchange.com/2.2/questions/" . $questionList;
+			$args = [
+				'key' => $this->app_key,
+				'site' => 'stackoverflow',
+				'order' => 'desc',
+				'sort' => 'creation',
+				'filter' => '4b*l8uK*lxO_LpAroX(a'
+			];
+
+			// Get questions
+			$questionsJSON = $this->stackAPI->request('GET', $url, $args);
+
+			$this->questions = [];
+			foreach ($questionsJSON->items as $postJSON) {
+				if (isset($postJSON->owner->user_id)) {
+					$this->questions[$postJSON->question_id]['owner'] = $postJSON->owner->user_id;
+				}
+				$this->questions[$postJSON->question_id]['creation_date'] = $postJSON->creation_date;
+			}
 		}
 	}
 
