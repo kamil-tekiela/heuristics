@@ -50,9 +50,9 @@ class AnswerAPI {
 		if (!$this->lastRequestTime) {
 			$this->lastRequestTime = strtotime('15 minutes ago');
 		}
-		// if (DEBUG) {
-		// 	$this->lastRequestTime = strtotime('15 days ago');
-		// }
+		if (DEBUG_OLD) {
+			$this->lastRequestTime = strtotime(DEBUG_OLD);
+		}
 
 		$this->pingOwner = $dotEnv->get('pingOwner');
 

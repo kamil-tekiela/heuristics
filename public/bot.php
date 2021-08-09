@@ -12,6 +12,7 @@ include BASE_DIR.'/vendor/autoload.php';
 $dotEnv = new DotEnv();
 $dotEnv->load(BASE_DIR.'/config.ini');
 define('DEBUG', $dotEnv->get('DEBUG'));
+define('DEBUG_OLD', $dotEnv->get('DEBUG_OLD'));
 
 $db = \ParagonIE\EasyDB\Factory::fromArray([
 	'sqlite:'.BASE_DIR.'/data/db.db'
