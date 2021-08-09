@@ -529,10 +529,14 @@ class AnswerAPI {
 		$re = '/(*ANYCRLF)						# $ matches both \r and \n
 			((?<=\.)|\s*^)\s*					# space before
 			[*]*								# Optional bolding in markdown
-			(I\h)?hope\h(it|this|that)
-			(\hwill\b|\hcan\b)?
-			\hhelps?
-			(\h(you|someone(?:\h*else)?)\b)?
+			(?:									# Alternative HTH
+				(I\h)?hope\h(it|this|that)
+				(\hwill\b|\hcan\b)?
+				\hhelps?
+				(\h(you|someone(?:\h*else)?)\b)?
+				|HTH
+				|HIH
+			)
 			[*]*								# Optional bolding in markdown
 			(:-?\)|🙂️|[!.;,\s])*?				# punctuation and emoji
 			(\s*(cheers|good\h?luck)([!,.]*))?	# sometimes appears on the same line or next
