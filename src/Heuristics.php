@@ -105,7 +105,7 @@ class Heuristics {
 	}
 
 	public function OwnerRepFactor() {
-		if (!isset($this->item->owner->reputation) || $this->item->owner->reputation < 50) {
+		if (is_null($this->item->owner->reputation) || $this->item->owner->reputation < 50) {
 			return 1;
 		}
 		if ($this->item->owner->reputation < 1000) {

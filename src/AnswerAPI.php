@@ -299,7 +299,7 @@ class AnswerAPI {
 		}
 
 		// end processing
-		echo 'Processing finished at: '.date_create()->format('Y-m-d H:i:s').PHP_EOL;
+		echo 'Processing finished at: '.date_create()->format('Y-m-d H:i:s').PHP_EOL.PHP_EOL;
 		// save request time
 		if (!DEBUG) {
 			$this->db->run('UPDATE lastRequest SET `time` = ? WHERE rowid=1', $this->lastRequestTime);
@@ -437,8 +437,8 @@ class AnswerAPI {
 				'natty_score' => $natty_score,
 				'summary' => $summary,
 				'reported_at' => date('Y-m-d H:i:s'),
-				'user_id' => ($post->owner->user_id ?? null),
-				'username' => ($post->owner->display_name ?? null),
+				'user_id' => $post->owner->user_id,
+				'username' => $post->owner->display_name,
 			]
 		);
 
