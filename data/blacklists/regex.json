@@ -186,5 +186,9 @@
     {
         "Word": "were (?:y?o?u) (?:able|ever)",
         "Weight": "3.0"
+    },
+    {
+        "Word": "\\bencontr\\w*",
+        "Weight": "2.0"
     }
 ]
