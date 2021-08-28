@@ -538,10 +538,9 @@ class AnswerAPI {
 				|HIH
 			)
 			[*]*								# Optional bolding in markdown
-			(
-				(:-?\)|🙂️|[!.;,\s])*				# punctuation and emoji
-				|((cheers|good\h?luck|thank(?:s|\hyou))([!,.\h]*))*	# sometimes appears on the same line or next
-			)*
+			(\s*(:-?\)|🙂️|[!.;,\h]))*			# punctuation and emoji
+			# sometimes appears on the same line or next, so we catch the newline before
+			(\s*(cheers|good\h?luck|thank(?:s|\hyou))(\s*(:-?\)|🙂️|[!.;,])\h*)*)?
 			(?:[-~\s]*'.$username.')?
 			$/mix';
 		$bodyCleansed = preg_replace($re, '', $bodyCleansed, -1, $count);
