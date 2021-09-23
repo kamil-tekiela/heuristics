@@ -842,5 +842,9 @@
     {
         "Word": "pregunta",
         "Weight": "2.0"
+    },
+    {
+        "Word": "was wondering if",
+        "Weight": "2.0"
     }
 ]
