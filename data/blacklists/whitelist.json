@@ -94,5 +94,13 @@
     {
         "Word": "i have solved",
         "Weight": "-2.0"
+    },
+    {
+        "Word": "(?<!nothing\\h|doesn't\\h|doesnt\\h|does not\\h)\\bwork(s|ed) for me",
+        "Weight": "-1.0"
+    },
+    {
+        "Word": "\\bsolution is\\b(?!\\h+not)",
+        "Weight": "-1.0"
     }
 ]

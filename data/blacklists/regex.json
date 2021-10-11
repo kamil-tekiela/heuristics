@@ -120,7 +120,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "(?:(\\bI )?\\bam|I'm|\\bI) (?:still|also|always){0,1}\\s*(get|getting|(?:receiv|hav|fac)(?:e|ing)) (the \\w+|\\w+) error",
+        "Word": "(?:(\\bI )?\\bam|I'?m|\\bI) (?:still|also|always){0,1}\\s*(get|getting|(?:receiv|hav|fac)(?:e|ing)) (the \\w+|\\w+) error",
         "Weight": "2.0"
     },
     {
@@ -190,5 +190,13 @@
     {
         "Word": "\\bencontr\\w*",
         "Weight": "2.0"
+    },
+    {
+        "Word": "\\burgent(?:ly)?\\b",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "i( am|'?m) new",
+        "Weight": "1.5"
     }
 ]
