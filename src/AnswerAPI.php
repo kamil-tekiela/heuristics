@@ -531,7 +531,7 @@ class AnswerAPI {
 			[*]*								# Optional bolding in markdown
 			(?:									# Alternative HTH
 				(I\h)?hope\h(it|this|that)
-				(\hwill\b|\hcan\b)?
+				(\hwill\b|\hcan\b|\hmay\b)?
 				\hhelps?
 				(\h(you|someone(?:\h*else)?)\b)?
 				|HTH
