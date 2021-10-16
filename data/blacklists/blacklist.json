@@ -854,5 +854,9 @@
     {
         "Word": "how to solve",
         "Weight": "1.0"
+    },
+    {
+        "Word": "thanks for sharing",
+        "Weight": "2.0"
     }
 ]

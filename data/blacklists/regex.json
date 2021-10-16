@@ -196,7 +196,7 @@
         "Weight": "2.0"
     },
     {
-        "Word": "i( am|'?m) new",
+        "Word": "\\bi( am|'?m) new",
         "Weight": "1.5"
     }
 ]
