@@ -198,9 +198,5 @@
     {
         "Word": "\\bi( am|'?m) new",
         "Weight": "1.5"
-    },
-    {
-        "Word": "i don'?t know",
-        "Weight": "1.0"
     }
 ]
