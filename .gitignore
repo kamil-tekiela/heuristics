@@ -24,3 +24,4 @@ filter.txt
 testapi.php
 data/db.db.bak
 data/oldDB.db
+composer.lock
