@@ -1,0 +1,19 @@
+;; For fetching only selected posts. semicolon separated
+;DEBUG = "68491722"
+;; For flagging old posts
+;DEBUG_OLD = "2020-06-01 14:53:02"
+key = "<your API key>"
+;; APP: https://stackapps.com/questions/8594/naabot-bot-which-finds-and-flags-problematic-answers-on-stack-overflow
+app_key = "gS)WzUg0j7Q5ZVEBB5Onkw(("
+;; Chat room to post reports to
+logRoomId = <room ID>
+chatUserEmail = "<chat username>"
+chatUserPassword = "<chat password>"
+;; Debug and personal messages chat room
+trackRoomId = <room ID>
+;; Whether to post links to edit posts in the trackRoomId
+logEdits = false
+;; Who to ping in SOBotics e.g. @Dharman
+pingOwner = ""
+;; Should the bot flag posts or just pretend to?
+autoflagging = false
