@@ -11,27 +11,34 @@ use ParagonIE\EasyDB\EasyDB;
 class AnswerAPI {
 	private EasyDB $db;
 	private Client $client;
+
 	/**
 	 * Timestamp
 	 *
 	 * @var mixed
 	 */
 	private $lastRequestTime;
+
 	/**
 	 * Time of last auto-flagging
 	 */
 	private ?\DateTime $lastFlagTime = null;
+
 	private array $questions = [];
+
 	private const AUTOFLAG_TRESHOLD = 6;
 	private const NATTY_FLAG_TRESHOLD = 7;
+
 	/**
 	 * Token for Dharman user. Secret!
 	 */
 	private string $userToken = '';
+
 	/**
 	 * My app key. Not secret
 	 */
 	private $app_key = null;
+
 	private ChatAPI $chatAPI;
 	private StackAPI $stackAPI;
 	private int $logRoomId;
@@ -40,6 +47,7 @@ class AnswerAPI {
 	private int $soboticsRoomId = 111347;
 	private string $pingOwner = '';
 	private bool $autoflagging = false;
+	private bool $autoediting = false;
 
 	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, StackAPI $stackAPI, ChatAPI $chatAPI, DotEnv $dotEnv) {
 		$this->db = $db;
@@ -57,6 +65,8 @@ class AnswerAPI {
 		$this->pingOwner = $dotEnv->get('pingOwner');
 
 		$this->autoflagging = $dotEnv->get('autoflagging');
+
+		$this->autoediting = $dotEnv->get('autoediting');
 
 		$this->app_key = $dotEnv->get('app_key');
 
@@ -475,6 +485,8 @@ class AnswerAPI {
 	 */
 	private function flagPost(int $question_id) {
 		if (!$this->autoflagging) {
+			$chatLine = "@Dharman Autoflagging is switched off https://stackoverflow.com/a/{$question_id}";
+			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 			return;
 		}
 
@@ -521,6 +533,11 @@ class AnswerAPI {
 	}
 
 	private function removeClutter(Post $post) {
+		if (!$this->autoediting) {
+			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
+			return;
+		}
+
 		$editSummary = '';
 		$count = 0;
 		$bodyCleansed = $post->bodyMarkdown;

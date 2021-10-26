@@ -17,3 +17,5 @@ logEdits = false
 pingOwner = ""
 ;; Should the bot flag posts or just pretend to?
 autoflagging = false
+;; Should the bot flag edit posts or just report them in a room?
+autoediting = false
