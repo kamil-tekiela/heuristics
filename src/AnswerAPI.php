@@ -533,11 +533,6 @@ class AnswerAPI {
 	}
 
 	private function removeClutter(Post $post) {
-		if (!$this->autoediting) {
-			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
-			return;
-		}
-
 		$editSummary = '';
 		$count = 0;
 		$bodyCleansed = $post->bodyMarkdown;
@@ -579,8 +574,15 @@ class AnswerAPI {
 			$editSummary = 'https://meta.stackoverflow.com/questions/402167/are-superfluous-comments-in-an-answer-such-as-good-luck-discouraged ';
 		}
 
-		if ($bodyCleansed === $post->bodyMarkdown) {
-			// 'Nothing changed.'
+		if ($bodyCleansed !== $post->bodyMarkdown) {
+			// 'Something changed.'
+			$this->peformEdit($post, $bodyCleansed, $editSummary);
+		}
+	}
+
+	private function peformEdit(Post $post, string $bodyCleansed, string $editSummary) {
+		if (!$this->autoediting) {
+			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;
 		}
 
