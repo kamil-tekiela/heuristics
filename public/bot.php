@@ -20,8 +20,6 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 
 $client = new GuzzleHttp\Client();
 
-// DB_setup::setup($db);
-
 $chatAPI = new ChatAPI($dotEnv->get('chatUserEmail'), $dotEnv->get('chatUserPassword'), BASE_DIR.'/data/chatAPI_cookies.json');
 
 $stackAPI = new StackAPI($client);
@@ -29,7 +27,7 @@ $stackAPI = new StackAPI($client);
 $fetcher = new AnswerAPI($db, $client, $stackAPI, $chatAPI, $dotEnv);
 
 $failedTries = 0;
-while (1) {
+while (true) {
 	try {
 		$fetcher->fetch();
 	} catch (\Throwable $e) {
@@ -48,6 +46,9 @@ while (1) {
 	if (DEBUG) {
 		break;
 	}
+
+	// hot reload some settings
+	$dotEnv->load(BASE_DIR.'/config.ini');
 
 	sleep(60);
 }
