@@ -157,17 +157,46 @@ class Heuristics {
 		return $m;
 	}
 
-	public function noLatinLetters() {
-		$subject = $this->item->stripAndDecode($this->item->body);
+	public function noLatinLetters(): int {
 		preg_match_all(
 			'#[a-z\d]#iu',
-			$subject,
-			$m1,
+			$this->item->stripAndDecode($this->item->body),
+			$nonLatinLettersWithCode,
 		);
 
-		$uniqueAZ = count(array_unique($m1[0]));
+		// For example nonsense in the code block or link only
+		$uniqueAZ = count(array_unique($nonLatinLettersWithCode[0]));
+		if ($uniqueAZ <= 1) {
+			return 3;
+		}
 
-		return $uniqueAZ <= 1 || count($m1[0]) / mb_strlen($subject) < 0.1;
+		// If the body without links and code has too little text to check then skip
+		if (mb_strlen($this->item->bodyStripped) < 5) {
+			return 0;
+		}
+
+		preg_match_all(
+			'#[a-z\d]#iu',
+			$this->item->bodyStripped,
+			$nonLatinLetters,
+		);
+
+		$uniqueAZ = count(array_unique($nonLatinLetters[0]));
+		if ($uniqueAZ <= 1) {
+			return 3;
+		}
+
+		$ratio = count($nonLatinLetters[0]) / mb_strlen($this->item->bodyStripped);
+		if ($ratio < 0.1) {
+			return 3;
+		}
+		if ($ratio < 0.3) {
+			return 2;
+		}
+		if ($ratio < 0.5) {
+			return 1;
+		}
+		return 0;
 	}
 
 	public function hasRepeatingChars() {
@@ -205,6 +234,6 @@ class Heuristics {
 
 	public function looksLikeComment(): bool {
 		$body = $this->item->stripAndDecode($this->item->bodyWithoutCode);
-		return 1 === preg_match('#(?s:((hi|hello|thanks|thank you)\h+)?(@|^\w+,).*?\?($|.*?(best|thank|regards)))|^((hi|hello|thanks|thank you)\h+)?@.+$#i', $body);
+		return 1 === preg_match('#(?s:((hi|hello|thanks|thank you)\h+)?(@|^\w+[,.]+).*?\?($|.*?(best|thank|regards)))|^((hi|hello|thanks|thank you)\h+)?@.+$#i', $body);
 	}
 }

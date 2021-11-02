@@ -250,8 +250,8 @@ class AnswerAPI {
 
 			if ($m = $h->noLatinLetters()) {
 				$reasons[] = 'No latin characters';
-				$score += 3.0;
-				$triggers[] = ['type' => 'No latin characters', 'weight' => 3];
+				$score += $m;
+				$triggers[] = ['type' => 'No latin characters', 'weight' => $m];
 			}
 
 			if ($m = $h->hasRepeatingChars()) {

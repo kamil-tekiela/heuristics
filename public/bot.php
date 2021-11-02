@@ -3,7 +3,7 @@
 use Dharman\ChatAPI;
 use Dharman\StackAPI;
 
-define('VERSION', '3.7');
+define('VERSION', '3.8');
 define('BASE_DIR', realpath(__DIR__.'/..'));
 define('REPORT_URL', 'https://bot.dharman.net/reports.php');
 
