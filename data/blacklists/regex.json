@@ -52,11 +52,15 @@
         "Weight": "1.5"
     },
     {
+        "Word": "\\bany (\\w+\\h)?suggestions?\\??",
+        "Weight": "1.0"
+    },
+    {
         "Word": "(?:any\\s+)?help\\s+(?:\\w+\\s+){0,4}?ap+reciated",
         "Weight": "3.0"
     },
     {
-        "Word": "(?:(?:could|can)\\s+|(?:you|(?:any|some)\\s*(?:body|one|1))\\s+){2}help(?:\\s+me)?",
+        "Word": "(?:(?:could|can)\\s+|(?:y?o?u|(?:any|some)\\s*(?:body|one|1))\\s+){2}help(?:\\s+me)?",
         "Weight": "3.0"
     },
     {
@@ -198,5 +202,9 @@
     {
         "Word": "\\bi( am|'?m) new",
         "Weight": "1.5"
+    },
+    {
+        "Word": "(hi|hello|hey)\\h+guys",
+        "Weight": "1.0"
     }
 ]
