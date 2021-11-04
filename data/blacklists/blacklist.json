@@ -854,9 +854,5 @@
     {
         "Word": "thanks for sharing",
         "Weight": "2.0"
-    },
-    {
-        "Word": "not working for me",
-        "Weight": "3.0"
     }
 ]

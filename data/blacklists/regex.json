@@ -204,6 +204,10 @@
         "Weight": "1.5"
     },
     {
+        "Word": "\\b(?<!was )not working for me",
+        "Weight": "3.0"
+    },
+    {
         "Word": "(hi|hello|hey)\\h+guys",
         "Weight": "1.0"
     }
