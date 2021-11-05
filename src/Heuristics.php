@@ -157,7 +157,7 @@ class Heuristics {
 		return $m;
 	}
 
-	public function noLatinLetters(): int {
+	public function noLatinLetters(): float {
 		preg_match_all(
 			'#[a-z\d ]#iu',
 			$this->item->stripAndDecode($this->item->body),
@@ -167,7 +167,7 @@ class Heuristics {
 		// For example nonsense in the code block or link only
 		$uniqueAZ = count(array_unique($nonLatinLettersWithCode[0]));
 		if ($uniqueAZ <= 1) {
-			return 3;
+			return 3.5;
 		}
 
 		// If the body without links and code has too little text to check then skip
@@ -183,18 +183,18 @@ class Heuristics {
 
 		$uniqueAZ = count(array_unique($nonLatinLetters[0]));
 		if ($uniqueAZ <= 1) {
-			return 3;
+			return 3.0;
 		}
 
 		$ratio = count($nonLatinLetters[0]) / mb_strlen($this->item->bodyStripped);
 		if ($ratio < 0.1) {
-			return 3;
+			return 3.0;
 		}
 		if ($ratio < 0.3) {
-			return 2;
+			return 2.0;
 		}
-		if ($ratio < 0.5) {
-			return 1;
+		if ($ratio < 0.4) {
+			return 1.0;
 		}
 		return 0;
 	}
