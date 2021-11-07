@@ -102,5 +102,9 @@
     {
         "Word": "\\bsolution is\\b(?!\\h+not)",
         "Weight": "-1.0"
+    },
+    {
+        "Word": "resolved my problem",
+        "Weight": "-1.5"
     }
 ]
