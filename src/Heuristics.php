@@ -67,7 +67,7 @@ class Heuristics {
 
 	public function MeTooAnswer() {
 		// https://regex101.com/r/xEn0Rc/5
-		$r1 = '(\b(?:i\s+(?:am\s+)?|i\'m\s+)?(?:also\s+)?(?:(?<!was\s)(?:face?|have?|get+)(?:ing)?\s+)?)(?:had|faced|solved|was\s(?:face?|have?|get+)(?:ing))\s+((?:exactly\s+)?(?:the\s+|a\s+)?(?:exact\s+)?(?:same\s+|similar\s+)(?:problem|question|issue|error))(*SKIP)(*F)|(\b(?1)(?2))';
+		$r1 = '(\b(?:i\s+(?:am\s+)?|i\'m\s+)?(?:also\s+)?(?:(?<!was\s)(?:face?|have?|get+)(?:ing)?\s+)?)(?:had|faced|solved|was\s(?:face?|have?|get+)(?:ing))\s+((?:exactly\s+)?(?:the\s+|a\s+)?(?:exact\s+)?(?:same\s+|similar\s+|this\s+)(?:problem|question|issue|error))(*SKIP)(*F)|(\b(?1)(?2))';
 
 		$m = [];
 		if (preg_match_all('#'.$r1.'#i', $this->item->stripAndDecode($this->item->body), $m1, PREG_SET_ORDER)) {

@@ -210,5 +210,9 @@
     {
         "Word": "(hi|hello|hey)\\h+guys",
         "Weight": "1.0"
+    },
+    {
+        "Word": "have you ever (figured|found|solved)",
+        "Weight": "2.0"
     }
 ]
