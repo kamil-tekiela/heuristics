@@ -40,7 +40,7 @@ class Heuristics {
 		return -1.0;
 	}
 
-	public function hasNoCode() {
+	public function hasNoCode(): bool {
 		return stripos($this->item->body, '<code>') === false;
 	}
 
@@ -62,11 +62,11 @@ class Heuristics {
 		return ($linkLength / $totalLength) >= $proportionThreshold;
 	}
 
-	public function ContainsSignature() {
+	public function ContainsSignature(): bool {
 		return mb_stripos($this->item->bodyWithoutCode, $this->item->owner->display_name) !== false;
 	}
 
-	public function MeTooAnswer() {
+	public function MeTooAnswer(): array {
 		// https://regex101.com/r/xEn0Rc/5
 		$r1 = '(\b(?:i\s+(?:am\s+)?|i\'m\s+)?(?:also\s+)?(?:(?<!was\s)(?:face?|have?|get+)(?:ing)?\s+)?)(?:had|faced|solved|was\s(?:face?|have?|get+)(?:ing))\s+((?:exactly\s+)?(?:the\s+|a\s+)?(?:exact\s+)?(?:same\s+|similar\s+|this\s+)(?:problem|question|issue|error))(*SKIP)(*F)|(\b(?1)(?2))';
 
@@ -80,7 +80,7 @@ class Heuristics {
 		return $m;
 	}
 
-	public function userMentioned() {
+	public function userMentioned(): array {
 		$m = [];
 		if (preg_match_all('#((?<!\S)@[[:alnum:]][-\'[:word:]]{2,})[[:punct:]]*(?!\S)|(\buser\d+\b)#iu', $this->item->bodyStripped, $matches, PREG_SET_ORDER)) {
 			foreach ($matches as $e) {
@@ -90,7 +90,7 @@ class Heuristics {
 		return $m;
 	}
 
-	public function CompareAgainstRegexList(ListOfWordsInterface $bl) {
+	public function CompareAgainstRegexList(ListOfWordsInterface $bl): array {
 		$m = [];
 
 		$haystack = $this->item->stripAndDecode($this->item->body);
@@ -121,16 +121,16 @@ class Heuristics {
 		return -2;
 	}
 
-	public function endsInQuestion() {
+	public function endsInQuestion(): bool {
 		return preg_match('#\?(?:[.!\s]|Thanks( in Advance)?|Thank you|thx|thanx)*$#i', $this->item->stripAndDecode($this->item->body))
 			|| preg_match('#\?\s*(?:\w+[!\.,:()\s]*){0,3}$#', $this->item->bodyStripped);
 	}
 
-	public function containsQuestion() {
+	public function containsQuestion(): bool {
 		return mb_stripos($this->item->bodyStripped, '?') !== false;
 	}
 
-	public function containsNoWhiteSpace() {
+	public function containsNoWhiteSpace(): bool {
 		$matches = [];
 		$body = $this->item->stripAndDecode($this->item->body);
 		preg_match_all('#(\s)+#', $body, $matches, PREG_SET_ORDER);
@@ -200,7 +200,7 @@ class Heuristics {
 		return 0;
 	}
 
-	public function hasRepeatingChars() {
+	public function hasRepeatingChars(): array {
 		$return = preg_match_all(
 			'#(\S)\1{7,}#iu',
 			$this->item->stripAndDecode($this->item->bodyWithoutCode),
@@ -220,7 +220,7 @@ class Heuristics {
 		return $m;
 	}
 
-	public function lowEntropy() {
+	public function lowEntropy(): bool {
 		$prob = 0;
 		$data = $this->item->stripAndDecode($this->item->body);
 		$len = mb_strlen($data);
