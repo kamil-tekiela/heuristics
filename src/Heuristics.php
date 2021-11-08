@@ -58,7 +58,8 @@ class Heuristics {
 			$linkLength += mb_strlen($link[1]);
 		}
 
-		return ($linkLength / mb_strlen($this->item->stripAndDecode($this->item->bodyWithoutCode)) ?: 1) >= $proportionThreshold;
+		$totalLength = mb_strlen($this->item->stripAndDecode($this->item->bodyWithoutCode)) ?: 1;
+		return ($linkLength / $totalLength) >= $proportionThreshold;
 	}
 
 	public function ContainsSignature() {
