@@ -355,11 +355,11 @@ class AnswerAPI {
 			echo $line;
 		}
 
-		$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
-		$natty_score = ($shoudBeReportedByNatty && $score >= self::CHAT_TRESHOLD) ? $this->isReportedByNatty($post->id) : null;
+		$shouldBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
+		$natty_score = ($shouldBeReportedByNatty && $score >= self::CHAT_TRESHOLD) ? $this->isReportedByNatty($post->id) : null;
 
 		// Report to file
-		$this->reportToFile($score, $shoudBeReportedByNatty, $line);
+		$this->reportToFile($score, $shouldBeReportedByNatty, $line);
 
 		// report to DB
 		if (!DEBUG) {
@@ -376,7 +376,7 @@ class AnswerAPI {
 		$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
 		[$flagIcon, $actionTaken] = ['', ''];
 		if ($score >= self::AUTOFLAG_TRESHOLD) {
-			if (!$shoudBeReportedByNatty) {
+			if (!$shouldBeReportedByNatty) {
 				['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 			} elseif ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
 				// If Natty flagged it, then do nothing. The post was not handled yet...
@@ -624,9 +624,9 @@ class AnswerAPI {
 		}
 	}
 
-	private function reportToFile(float $score, bool $shoudBeReportedByNatty, string $line): void {
+	private function reportToFile(float $score, bool $shouldBeReportedByNatty, string $line): void {
 		if ($score >= self::AUTOFLAG_TRESHOLD) {
-			if ($shoudBeReportedByNatty) {
+			if ($shouldBeReportedByNatty) {
 				file_put_contents(BASE_DIR . '/logs/log_NATTY.txt', $line, FILE_APPEND);
 			} else {
 				file_put_contents(BASE_DIR . '/logs/log_autoflagged.txt', $line, FILE_APPEND);
