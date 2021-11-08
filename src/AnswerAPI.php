@@ -374,20 +374,19 @@ class AnswerAPI {
 
 		// report to Chat
 		$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
-		$actionTaken = '';
-		$flagIcon = '';
+		[$flagIcon, $actionTaken] = ['', ''];
 		if ($score >= self::AUTOFLAG_TRESHOLD) {
 			if (!$shoudBeReportedByNatty) {
-				$actionTaken = $this->flagPost($post->id);
+				['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 			} elseif ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
 				// If Natty flagged it, then do nothing. The post was not handled yet...
-				$actionTaken = 'Flagged by Natty';
+				[$flagIcon, $actionTaken] = ['🐶', 'Flagged by Natty'];
 			} elseif ($natty_score >= 4) {
 				// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
 				if ($score >= 7 || date('N') >= 6) {
-					$actionTaken = $this->flagPost($post->id);
+					['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 				} else {
-					$actionTaken = 'Not flagged';
+					[$flagIcon, $actionTaken] = ['🏳️', 'Not flagged'];
 				}
 			} else {
 				try {
@@ -404,7 +403,7 @@ class AnswerAPI {
 					}
 				} finally {
 					// flag it ourselves
-					$actionTaken = $this->flagPost($post->id);
+					['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 				}
 			}
 
@@ -457,10 +456,12 @@ class AnswerAPI {
 
 	/**
 	 * Calls Stack API to get possible flag options and then cast NAA flag
+	 *
+	 * @return string[]
 	 */
-	private function flagPost(int $question_id): string {
+	private function flagPost(int $question_id): array {
 		if (!$this->autoflagging) {
-			return '@Dharman Autoflagging is switched off';
+			return ['icon' => '🏳️', 'action' => '@Dharman Autoflagging is switched off'];
 		}
 
 		// throttle
@@ -483,7 +484,7 @@ class AnswerAPI {
 			$contentsJSON = $this->stackAPI->request('GET', $url, $args);
 		} catch (ClientException $e) {
 			ErrorHandler::handler($e);
-			return 'Error calling API';
+			return ['icon' => '🏳️', 'action' => 'Error calling API'];
 		}
 
 		$option_id = null;
@@ -495,7 +496,7 @@ class AnswerAPI {
 		}
 
 		if (!$option_id) {
-			return '@Dharman Flagging as NAA not possible';
+			return ['icon' => '🏳️', 'action' => '@Dharman Flagging as NAA not possible'];
 		}
 
 		$url = 'https://api.stackexchange.com/2.2/answers/'.$question_id.'/flags/add';
@@ -511,14 +512,14 @@ class AnswerAPI {
 		} catch (ClientException $e) {
 			$response = $e->getResponse();
 			if ($response && false !== strpos(json_decode((string) $response->getBody())->error_message, 'already flagged')) {
-				return 'Already manually flagged';
+				return ['icon' => '', 'action' => 'Already manually flagged'];
 			} else {
 				ErrorHandler::handler($e);
-				return 'Error calling API';
+				return ['icon' => '🏳️', 'action' => 'Error calling API'];
 			}
 		}
 
-		return 'Post auto-flagged';
+		return ['icon' => '🚩', 'action' => 'Post auto-flagged'];
 	}
 
 	private function removeClutter(Post $post) {
