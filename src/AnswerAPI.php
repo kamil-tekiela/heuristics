@@ -448,7 +448,7 @@ class AnswerAPI {
 			if ($retries === 5) {
 				throw $e;
 			}
-			$this->logToDB($post, $score, $summary, $natty_score, $triggers, $retries + 1);
+			return $this->logToDB($post, $score, $summary, $natty_score, $triggers, $retries + 1);
 		}
 
 		return $report_id;
