@@ -390,7 +390,7 @@ class AnswerAPI {
 				}
 			} else {
 				try {
-					if (!DEBUG) {
+					if (!DEBUG && !DEBUG_OLD) {
 						// Natty missed it, report to Natty in SOBotics and flag the answer
 						$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
 						$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
