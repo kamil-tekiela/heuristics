@@ -346,11 +346,6 @@ class AnswerAPI {
 	/**
 	 * Log the report into a file and chat room.
 	 * Flag the post if score is higher or equal to the threshold
-	 *
-	 * @param array $reasons
-	 * @param float $score
-	 * @param \Post $post
-	 * @return void
 	 */
 	private function reportAndLog(array $reasons, float $score, \Post $post, array $triggers): void {
 		$summary = implode(';', $reasons);
@@ -358,7 +353,6 @@ class AnswerAPI {
 		$line .= $score."\t".$summary.PHP_EOL;
 		if (DEBUG) {
 			echo $line;
-			return;
 		}
 
 		$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
@@ -371,7 +365,7 @@ class AnswerAPI {
 		if (!DEBUG) {
 			$report_id = $this->logToDB($post, $score, $summary, $natty_score, $triggers);
 		} else {
-			$report_id = 0;
+			$report_id = '0';
 		}
 
 		if ($score < self::CHAT_TRESHOLD) {
@@ -380,29 +374,18 @@ class AnswerAPI {
 
 		// report to Chat
 		$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
-		$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
-
+		$actionTaken = '';
+		$flagIcon = '';
 		if ($score >= self::AUTOFLAG_TRESHOLD) {
-			$actionTaken = 'Post auto-flagged.';
 			if (!$shoudBeReportedByNatty) {
-				try {
-					$this->flagPost($post->id);
-				} catch (ClientException $e) {
-					$response = $e->getResponse();
-					if ($response && false !== strpos(json_decode((string) $response->getBody())->error_message, 'already flagged')) {
-						$actionTaken = 'Already manually flagged';
-					} else {
-						$actionTaken = 'Error calling API';
-						ErrorHandler::handler($e);
-					}
-				}
+				$actionTaken = $this->flagPost($post->id);
 			} elseif ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
 				// If Natty flagged it, then do nothing. The post was not handled yet...
 				$actionTaken = 'Flagged by Natty';
 			} elseif ($natty_score >= 4) {
 				// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
 				if ($score >= 7 || date('N') >= 6) {
-					$this->flagPost($post->id);
+					$actionTaken = $this->flagPost($post->id);
 				} else {
 					$actionTaken = 'Not flagged';
 				}
@@ -421,15 +404,21 @@ class AnswerAPI {
 					}
 				} finally {
 					// flag it ourselves
-					$this->flagPost($post->id);
+					$actionTaken = $this->flagPost($post->id);
 				}
 			}
 
-			$this->chatAPI->sendMessage($this->logRoomId, $actionTaken);
+			if ($flagIcon) {
+				$chatLine = $flagIcon.' '.$chatLine;
+			}
+			if ($actionTaken) {
+				$chatLine .= ' — '.$actionTaken;
+			}
+			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 		}
 	}
 
-	private function logToDB(Post $post, float $score, string $summary, ?float $natty_score, array $triggers) {
+	private function logToDB(Post $post, float $score, string $summary, ?float $natty_score, array $triggers): string {
 		$report_id = $this->db->insertReturnId(
 			'reports',
 			[
@@ -468,15 +457,10 @@ class AnswerAPI {
 
 	/**
 	 * Calls Stack API to get possible flag options and then cast NAA flag
-	 *
-	 * @param integer $question_id
-	 * @return void
 	 */
-	private function flagPost(int $question_id) {
+	private function flagPost(int $question_id): string {
 		if (!$this->autoflagging) {
-			$chatLine = "@Dharman Autoflagging is switched off https://stackoverflow.com/a/{$question_id}";
-			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
-			return;
+			return '@Dharman Autoflagging is switched off';
 		}
 
 		// throttle
@@ -484,6 +468,7 @@ class AnswerAPI {
 			sleep($now->diff($this->lastFlagTime)->s + 1);
 			echo 'Slept: '. $now->diff($this->lastFlagTime)->s .' seconds'.PHP_EOL;
 		}
+		$this->lastFlagTime = new DateTime();
 
 		$url = 'https://api.stackexchange.com/2.2/answers/'.$question_id.'/flags/options';
 
@@ -494,7 +479,12 @@ class AnswerAPI {
 		];
 
 		// Get flag options
-		$contentsJSON = $this->stackAPI->request('GET', $url, $args);
+		try {
+			$contentsJSON = $this->stackAPI->request('GET', $url, $args);
+		} catch (ClientException $e) {
+			ErrorHandler::handler($e);
+			return 'Error calling API';
+		}
 
 		$option_id = null;
 		foreach ($contentsJSON->items as $option) {
@@ -505,7 +495,7 @@ class AnswerAPI {
 		}
 
 		if (!$option_id) {
-			return;
+			return '@Dharman Flagging as NAA not possible';
 		}
 
 		$url = 'https://api.stackexchange.com/2.2/answers/'.$question_id.'/flags/add';
@@ -516,9 +506,19 @@ class AnswerAPI {
 		];
 
 		// Cast NAA flag
-		$contentsJSON = $this->stackAPI->request('POST', $url, $args);
+		try {
+			$this->stackAPI->request('POST', $url, $args);
+		} catch (ClientException $e) {
+			$response = $e->getResponse();
+			if ($response && false !== strpos(json_decode((string) $response->getBody())->error_message, 'already flagged')) {
+				return 'Already manually flagged';
+			} else {
+				ErrorHandler::handler($e);
+				return 'Error calling API';
+			}
+		}
 
-		$this->lastFlagTime = new DateTime();
+		return 'Post auto-flagged';
 	}
 
 	private function removeClutter(Post $post) {
