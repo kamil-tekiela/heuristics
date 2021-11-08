@@ -406,15 +406,15 @@ class AnswerAPI {
 					['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 				}
 			}
-
-			if ($flagIcon) {
-				$chatLine = $flagIcon.' '.$chatLine;
-			}
-			if ($actionTaken) {
-				$chatLine .= ' — '.$actionTaken;
-			}
-			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 		}
+
+		if ($flagIcon) {
+			$chatLine = $flagIcon.' '.$chatLine;
+		}
+		if ($actionTaken) {
+			$chatLine .= ' — '.$actionTaken;
+		}
+		$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
 	}
 
 	private function logToDB(Post $post, float $score, string $summary, ?float $natty_score, array $triggers, int $retries = 0): string {
