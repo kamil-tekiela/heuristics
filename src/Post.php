@@ -13,7 +13,7 @@ class Post {
 	public \DateTime $creation_date;
 	public string $link;
 	public string $title;
-	public $owner;
+	public Owner $owner;
 
 	public function __construct(\stdClass $json) {
 		$this->id = $json->answer_id;
@@ -34,11 +34,11 @@ class Post {
 		$this->bodyStripped = $this->stripAndDecode($this->removeLinks($this->bodyWithoutCode));
 	}
 
-	public function stripAndDecode(string $str) {
+	public function stripAndDecode(string $str): string {
 		return trim(htmlspecialchars_decode(strip_tags($str)));
 	}
 
-	public function removeLinks(string $str) {
+	public function removeLinks(string $str): string {
 		return preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $str);
 	}
 }
