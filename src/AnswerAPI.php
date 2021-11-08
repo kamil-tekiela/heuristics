@@ -417,28 +417,38 @@ class AnswerAPI {
 		}
 	}
 
-	private function logToDB(Post $post, float $score, string $summary, ?float $natty_score, array $triggers): string {
-		$report_id = $this->db->insertReturnId(
-			'reports',
-			[
-				'answer_id' => $post->id,
-				'body' => $post->bodySafe,
-				'score' => $score,
-				'natty_score' => $natty_score,
-				'summary' => $summary,
-				'reported_at' => date('Y-m-d H:i:s'),
-				'user_id' => $post->owner->user_id,
-				'username' => $post->owner->display_name,
-			]
-		);
+	private function logToDB(Post $post, float $score, string $summary, ?float $natty_score, array $triggers, int $retries = 0): string {
+		try {
+			$this->db->beginTransaction();
+			$report_id = $this->db->insertReturnId(
+				'reports',
+				[
+					'answer_id' => $post->id,
+					'body' => $post->bodySafe,
+					'score' => $score,
+					'natty_score' => $natty_score,
+					'summary' => $summary,
+					'reported_at' => date('Y-m-d H:i:s'),
+					'user_id' => $post->owner->user_id,
+					'username' => $post->owner->display_name,
+				]
+			);
 
-		foreach ($triggers as $trigger) {
-			$this->db->insert('reasons', [
-				'report_id' => $report_id,
-				'type' => $trigger['type'] ?? null,
-				'value' => $trigger['value'] ?? null,
-				'weight' => $trigger['weight'] ?? null
-			]);
+			foreach ($triggers as $trigger) {
+				$this->db->insert('reasons', [
+					'report_id' => $report_id,
+					'type' => $trigger['type'] ?? null,
+					'value' => $trigger['value'] ?? null,
+					'weight' => $trigger['weight'] ?? null
+				]);
+			}
+			$this->db->commit();
+		} catch (PDOException $e) {
+			$this->db->rollBack();
+			if ($retries === 5) {
+				throw $e;
+			}
+			$this->logToDB($post, $score, $summary, $natty_score, $triggers, $retries + 1);
 		}
 
 		return $report_id;
