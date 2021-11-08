@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Dharman\ChatAPI;
 use Dharman\StackAPI;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use ParagonIE\EasyDB\EasyDB;
 
@@ -28,6 +29,7 @@ class AnswerAPI {
 
 	private const AUTOFLAG_TRESHOLD = 6;
 	private const NATTY_FLAG_TRESHOLD = 7;
+	private const CHAT_TRESHOLD = 4;
 
 	/**
 	 * Token for Dharman user. Secret!
@@ -350,8 +352,7 @@ class AnswerAPI {
 	 * @param \Post $post
 	 * @return void
 	 */
-	private function reportAndLog(array $reasons, float $score, \Post $post, array $triggers) {
-		$natty_score = null;
+	private function reportAndLog(array $reasons, float $score, \Post $post, array $triggers): void {
 		$summary = implode(';', $reasons);
 		$line = $post->link.PHP_EOL;
 		$line .= $score."\t".$summary.PHP_EOL;
@@ -360,80 +361,70 @@ class AnswerAPI {
 			return;
 		}
 
-		// Report to file
 		$shoudBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
-		if ($score >= self::AUTOFLAG_TRESHOLD) {
-			if ($shoudBeReportedByNatty) {
-				$natty_score = $this->isReportedByNatty($post->id);
-				file_put_contents(BASE_DIR.'/logs/log_NATTY.txt', $line, FILE_APPEND);
-			} else {
-				file_put_contents(BASE_DIR.'/logs/log_autoflagged.txt', $line, FILE_APPEND);
-				if (!DEBUG) {
-					$this->flagPost($post->id);
-				}
-			}
-		} elseif ($score >= 4) {
-			file_put_contents(BASE_DIR.'/logs/log_3.txt', $line, FILE_APPEND);
-		} elseif ($score >= 2.5) {
-			file_put_contents(BASE_DIR.'/logs/log_2_5.txt', $line, FILE_APPEND);
-		} elseif ($score >= 1) {
-			file_put_contents(BASE_DIR.'/logs/log_low.txt', $line, FILE_APPEND);
-		} else {
-			file_put_contents(BASE_DIR.'/logs/log_lessthan1.txt', $line, FILE_APPEND);
-		}
+		$natty_score = ($shoudBeReportedByNatty && $score >= self::CHAT_TRESHOLD) ? $this->isReportedByNatty($post->id) : null;
+
+		// Report to file
+		$this->reportToFile($score, $shoudBeReportedByNatty, $line);
 
 		// report to DB
 		if (!DEBUG) {
-			// log to DB
 			$report_id = $this->logToDB($post, $score, $summary, $natty_score, $triggers);
 		} else {
 			$report_id = 0;
 		}
 
-		// report to Chat
-		if ($score >= 4) {
-			$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
-			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+		if ($score < self::CHAT_TRESHOLD) {
+			return;
+		}
 
-			if ($score >= self::AUTOFLAG_TRESHOLD) {
-				$chatLine = 'Post auto-flagged.';
-				if ($shoudBeReportedByNatty) {
-					if ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
-						// If Natty flagged it, then do nothing. The post was not handled yet...
-						$chatLine = 'Post would have been auto-flagged, but flagged by Natty instead.';
-					} elseif ($natty_score >= 4) {
-						// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
-						if ($score >= 7 || date('N') >= 6) {
-							if (!DEBUG) {
-								$this->flagPost($post->id);
-							}
-						} else {
-							$chatLine = 'Not flagged, because I am skimpy';
-						}
+		// report to Chat
+		$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
+		$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+
+		if ($score >= self::AUTOFLAG_TRESHOLD) {
+			$actionTaken = 'Post auto-flagged.';
+			if (!$shoudBeReportedByNatty) {
+				try {
+					$this->flagPost($post->id);
+				} catch (ClientException $e) {
+					$response = $e->getResponse();
+					if ($response && false !== strpos(json_decode((string) $response->getBody())->error_message, 'already flagged')) {
+						$actionTaken = 'Already manually flagged';
 					} else {
-						if (!DEBUG) {
-							try {
-								// Natty missed it, report to Natty in SOBotics and flag the answer
-								$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
-								$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-								$reportLink = REPORT_URL.'?id='.$report_id;
-								$reportNatty = "[Report link]({$reportLink})";
-								if ($this->pingOwner) {
-									$reportNatty .= ' @'.$this->pingOwner;
-								}
-								$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-							} catch (Throwable $e) {
-								// don't do anything, just rethrow
-								throw $e;
-							} finally {
-								// flag it ourselves
-								$this->flagPost($post->id);
-							}
-						}
+						throw $e;
 					}
 				}
-				$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+			} elseif ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
+				// If Natty flagged it, then do nothing. The post was not handled yet...
+				$actionTaken = 'Flagged by Natty';
+			} elseif ($natty_score >= 4) {
+				// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
+				if ($score >= 7 || date('N') >= 6) {
+					$this->flagPost($post->id);
+				} else {
+					$actionTaken = 'Not flagged';
+				}
+			} else {
+				try {
+					if (!DEBUG) {
+						// Natty missed it, report to Natty in SOBotics and flag the answer
+						$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
+						$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
+						$reportLink = REPORT_URL.'?id='.$report_id;
+						$reportNatty = "[Report link]({$reportLink})";
+						if ($this->pingOwner) {
+							$reportNatty .= ' @'.$this->pingOwner;
+						}
+						$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
+					}
+				} finally {
+					// flag it ourselves
+					$this->flagPost($post->id);
+				}
 			}
+
+			$this->chatAPI->sendMessage($this->logRoomId, $actionTaken);
 		}
 	}
 
@@ -467,9 +458,6 @@ class AnswerAPI {
 	/**
 	 * Calls Natty API to see if Natty has a report for this answer.
 	 * If there is no report or the score was lower than Natty's threshold then it means it was not reported.
-	 *
-	 * @param integer $answerId
-	 * @return boolean
 	 */
 	private function isReportedByNatty(int $answerId): ?float {
 		$rq = $this->client->get('https://logs.sobotics.org/napi/api/feedback/'.$answerId);
@@ -626,6 +614,24 @@ class AnswerAPI {
 
 		if ($this->logEdits) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Answer edited: [Post link]({$post->link})");
+		}
+	}
+
+	private function reportToFile(float $score, bool $shoudBeReportedByNatty, string $line): void {
+		if ($score >= self::AUTOFLAG_TRESHOLD) {
+			if ($shoudBeReportedByNatty) {
+				file_put_contents(BASE_DIR . '/logs/log_NATTY.txt', $line, FILE_APPEND);
+			} else {
+				file_put_contents(BASE_DIR . '/logs/log_autoflagged.txt', $line, FILE_APPEND);
+			}
+		} elseif ($score >= self::CHAT_TRESHOLD) {
+			file_put_contents(BASE_DIR . '/logs/log_3.txt', $line, FILE_APPEND);
+		} elseif ($score >= 2.5) {
+			file_put_contents(BASE_DIR . '/logs/log_2_5.txt', $line, FILE_APPEND);
+		} elseif ($score >= 1) {
+			file_put_contents(BASE_DIR . '/logs/log_low.txt', $line, FILE_APPEND);
+		} else {
+			file_put_contents(BASE_DIR . '/logs/log_lessthan1.txt', $line, FILE_APPEND);
 		}
 	}
 }
