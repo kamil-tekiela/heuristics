@@ -576,11 +576,11 @@ class AnswerAPI {
 
 		if ($bodyCleansed !== $post->bodyMarkdown) {
 			// 'Something changed.'
-			$this->peformEdit($post, $bodyCleansed, $editSummary);
+			$this->performEdit($post, $bodyCleansed, $editSummary);
 		}
 	}
 
-	private function peformEdit(Post $post, string $bodyCleansed, string $editSummary) {
+	private function performEdit(Post $post, string $bodyCleansed, string $editSummary) {
 		if (!$this->autoediting) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;
