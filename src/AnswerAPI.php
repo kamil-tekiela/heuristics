@@ -292,7 +292,7 @@ class AnswerAPI {
 					try {
 						$this->reportAndLog($reasons, $score, $post, $triggers);
 					} catch (\Exception $e) {
-						file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
+						ErrorHandler::handler($e);
 					}
 				}
 			}
@@ -302,7 +302,7 @@ class AnswerAPI {
 				try {
 					$this->removeClutter($post);
 				} catch (\Exception $e) {
-					file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $post->id.PHP_EOL.$e->__toString());
+					ErrorHandler::handler($e);
 				}
 			}
 
@@ -392,7 +392,8 @@ class AnswerAPI {
 					if ($response && false !== strpos(json_decode((string) $response->getBody())->error_message, 'already flagged')) {
 						$actionTaken = 'Already manually flagged';
 					} else {
-						throw $e;
+						$actionTaken = 'Error calling API';
+						ErrorHandler::handler($e);
 					}
 				}
 			} elseif ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
@@ -588,11 +589,6 @@ class AnswerAPI {
 		];
 
 		$args['body'] = $bodyCleansed;
-
-		// if(DEBUG){
-		// 	var_dump($bodyCleansed);
-		// 	return;
-		// }
 
 		if (mb_strlen(trim($bodyCleansed)) < 30) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
