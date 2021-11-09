@@ -405,6 +405,10 @@ class AnswerAPI {
 					['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 				}
 			}
+
+			if ($flagIcon === '🚩') {
+				$this->saveFlagToDB($report_id, $post->id);
+			}
 		}
 
 		$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.$reportLink.') ]'." ".($flagIcon ? $flagIcon.' ' : '').$summary;
@@ -466,7 +470,7 @@ class AnswerAPI {
 	 *
 	 * @return string[]
 	 */
-	private function flagPost(int $question_id): array {
+	private function flagPost(int $answer_id): array {
 		if (!$this->autoflagging) {
 			return ['icon' => '🏳️', 'action' => '@Dharman Autoflagging is switched off'];
 		}
@@ -478,7 +482,7 @@ class AnswerAPI {
 		}
 		$this->lastFlagTime = new DateTime();
 
-		$url = 'https://api.stackexchange.com/2.2/answers/'.$question_id.'/flags/options';
+		$url = 'https://api.stackexchange.com/2.2/answers/'.$answer_id.'/flags/options';
 
 		$args = [
 			'key' => $this->app_key,
@@ -506,7 +510,7 @@ class AnswerAPI {
 			return ['icon' => '🏳️', 'action' => '@Dharman Flagging as NAA not possible'];
 		}
 
-		$url = 'https://api.stackexchange.com/2.2/answers/'.$question_id.'/flags/add';
+		$url = 'https://api.stackexchange.com/2.2/answers/'.$answer_id.'/flags/add';
 
 		$args += [
 			'option_id' => $option_id,
@@ -527,6 +531,21 @@ class AnswerAPI {
 		}
 
 		return ['icon' => '🚩', 'action' => 'Post auto-flagged'];
+	}
+
+	private function saveFlagToDB(string $report_id, int $answer_id): void {
+		try {
+			$this->db->insert(
+				'flags',
+				[
+					'report_id' => $report_id,
+					'answer_id' => $answer_id,
+					'created_at' => date('Y-m-d H:i:s')
+				]
+			);
+		} catch (PDOException $e) {
+			ErrorHandler::handler($e); // we ignore exceptions, but we still log them
+		}
 	}
 
 	private function removeClutter(Post $post) {
