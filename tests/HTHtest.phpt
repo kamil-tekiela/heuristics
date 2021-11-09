@@ -28,3 +28,4 @@ $expected = <<<'EXPECTED'
 EXPECTED;
 
 assert($expected === json_encode($bodyCleansed));
+echo 'PASSED - Not a real test!';

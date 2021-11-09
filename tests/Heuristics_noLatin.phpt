@@ -34,7 +34,7 @@ $json = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 $post = new Post($json);
 $h = new Heuristics($post);
 
-assert($h->noLatinLetters() === 0);
+assert($h->noLatinLetters() === 0.0);
 
 // 2 case
 $json = <<<'JSON'
@@ -66,7 +66,7 @@ $json = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 $post = new Post($json);
 $h = new Heuristics($post);
 
-assert($h->noLatinLetters() === 2);
+assert($h->noLatinLetters() === 2.0);
 
 // True case
 
@@ -99,6 +99,6 @@ $json = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 $post = new Post($json);
 $h = new Heuristics($post);
 
-assert($h->noLatinLetters() === 3);
+assert($h->noLatinLetters() === 3.5);
 
 echo 'PASSED';
