@@ -384,12 +384,12 @@ class AnswerAPI {
 		// report to Chat
 		$reportLink = REPORT_URL.'?id='.$report_id;
 		[$flagIcon, $actionTaken] = ['', ''];
-		if ($score >= self::AUTOFLAG_TRESHOLD) {
+		if ($shouldBeReportedByNatty && $natty_score >= self::NATTY_FLAG_TRESHOLD) {
+			// If Natty flagged it, then do nothing. The post was not handled yet...
+			[$flagIcon, $actionTaken] = ['🐶', 'Flagged by Natty'];
+		} elseif ($score >= self::AUTOFLAG_TRESHOLD) {
 			if (!$shouldBeReportedByNatty) {
 				['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
-			} elseif ($natty_score >= self::NATTY_FLAG_TRESHOLD) {
-				// If Natty flagged it, then do nothing. The post was not handled yet...
-				[$flagIcon, $actionTaken] = ['🐶', 'Flagged by Natty'];
 			} elseif ($natty_score >= 4) {
 				// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
 				if ($score >= 7 || date('N') >= 6) {
