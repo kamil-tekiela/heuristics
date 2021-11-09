@@ -314,7 +314,15 @@ class AnswerAPI {
 		echo 'Processing finished at: '.date_create()->format('Y-m-d H:i:s').PHP_EOL.PHP_EOL;
 		// save request time
 		if (!DEBUG) {
-			$this->db->run('UPDATE lastRequest SET `time` = ? WHERE rowid=1', $this->lastRequestTime);
+			try {
+				$this->db->run('UPDATE lastRequest SET `time` = ? WHERE rowid=1', $this->lastRequestTime);
+			} catch (PDOException $e) {
+				// Locked or waiting
+				if ($e->errorInfo[1] === 5 || $e->errorInfo[1] === 6) {
+					usleep(500000);
+					$this->db->run('UPDATE lastRequest SET `time` = ? WHERE rowid=1', $this->lastRequestTime);
+				}
+			}
 		}
 	}
 
