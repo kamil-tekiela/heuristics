@@ -446,7 +446,8 @@ class AnswerAPI {
 			$this->db->commit();
 		} catch (PDOException $e) {
 			$this->db->rollBack();
-			if ($retries === 5) {
+			// Locked or waiting
+			if ($retries >= 5 || ($e->errorInfo[1] !== 5 && $e->errorInfo[1] !== 6)) {
 				throw $e;
 			}
 			return $this->logToDB($post, $score, $summary, $natty_score, $triggers, $retries + 1);
