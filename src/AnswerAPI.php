@@ -50,6 +50,7 @@ class AnswerAPI {
 	private string $pingOwner = '';
 	private bool $autoflagging = false;
 	private bool $autoediting = false;
+	private bool $reportToNatty = false;
 
 	public function __construct(EasyDB $db, \GuzzleHttp\Client $client, StackAPI $stackAPI, ChatAPI $chatAPI, DotEnv $dotEnv) {
 		$this->db = $db;
@@ -65,10 +66,9 @@ class AnswerAPI {
 		}
 
 		$this->pingOwner = $dotEnv->get('pingOwner');
-
 		$this->autoflagging = $dotEnv->get('autoflagging');
-
 		$this->autoediting = $dotEnv->get('autoediting');
+		$this->reportToNatty = $dotEnv->get('reportToNatty');
 
 		$this->app_key = $dotEnv->get('app_key');
 
@@ -348,7 +348,7 @@ class AnswerAPI {
 	 * Flag the post if score is higher or equal to the threshold
 	 */
 	private function reportAndLog(array $reasons, float $score, \Post $post, array $triggers): void {
-		$summary = implode(';', $reasons);
+		$summary = implode('; ', $reasons);
 		$line = $post->link.PHP_EOL;
 		$line .= $score."\t".$summary.PHP_EOL;
 		if (DEBUG) {
@@ -373,7 +373,7 @@ class AnswerAPI {
 		}
 
 		// report to Chat
-		$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.REPORT_URL.'?id='.$report_id.') ]'."\t".implode('; ', $reasons);
+		$reportLink = REPORT_URL.'?id='.$report_id;
 		[$flagIcon, $actionTaken] = ['', ''];
 		if ($score >= self::AUTOFLAG_TRESHOLD) {
 			if (!$shouldBeReportedByNatty) {
@@ -390,11 +390,10 @@ class AnswerAPI {
 				}
 			} else {
 				try {
-					if (!DEBUG && !DEBUG_OLD) {
+					if ($this->reportToNatty) {
 						// Natty missed it, report to Natty in SOBotics and flag the answer
 						$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
 						$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
-						$reportLink = REPORT_URL.'?id='.$report_id;
 						$reportNatty = "[Report link]({$reportLink})";
 						if ($this->pingOwner) {
 							$reportNatty .= ' @'.$this->pingOwner;
@@ -408,9 +407,7 @@ class AnswerAPI {
 			}
 		}
 
-		if ($flagIcon) {
-			$chatLine = $flagIcon.' '.$chatLine;
-		}
+		$chatLine = '[tag:'.$score.'] [Link to Post]('.$post->link.') [ [Report]('.$reportLink.') ]'." ".($flagIcon ? $flagIcon.' ' : '').$summary;
 		if ($actionTaken) {
 			$chatLine .= ' — '.$actionTaken;
 		}

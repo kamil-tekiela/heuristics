@@ -19,3 +19,5 @@ pingOwner = ""
 autoflagging = false
 ;; Should the bot flag edit posts or just report them in a room?
 autoediting = false
+;; Whether to report to Natty the posts it missed
+reportToNatty = false
