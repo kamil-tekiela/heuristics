@@ -33,6 +33,8 @@ $reasons = $controller->fetchReasons(array_column($reports, 'Id'));
 
 $maxPage = ceil(($report_count ?? 0) / PERPAGE);
 
+$title = 'Reports - search';
+
 include 'views/header.phtml';
 include 'views/search.phtml';
 include 'views/searchResults.phtml';
