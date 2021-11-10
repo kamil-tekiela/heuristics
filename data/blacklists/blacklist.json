@@ -862,5 +862,9 @@
     {
         "Word": "anybody know",
         "Weight": "1.0"
+    },
+    {
+        "Word": "helped me a lot",
+        "Weight": "1.0"
     }
 ]
