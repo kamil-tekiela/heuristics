@@ -31,4 +31,14 @@ class Flags {
 	public function getCount() {
 		return $this->rowCount;
 	}
+
+	public function getMonthCount(): array {
+		$data = $this->db->safeQuery('SELECT date(created_at), COUNT(*) 
+            FROM flags
+			WHERE created_at > date("now", "-1 month")
+			GROUP BY date(created_at)
+            ORDER BY date(created_at)', [], \PDO::FETCH_NUM);
+
+		return $data;
+	}
 }

@@ -23,6 +23,8 @@ $page = $_GET['page'] ?? 1;
 $flags = $controller->fetch($page);
 $flag_count = $controller->getCount();
 
+$chartData = $controller->getMonthCount();
+
 $maxPage = ceil(($flag_count ?? 0) / PERPAGE);
 
 // Day subtotal

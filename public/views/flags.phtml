@@ -1,4 +1,10 @@
 <div class="container mt-3">
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="chartkick.js"></script>
+<div id="chart-1" style="height: 300px;"></div>
+<script>
+	new Chartkick.LineChart("chart-1", <?=json_encode($chartData) ?>)
+</script>
 <?php
 foreach ($flagsByDay as $date => $flags) {
 	foreach ($flags as $flag) {
