@@ -1,16 +1,22 @@
 <div class="container mt-3">
 <?php
-
-foreach ($flags as $flag) {
+foreach ($flagsByDay as $date => $flags) {
+	foreach ($flags as $flag) {
+		?>
+		<div class="d-flex justify-content-around " id="post_<?=$flag['answer_id']?>">
+			<div>Flagged answer: <a href="https://stackoverflow.com/a/<?=$flag['answer_id']?>" class="postID"><?=$flag['answer_id']?></a></div>
+			<div><a href="<?=REPORT_URL.'?id='.$flag['report_id']?>"><b>Report link</b></a></div>
+			<div><b>Date:</b> <?=$flag['created_at']?></div>
+		</div>
+		<?php
+	}
 	?>
-	<div class="d-flex justify-content-around " id="post_<?=$flag['answer_id']?>">
-		<div>Flagged answer: <a href="https://stackoverflow.com/a/<?=$flag['answer_id']?>" class="postID"><?=$flag['answer_id']?></a></div>
-		<div><a href="<?=REPORT_URL.'?id='.$flag['report_id']?>"><b>Report link</b></a></div>
-		<div><b>Date:</b> <?=$flag['created_at']?></div>
+	<div class="mt-3">
+		<?=$date?> count: <?=count($flags)?>
 	</div>
+	<hr>
 	<?php
 }
-
 ?>
 	<nav aria-label="Page navigation" class="mt-3 d-flex justify-content-center">
 	<ul class="pagination">

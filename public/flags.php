@@ -25,6 +25,12 @@ $flag_count = $controller->getCount();
 
 $maxPage = ceil(($flag_count ?? 0) / PERPAGE);
 
+// Day subtotal
+$flagsByDay = [];
+foreach ($flags as $flag) {
+	$flagsByDay[(new DateTime($flag['created_at']))->format('Y-m-d')][] = $flag;
+}
+
 $title = 'Flagged posts';
 
 include 'views/header.phtml';
