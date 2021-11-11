@@ -35,6 +35,6 @@ foreach ($flags as $flag) {
 
 $title = 'Flagged posts';
 
-include 'views/header.phtml';
-include 'views/flags.phtml';
-include 'views/footer.phtml';
+include BASE_DIR.'/views/header.phtml';
+include BASE_DIR.'/views/flags.phtml';
+include BASE_DIR.'/views/footer.phtml';

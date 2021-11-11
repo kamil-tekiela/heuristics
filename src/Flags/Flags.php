@@ -37,7 +37,7 @@ class Flags {
             FROM flags
 			WHERE created_at > date("now", "-1 month")
 			GROUP BY date(created_at)
-            ORDER BY date(created_at)', [], \PDO::FETCH_NUM);
+            ORDER BY date(created_at)', [], \PDO::FETCH_KEY_PAIR);
 
 		return $data;
 	}

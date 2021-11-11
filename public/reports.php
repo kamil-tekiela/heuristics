@@ -32,6 +32,6 @@ $maxPage = ceil(($report_count ?? 0) / PERPAGE);
 
 $title = 'Reports';
 
-include 'views/header.phtml';
-include 'views/reports.phtml';
-include 'views/footer.phtml';
+include BASE_DIR.'/views/header.phtml';
+include BASE_DIR.'/views/reports.phtml';
+include BASE_DIR.'/views/footer.phtml';
