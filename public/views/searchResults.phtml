@@ -7,6 +7,7 @@ foreach ($reports as $report) {
 		<div class="reported_at"><b>Date:</b> <?=$report['reported_at']?></div>
 		<div class="score">
 			<b>Score:</b> <span class="badge badge-primary"><?=$report['score']?></span>
+			<?=($report['flagged'] ? '🚩' : '')?>
 		</div>
 		<div class="score">
 			<b>Natty:</b> <span class="natty_score badge badge-secondary"><?=$report['natty_score']?></span>

@@ -24,13 +24,13 @@ class Reports {
 		$offset = PERPAGE * ($page - 1);
 
 		if ($maxScore) {
-			$data = $this->db->safeQuery('SELECT *
+			$data = $this->db->safeQuery('SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged
 			FROM reports 
 			WHERE score >= ? AND score <= ?
 			ORDER BY id DESC
 			LIMIT 600 OFFSET ?', [$minScore, $maxScore, $offset]);
 		} else {
-			$data = $this->db->safeQuery('SELECT *
+			$data = $this->db->safeQuery('SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged
 			FROM reports 
 			WHERE score >= ?
 			ORDER BY id DESC
@@ -49,7 +49,7 @@ class Reports {
 	public function fetchByIds(array $id) {
 		$statement = EasyStatement::open()->in('Id IN (?*)', $id);
 
-		return $this->db->safeQuery('SELECT * 
+		return $this->db->safeQuery('SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged
 			FROM reports 
 			WHERE '.$statement.' 
 			ORDER BY id DESC', $statement->values());
@@ -79,7 +79,7 @@ class Reports {
 		}
 		$values = array_merge($statement->values(), [$offset]);
 
-		$data = $this->db->safeQuery("SELECT * 
+		$data = $this->db->safeQuery("SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged 
 			FROM reports 
 			INNER JOIN reasons ON reasons.report_id=reports.Id
 			WHERE {$statement} 
