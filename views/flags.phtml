@@ -3,7 +3,19 @@
 <script src="chartkick.js"></script>
 <div id="chart-1" style="height: 300px;"></div>
 <script>
-	new Chartkick.LineChart("chart-1", <?=json_encode($chartData) ?>)
+	new Chartkick.LineChart("chart-1", '?getCountJson', {
+		ytitle: "Auto-flags", 
+		refresh: 60, 
+		library: {
+			title: {text: 'Auto-flagged answers'},
+			yAxis: {
+				plotLines: [
+					{value: 50, width: 1, dashStyle: 'ShortDot'},
+					{value: 100, width: 1, dashStyle: 'solid', color: 'red'}
+				]
+			}
+		}
+	})
 </script>
 <?php
 foreach ($flagsByDay as $date => $flags) {

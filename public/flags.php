@@ -18,12 +18,16 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 
 $controller = new Flags($db);
 
+$chartData = $controller->getMonthCount();
+
+if (isset($_GET['getCountJson'])) {
+	die(json_encode($chartData));
+}
+
 $page = $_GET['page'] ?? 1;
 
 $flags = $controller->fetch($page);
 $flag_count = $controller->getCount();
-
-$chartData = $controller->getMonthCount();
 
 $maxPage = ceil(($flag_count ?? 0) / PERPAGE);
 
