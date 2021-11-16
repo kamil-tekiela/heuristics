@@ -46,6 +46,14 @@
       <code>PERPAGE</code>
     </UndefinedConstant>
   </file>
+  <file src="src/HTHRemovalTrait.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$this-&gt;personalRoomId</code>
+      <code>$this-&gt;personalRoomId</code>
+      <code>$this-&gt;personalRoomId</code>
+      <code>$this-&gt;personalRoomId</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Reports/Reports.php">
     <UndefinedConstant occurrences="4">
       <code>PERPAGE</code>

@@ -63,7 +63,7 @@ class Heuristics {
 	}
 
 	public function ContainsSignature(): bool {
-		return mb_stripos($this->item->bodyWithoutCode, $this->item->owner->display_name) !== false;
+		return mb_stripos($this->item->bodyWithoutCode, $this->item->owner->display_name ?? '') !== false;
 	}
 
 	public function MeTooAnswer(): array {

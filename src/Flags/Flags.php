@@ -18,6 +18,7 @@ class Flags {
 	public function fetch(int $page = 1) {
 		$offset = PERPAGE * ($page - 1);
 
+		/** @var array[] */
 		$data = $this->db->safeQuery('SELECT *
 			FROM flags 
 			ORDER BY ROWID DESC

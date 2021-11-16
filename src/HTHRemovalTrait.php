@@ -10,7 +10,7 @@ trait HTHRemovalTrait {
 		$count = 0;
 		$bodyCleansed = $post->bodyMarkdown;
 
-		$username = preg_quote($post->owner->display_name, '/');
+		$username = preg_quote($post->owner->display_name ?? '<BLANK USERNAME>', '/');
 		$re = '/(*ANYCRLF)						# $ matches both \r and \n
 			((?<=\.)|\s*^)\s*					# space before
 			[*]*								# Optional bolding in markdown
