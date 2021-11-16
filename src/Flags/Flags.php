@@ -33,6 +33,7 @@ class Flags {
 	}
 
 	public function getMonthCount(): array {
+		/** @var array<string, int> $data */
 		$data = $this->db->safeQuery('SELECT date(created_at), COUNT(*) 
             FROM flags
 			WHERE created_at > date("now", "-1 month")

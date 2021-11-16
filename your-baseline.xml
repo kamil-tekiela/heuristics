@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.12.0@e42bc4a23f67acba28a23bb09c348e2ff38a1d87">
+  <file src="src/AnswerAPI.php">
+    <UndefinedConstant occurrences="16">
+      <code>BASE_DIR</code>
+      <code>BASE_DIR</code>
+      <code>BASE_DIR</code>
+      <code>BASE_DIR</code>
+      <code>BASE_DIR</code>
+      <code>BASE_DIR</code>
+      <code>DEBUG</code>
+      <code>DEBUG</code>
+      <code>DEBUG</code>
+      <code>DEBUG</code>
+      <code>DEBUG</code>
+      <code>DEBUG</code>
+      <code>DEBUG_OLD</code>
+      <code>DEBUG_OLD</code>
+      <code>REPORT_URL</code>
+      <code>\VERSION</code>
+    </UndefinedConstant>
+  </file>
+  <file src="src/Blacklists/Blacklist.php">
+    <UndefinedConstant occurrences="1">
+      <code>BASE_DIR</code>
+    </UndefinedConstant>
+  </file>
+  <file src="src/Blacklists/ReBlacklist.php">
+    <UndefinedConstant occurrences="1">
+      <code>BASE_DIR</code>
+    </UndefinedConstant>
+  </file>
+  <file src="src/Blacklists/Whitelist.php">
+    <UndefinedConstant occurrences="1">
+      <code>BASE_DIR</code>
+    </UndefinedConstant>
+  </file>
+  <file src="src/ErrorHandler.php">
+    <UndefinedConstant occurrences="1">
+      <code>BASE_DIR</code>
+    </UndefinedConstant>
+  </file>
+  <file src="src/Flags/Flags.php">
+    <UndefinedConstant occurrences="2">
+      <code>PERPAGE</code>
+      <code>PERPAGE</code>
+    </UndefinedConstant>
+  </file>
+  <file src="src/Reports/Reports.php">
+    <UndefinedConstant occurrences="4">
+      <code>PERPAGE</code>
+      <code>PERPAGE</code>
+      <code>PERPAGE</code>
+      <code>PERPAGE</code>
+    </UndefinedConstant>
+  </file>
+</files>
