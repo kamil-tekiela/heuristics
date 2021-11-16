@@ -39,6 +39,7 @@ class AnswerAPI {
 
 	/**
 	 * My app key. Not secret
+	 * @var ?string
 	 */
 	private $app_key = null;
 
@@ -327,7 +328,7 @@ class AnswerAPI {
 		}
 	}
 
-	private function loadQuestions(array $questions) {
+	private function loadQuestions(array $questions): void {
 		if ($questions) {
 			$questionList = implode(';', $questions);
 			$url = "https://api.stackexchange.com/2.2/questions/" . $questionList;

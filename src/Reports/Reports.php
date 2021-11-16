@@ -7,20 +7,15 @@ use ParagonIE\EasyDB\EasyStatement;
 use PDO;
 
 class Reports {
-	/**
-	 * Connection to DB
-	 *
-	 * @var EasyDB
-	 */
-	private $db;
+	private EasyDB $db;
 
 	public function __construct(EasyDB $db) {
 		$this->db = $db;
 	}
 
-	private $rowCount = 0;
+	private int $rowCount = 0;
 
-	public function fetch(int $page = 1, int $minScore = 0, ?int $maxScore = null) {
+	public function fetch(int $page = 1, int $minScore = 0, ?int $maxScore = null): array {
 		$offset = PERPAGE * ($page - 1);
 
 		if ($maxScore) {
@@ -44,11 +39,11 @@ class Reports {
 		return array_slice($data, 0, PERPAGE);
 	}
 
-	public function getCount() {
+	public function getCount(): int {
 		return $this->rowCount;
 	}
 
-	public function fetchByIds(array $id) {
+	public function fetchByIds(array $id): array {
 		$statement = EasyStatement::open()->in('Id IN (?*)', $id);
 
 		/** @var array[] */
@@ -58,7 +53,7 @@ class Reports {
 			ORDER BY id DESC', $statement->values());
 	}
 
-	public function fetchReasons(array $reports) {
+	public function fetchReasons(array $reports): array {
 		if (!$reports) {
 			return [];
 		}
@@ -71,7 +66,7 @@ class Reports {
 			WHERE '.$statement, $statement->values(), PDO::FETCH_GROUP);
 	}
 
-	public function fetchBySearch(int $page = 1, string $type, string $value) {
+	public function fetchBySearch(int $page = 1, string $type, string $value): array {
 		$offset = PERPAGE * ($page - 1);
 
 		$statement = EasyStatement::open();

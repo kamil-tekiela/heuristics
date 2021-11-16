@@ -4,7 +4,7 @@
  * Config class - stores all environment variables loaded from config file
  */
 class DotEnv {
-	private static $config = [];
+	private static array $config = [];
 
 	/**
 	 * Load the config file
@@ -14,10 +14,11 @@ class DotEnv {
 	 */
 	public static function load(string $path) {
 		// open and parse the config file
-		self::$config = \parse_ini_file($path, true, INI_SCANNER_TYPED);
-		if (!self::$config) {
+		$config = \parse_ini_file($path, true, INI_SCANNER_TYPED);
+		if (!$config) {
 			throw new \Exception('No config file!');
 		}
+		self::$config = $config;
 	}
 
 	/**

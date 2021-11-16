@@ -105,7 +105,7 @@ class Heuristics {
 		return $m;
 	}
 
-	public function OwnerRepFactor() {
+	public function OwnerRepFactor():float {
 		if (is_null($this->item->owner->reputation) || $this->item->owner->reputation < 50) {
 			return 1;
 		}

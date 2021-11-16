@@ -5,7 +5,7 @@ declare(strict_types=1);
 use GuzzleHttp\Exception\RequestException;
 
 trait HTHRemovalTrait {
-	private function removeClutter(Post $post) {
+	private function removeClutter(Post $post): void {
 		$editSummary = '';
 		$count = 0;
 		$bodyCleansed = $post->bodyMarkdown;
@@ -53,7 +53,7 @@ trait HTHRemovalTrait {
 		}
 	}
 
-	private function performEdit(Post $post, string $bodyCleansed, string $editSummary) {
+	private function performEdit(Post $post, string $bodyCleansed, string $editSummary): void {
 		if (!$this->autoediting) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 			return;

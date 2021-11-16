@@ -13,9 +13,9 @@ class Flags {
 		$this->db = $db;
 	}
 
-	private $rowCount = 0;
+	private int $rowCount = 0;
 
-	public function fetch(int $page = 1) {
+	public function fetch(int $page = 1): array {
 		$offset = PERPAGE * ($page - 1);
 
 		/** @var array[] */
@@ -29,7 +29,7 @@ class Flags {
 		return array_slice($data, 0, PERPAGE);
 	}
 
-	public function getCount() {
+	public function getCount(): int {
 		return $this->rowCount;
 	}
 
