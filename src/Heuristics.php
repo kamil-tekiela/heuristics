@@ -94,7 +94,7 @@ class Heuristics {
 		$m = [];
 
 		$haystack = $this->item->stripAndDecode($this->item->body);
-		foreach ($bl->list as ['Word' => $regex, 'Weight' => $weight]) {
+		foreach ($bl->getList() as ['Word' => $regex, 'Weight' => $weight]) {
 			if (preg_match_all('#'.$regex.'#i', $haystack, $matches, PREG_SET_ORDER)) {
 				foreach (array_unique(array_column($matches, 0)) as $e) {
 					$m[] = ['Word' => $e, 'Weight' => $weight];
@@ -147,11 +147,9 @@ class Heuristics {
 
 		$m = [];
 		if ($return) {
-			if (is_array($m1)) {
-				foreach ($m1 as $e) {
-					// there should only ever be one
-					$m = ['Word' => $e[0]];
-				}
+			foreach ($m1 as $e) {
+				// there should only ever be one
+				$m = ['Word' => $e[0]];
 			}
 		}
 
@@ -210,10 +208,8 @@ class Heuristics {
 
 		$m = [];
 		if ($return) {
-			if (is_array($m1)) {
-				foreach ($m1 as $e) {
-					$m[] = ['Word' => $e[0]];
-				}
+			foreach ($m1 as $e) {
+				$m[] = ['Word' => $e[0]];
 			}
 		}
 
