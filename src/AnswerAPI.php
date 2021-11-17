@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Dharman\ChatAPI;
 use Dharman\StackAPI;
+use Entities\Natty;
+use Entities\Post;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use ParagonIE\EasyDB\EasyDB;
@@ -135,7 +137,7 @@ class AnswerAPI {
 		}
 
 		foreach ($contents->items as $postJSON) {
-			$post = new \Post($postJSON);
+			$post = new Post($postJSON);
 			$h = new \Heuristics($post);
 			$reasons = [];
 			$triggers = [];
@@ -357,7 +359,7 @@ class AnswerAPI {
 	 * Log the report into a file and chat room.
 	 * Flag the post if score is higher or equal to the threshold
 	 */
-	private function reportAndLog(array $reasons, float $score, \Post $post, array $triggers): void {
+	private function reportAndLog(array $reasons, float $score, Post $post, array $triggers): void {
 		$summary = implode('; ', $reasons);
 		$line = $post->link.PHP_EOL;
 		$line .= $score."\t".$summary.PHP_EOL;

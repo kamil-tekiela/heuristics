@@ -1,9 +1,11 @@
 <?php
 
-class Heuristics {
-	private \Post $item;
+use Entities\Post;
 
-	public function __construct(\Post $post) {
+class Heuristics {
+	private Post $item;
+
+	public function __construct(Post $post) {
 		$this->item = $post;
 	}
 
@@ -105,7 +107,7 @@ class Heuristics {
 		return $m;
 	}
 
-	public function OwnerRepFactor():float {
+	public function OwnerRepFactor(): float {
 		if (is_null($this->item->owner->reputation) || $this->item->owner->reputation < 50) {
 			return 1;
 		}

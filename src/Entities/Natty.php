@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Entities;
+
 class Natty {
 	public ?float $score = null;
 	public ?string $type = null;

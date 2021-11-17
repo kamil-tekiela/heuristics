@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Entities\Post;
 use GuzzleHttp\Exception\RequestException;
 
 trait HTHRemovalTrait {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Entities;
+
 class Post {
 	public int $id;
 	public int $question_id;
