@@ -366,14 +366,14 @@ class AnswerAPI {
 		}
 
 		$shouldBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
-		$natty_score = ($shouldBeReportedByNatty && $score >= self::CHAT_TRESHOLD) ? $this->isReportedByNatty($post->id) : null;
+		$nattyStatus = ($shouldBeReportedByNatty && $score >= self::CHAT_TRESHOLD) ? $this->isReportedByNatty($post->id) : new Natty();
 
 		// Report to file
 		$this->reportToFile($score, $shouldBeReportedByNatty, $line);
 
 		// report to DB
 		if (!DEBUG) {
-			$report_id = $this->logToDB($post, $score, $summary, $natty_score, $triggers);
+			$report_id = $this->logToDB($post, $score, $summary, $nattyStatus->score, $triggers);
 		} else {
 			$report_id = '0';
 		}
@@ -385,13 +385,13 @@ class AnswerAPI {
 		// report to Chat
 		$reportLink = REPORT_URL.'?id='.$report_id;
 		[$flagIcon, $actionTaken] = ['', ''];
-		if ($shouldBeReportedByNatty && $natty_score >= self::NATTY_FLAG_TRESHOLD) {
+		if ($shouldBeReportedByNatty && $nattyStatus->score >= self::NATTY_FLAG_TRESHOLD) {
 			// If Natty flagged it, then do nothing. The post was not handled yet...
 			[$flagIcon, $actionTaken] = ['🐶', 'Flagged by Natty'];
 		} elseif ($score >= self::AUTOFLAG_TRESHOLD) {
 			if (!$shouldBeReportedByNatty) {
 				['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
-			} elseif ($natty_score >= 4) {
+			} elseif ($nattyStatus->score >= 4 || $nattyStatus->type === "True Negative") {
 				// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
 				if ($score >= 7 || date('N') >= 6) {
 					['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
@@ -470,10 +470,10 @@ class AnswerAPI {
 	 * Calls Natty API to see if Natty has a report for this answer.
 	 * If there is no report or the score was lower than Natty's threshold then it means it was not reported.
 	 */
-	private function isReportedByNatty(int $answerId): ?float {
+	private function isReportedByNatty(int $answerId): Natty {
 		$rq = $this->client->get('https://logs.sobotics.org/napi/api/feedback/'.$answerId);
 		$nattyJSON = json_decode($rq->getBody()->getContents());
-		return $nattyJSON->items[0]->naaValue ?? null;
+		return new Natty($nattyJSON->items[0]->naaValue ?? null, $nattyJSON->items[0]->type ?? null);
 	}
 
 	/**
