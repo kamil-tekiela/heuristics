@@ -162,12 +162,12 @@ class Heuristics {
 		preg_match_all(
 			'#[a-z\d ]#iu',
 			$this->item->stripAndDecode($this->item->body),
-			$nonLatinLettersWithCode,
+			$latinLettersAndDigitsWithCode,
 		);
 
 		// For example nonsense in the code block or link only
-		$uniqueAZ = count(array_unique($nonLatinLettersWithCode[0]));
-		if ($uniqueAZ <= 1) {
+		$uniqueAZ = count(array_unique($latinLettersAndDigitsWithCode[0]));
+		if ($uniqueAZ <= 2) {
 			return 3.5;
 		}
 
@@ -179,23 +179,32 @@ class Heuristics {
 		preg_match_all(
 			'#[a-z\d ]#iu',
 			$this->item->bodyStripped,
-			$nonLatinLetters,
+			$latinLettersAndDigits,
 		);
 
-		$uniqueAZ = count(array_unique($nonLatinLetters[0]));
+		$uniqueAZ = count(array_unique($latinLettersAndDigits[0]));
 		if ($uniqueAZ <= 1) {
 			return 3.0;
 		}
 
-		$ratio = count($nonLatinLetters[0]) / mb_strlen($this->item->bodyStripped);
+		$ratio = count($latinLettersAndDigits[0]) / mb_strlen($this->item->bodyStripped);
 		if ($ratio < 0.1) {
 			return 3.0;
+		}
+		if ($ratio < 0.2) {
+			return 2.5;
 		}
 		if ($ratio < 0.3) {
 			return 2.0;
 		}
 		if ($ratio < 0.4) {
+			return 1.5;
+		}
+		if ($ratio < 0.5) {
 			return 1.0;
+		}
+		if ($ratio < 0.6) {
+			return 0.5;
 		}
 		return 0;
 	}
