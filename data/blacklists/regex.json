@@ -214,5 +214,13 @@
     {
         "Word": "have you ever (figured|found|solved)",
         "Weight": "2.0"
+    },
+    {
+        "Word": "(?i)\\bi( \\w+)*[, ]+please",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "have(n'?t| not) found( a| the)? solution",
+        "Weight": "1.0"
     }
 ]
