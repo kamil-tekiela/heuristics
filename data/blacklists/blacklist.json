@@ -424,8 +424,8 @@
         "Weight": "2.0"
     },
     {
-        "Word": "would you mind sharing",
-        "Weight": "1.0"
+        "Word": "would you mind",
+        "Weight": "2.0"
     },
     {
         "Word": "i dont know what to do",
@@ -865,6 +865,14 @@
     },
     {
         "Word": "still not working",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "can I contact",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "fuck",
         "Weight": "2.0"
     }
 ]
