@@ -52,7 +52,7 @@
         "Weight": "1.0"
     },
     {
-        "Word": "(?:any\\s+)?help\\s+(?:\\w+\\s+){0,4}?ap+reciated",
+        "Word": "(?:any\\s+)?help\\s+(?:\\w+\\s+)*ap+reciated",
         "Weight": "3.0"
     },
     {

@@ -874,5 +874,9 @@
     {
         "Word": "fuck",
         "Weight": "2.0"
+    },
+    {
+        "Word": "I am also looking",
+        "Weight": "2.0"
     }
 ]
