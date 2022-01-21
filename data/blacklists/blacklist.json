@@ -886,5 +886,9 @@
     {
         "Word": "i cannot",
         "Weight": "0.5"
+    },
+    {
+        "Word": "Please check this",
+        "Weight": "1.0"
     }
 ]
