@@ -882,5 +882,9 @@
     {
         "Word": "how to achieve",
         "Weight": "1.0"
+    },
+    {
+        "Word": "i cannot",
+        "Weight": "0.5"
     }
 ]
