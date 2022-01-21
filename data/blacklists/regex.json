@@ -222,5 +222,9 @@
     {
         "Word": "have(n'?t| not) found( a| the)? solution",
         "Weight": "1.0"
+    },
+    {
+        "Word": "doesn'?t work for me",
+        "Weight": "2.0"
     }
 ]
