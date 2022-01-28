@@ -894,5 +894,9 @@
     {
         "Word": "something wrong\\?",
         "Weight": "2.0"
+    },
+    {
+        "Word": "this link",
+        "Weight": "1.0"
     }
 ]
