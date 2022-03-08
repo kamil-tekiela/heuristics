@@ -226,5 +226,9 @@
     {
         "Word": "doesn'?t work for me",
         "Weight": "2.0"
+    },
+    {
+        "Word": "but i got( \\w+)? error",
+        "Weight": "2.0"
     }
 ]
