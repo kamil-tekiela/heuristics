@@ -230,5 +230,9 @@
     {
         "Word": "but i got( \\w+)? error",
         "Weight": "2.0"
+    },
+    {
+        "Word": "can'?t find (?:the |a )?solution",
+        "Weight": "2.0"
     }
 ]
