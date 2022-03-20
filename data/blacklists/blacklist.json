@@ -902,5 +902,9 @@
     {
         "Word": "looking for help",
         "Weight": "1.0"
+    },
+    {
+        "Word": "has this issue been",
+        "Weight": "3.0"
     }
 ]
