@@ -234,5 +234,9 @@
     {
         "Word": "can'?t find (?:the |a )?solution",
         "Weight": "2.0"
+    },
+    {
+        "Word": "(?:^|[.,?!]\\s?)(?:same\\s+|similar\\s+)(?:problem|question|issue|error)",
+        "Weight": "1.0"
     }
 ]
