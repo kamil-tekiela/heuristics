@@ -236,7 +236,7 @@
         "Weight": "2.0"
     },
     {
-        "Word": "(?:^|[.,?!]\\h?)(?:same\\h+|similar\\h+)(?:problem|question|issue|error)",
+        "Word": "(?:^\\h*|[.,?!]\\h*)\\K(?:same\\h+|similar\\h+)(?:problem|question|issue|error)",
         "Weight": "1.0"
     }
 ]
