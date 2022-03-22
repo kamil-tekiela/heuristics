@@ -64,10 +64,6 @@
         "Weight": "2.0"
     },
     {
-        "Word": "do\\s+y?o?u\\s+(?:have|has)(?:\\s+(?:an?y?\\s+\\w+))+",
-        "Weight": "2.0"
-    },
-    {
         "Word": "(?:have you|(?:wh?ere you|have you been) able to) figured?(?:\\s+(?:this\\s|it\\s|that\\s)?out|\\s+\\w+\\s+\\w+\\?)?",
         "Weight": "3.0"
     },
@@ -176,8 +172,8 @@
         "Weight": "2.0"
     },
     {
-        "Word": "do (?:you|we) (?:already|resolve|solved|found|solve|find|have|know|fix) (?:this|it|your|the|any|solution|an?|how|why)",
-        "Weight": "1.5"
+        "Word": "do\\h+(?:y?o?u|we)\\h+(?:already|resolve|solved|found|solve|find|ha(?:ve|s)|know|fix) (?:this|it|your|the|any|an?|solution|how|why)",
+        "Weight": "2.5"
     },
     {
         "Word": "anyone\\h*(?:please|could|find|have|help|can|has|how)[ .!?,]{1,2}(?:please|solve|help)",
