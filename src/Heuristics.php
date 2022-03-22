@@ -70,22 +70,25 @@ class Heuristics {
 
 	public function MeTooAnswer(): array {
 		// https://regex101.com/r/xEn0Rc/5
-		$r1 = '(\b
+		$r1 = '(?:\b
 				(?:i\s+(?:am\s+)?|i\'m\s+)?
 				(?:also\s+)?
-				(?:(?<!was\s)(?:face?|have?|\'?ve|get+|stuck\swith)(?:ing)?\s+)
+				(?:(?:was\s)?(?:also\s+)?(?:face?|have?|\'?ve|get+|stuck\swith|see)(?:ing)?\s+)
 			)
-			(?:had|faced|solved|was\s(?:face?|have?|get+)ing|was\sable\sto\sfix)\s+
-			(
+			(?:
 				(?:exactly\s+)?
 				(?:the\s+|a\s+)?
 				(?:exact\s+|very\s+)?
 				(?:same\s+|similar\s+)(?:problem|question|issue|error)
-			)(*SKIP)(*F)|(\b(?1)(?2))';
+			)';
 
 		$m = [];
 		if (preg_match_all('#'.$r1.'#ix', $this->item->stripAndDecode($this->item->body), $m1, PREG_SET_ORDER)) {
 			foreach (array_unique(array_column($m1, 0)) as $e) {
+				// Discard any matches in past tense
+				if (mb_stripos($e, 'was') !== false) {
+					continue;
+				}
 				$m[] = ['Word' => $e, 'Type' => 'MeTooAnswer'];
 			}
 		}
