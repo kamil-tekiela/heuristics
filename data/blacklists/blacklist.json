@@ -914,5 +914,9 @@
     {
         "Word": "upvote",
         "Weight": "0.5"
+    },
+    {
+        "Word": "have you find",
+        "Weight": "2.0"
     }
 ]
