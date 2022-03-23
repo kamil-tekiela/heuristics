@@ -234,5 +234,9 @@
     {
         "Word": "(?:^\\h*|[.,?!]\\h*)\\K(?:same\\h+|similar\\h+)(?:problem|question|issue|error)",
         "Weight": "1.0"
+    },
+    {
+        "Word": "anyone got ((the|a) )?solution",
+        "Weight": "2.0"
     }
 ]

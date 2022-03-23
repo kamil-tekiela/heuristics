@@ -910,5 +910,9 @@
     {
         "Word": "What should I do",
         "Weight": "2.0"
+    },
+    {
+        "Word": "upvote",
+        "Weight": "0.5"
     }
 ]
