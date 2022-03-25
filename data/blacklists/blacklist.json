@@ -918,5 +918,9 @@
     {
         "Word": "have you find",
         "Weight": "2.0"
+    },
+    {
+        "Word": "i am in the same situation",
+        "Weight": "2.0"
     }
 ]
