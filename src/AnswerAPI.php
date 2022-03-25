@@ -202,7 +202,7 @@ class AnswerAPI {
 
 			if ($m = $h->MeTooAnswer()) {
 				$reasons[] = 'Me too answer:"'.implode('","', array_column($m, 'Word')).'"';
-				$weight = 2;
+				$weight = 2.5;
 				$score += $weight;
 				foreach ($m as $bl) {
 					$triggers[] = ['type' => 'Me too answer', 'value' => $bl['Word'], 'weight' => $weight];
