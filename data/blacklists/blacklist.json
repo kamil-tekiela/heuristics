@@ -922,5 +922,13 @@
     {
         "Word": "i am in the same situation",
         "Weight": "2.0"
+    },
+    {
+        "Word": "How should I",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "I got the same problem",
+        "Weight": "1.0"
     }
 ]

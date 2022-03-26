@@ -41,7 +41,7 @@
     },
     {
         "Word": "did\\h+(?:y?o?u|(?:any|some)\\h*(?:body|one|1)?)(?:\\h*(?:ever|finally|figured?|out|find|found|fix(?:ed)?|g(?:e|o)t|manage|(?:re)?solved?|your|answer|solution|problem|a way|\\b(?:an?y?|the|this|it|that)\\b|\\bto\\b|have any luck|end up finding))+",
-        "Weight": "2.0"
+        "Weight": "3.0"
     },
     {
         "Word": "((?:how\\s(?:can(?:\\si)?|to)\\s)?(?:fix\\w*|(?:re)?solve\\w*)(?:\\s\\w+){0,3}\\s*\\?+)",
@@ -237,6 +237,14 @@
     },
     {
         "Word": "anyone got ((the|a) )?solution",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "any updates(?! on)",
+        "Weight": "0.5"
+    },
+    {
+        "Word": "working\\h*\\?",
         "Weight": "2.0"
     }
 ]
