@@ -50,16 +50,18 @@ trait HTHRemovalTrait {
 
 		if ($bodyCleansed !== $post->bodyMarkdown) {
 			// 'Something changed.'
-			$this->performEdit($post, $bodyCleansed, $editSummary);
+
+			if (!$this->autoediting || mb_strlen(trim($bodyCleansed)) < 30) {
+				$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
+				return;
+			}
+
+			// $this->performEdit($post, $bodyCleansed, $editSummary);
+			$this->createSuggestedEdit($post, $bodyCleansed, $editSummary);
 		}
 	}
 
 	private function performEdit(Post $post, string $bodyCleansed, string $editSummary): void {
-		if (!$this->autoediting) {
-			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
-			return;
-		}
-
 		$apiEndpoint = 'answers';
 		$url = "https://api.stackexchange.com/2.2/" . $apiEndpoint;
 		$url .= '/'.$post->id;
@@ -74,11 +76,6 @@ trait HTHRemovalTrait {
 		];
 
 		$args['body'] = $bodyCleansed;
-
-		if (mb_strlen(trim($bodyCleansed)) < 30) {
-			$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
-			return;
-		}
 
 		try {
 			$this->stackAPI->request('POST', $url, $args);
@@ -96,5 +93,40 @@ trait HTHRemovalTrait {
 		if ($this->logEdits) {
 			$this->chatAPI->sendMessage($this->personalRoomId, "Answer edited: [Post link]({$post->link})");
 		}
+	}
+
+	private function createSuggestedEdit(Post $post, string $bodyCleansed, string $editSummary): void {
+		$apiEndpoint = 'answers';
+		$url = "https://api.stackexchange.com/2.3/" . $apiEndpoint;
+		$url .= '/'.$post->id;
+		$url .= '/suggested-edit/add';
+		$args = [
+			'key' => $this->app_key,
+			'site' => 'stackoverflow',
+			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru',
+			'preview' => 'false',
+			'access_token' => $this->userToken,
+			'comment' => trim($editSummary),
+			'preview' => false,
+		];
+
+		$args['body'] = $bodyCleansed;
+
+		try {
+			$this->stackAPI->request('POST', $url, $args);
+		} catch (RequestException $e) {
+			$response = $e->getResponse();
+			if ($response) {
+				$jsonResponse = json_decode((string) $response->getBody());
+				if ($jsonResponse->error_id == 407) {
+					$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
+				}
+			}
+			throw $e;
+		}
+
+		// if ($this->logEdits) {
+		$this->chatAPI->sendMessage($this->personalRoomId, "Suggested edit created: [Post link]({$post->link})");
+		// }
 	}
 }
