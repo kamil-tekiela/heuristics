@@ -930,5 +930,9 @@
     {
         "Word": "I got the same problem",
         "Weight": "1.0"
+    },
+    {
+        "Word": "I need some help",
+        "Weight": "1.0"
     }
 ]
