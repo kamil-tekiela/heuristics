@@ -108,7 +108,8 @@ class AnswerAPI {
 			'site' => 'stackoverflow',
 			'order' => 'asc',
 			'sort' => 'creation',
-			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru'
+			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru',
+			'access_token' => $this->userToken,
 		];
 		if (DEBUG) {
 			$args['fromdate'] = strtotime('20 years ago');
@@ -120,6 +121,9 @@ class AnswerAPI {
 
 		// Request answers
 		$contents = $this->stackAPI->request('GET', $url, $args);
+		if (isset($contents->quota_remaining)) {
+			echo "Quota remaining: " . $contents->quota_remaining . "\n";
+		}
 
 		// prepare blacklist
 		$blacklist = new \Blacklists\Blacklist();
@@ -339,7 +343,8 @@ class AnswerAPI {
 				'site' => 'stackoverflow',
 				'order' => 'desc',
 				'sort' => 'creation',
-				'filter' => '4b*l8uK*lxO_LpAroX(a'
+				'filter' => '4b*l8uK*lxO_LpAroX(a',
+				'access_token' => $this->userToken,
 			];
 
 			// Get questions
