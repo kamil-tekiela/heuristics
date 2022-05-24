@@ -52,7 +52,7 @@ trait HTHRemovalTrait {
 			// 'Something changed.'
 
 			if (!$this->autoediting || mb_strlen(trim($bodyCleansed)) < 30) {
-				$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
+				// $this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 				return;
 			}
 
@@ -119,7 +119,7 @@ trait HTHRemovalTrait {
 			if ($response) {
 				$jsonResponse = json_decode((string) $response->getBody());
 				if ($jsonResponse->error_id == 407) {
-					$this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
+					// $this->chatAPI->sendMessage($this->personalRoomId, "Please edit this answer: [Post link]({$post->link})");
 				}
 			}
 			throw $e;
