@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Reports\Reports;
 
 define('BASE_DIR', realpath(__DIR__.'/..'));
@@ -18,12 +20,12 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 
 $controller = new Reports($db);
 
-$page = $_GET['page'] ?? 1;
+$page = intval($_GET['page'] ?? 1);
 
 if (isset($_GET['id'])) {
 	$reports = $controller->fetchByIds(explode(';', $_GET['id']));
 } else {
-	$reports = $controller->fetch($page, $_GET['minScore'] ?? 4, $_GET['maxScore'] ?? null);
+	$reports = $controller->fetch($page, floatval($_GET['minScore'] ?? 4), floatval($_GET['maxScore'] ?? null));
 	$report_count = $controller->getCount();
 }
 $reasons = $controller->fetchReasons(array_column($reports, 'Id'));

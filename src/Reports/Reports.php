@@ -15,7 +15,7 @@ class Reports {
 
 	private int $rowCount = 0;
 
-	public function fetch(int $page = 1, int $minScore = 0, ?int $maxScore = null): array {
+	public function fetch(int $page = 1, float $minScore = 0, ?float $maxScore = null): array {
 		$offset = PERPAGE * ($page - 1);
 
 		if ($maxScore) {
