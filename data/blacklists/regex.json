@@ -246,5 +246,9 @@
     {
         "Word": "working\\h*\\?",
         "Weight": "2.0"
+    },
+    {
+        "Word": "\\bi(?: am|'?m) having trouble",
+        "Weight": "2.0"
     }
 ]
