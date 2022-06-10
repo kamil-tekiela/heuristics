@@ -553,7 +553,7 @@
     },
     {
         "Word": "gives me error",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "plzz",
@@ -633,7 +633,7 @@
     },
     {
         "Word": "voc\u00ea",
-        "Weight": "1.0"
+        "Weight": "3.0"
     },
     {
         "Word": "any thoughts",
@@ -942,5 +942,9 @@
     {
         "Word": "getting the same thing",
         "Weight": "2.0"
+    },
+    {
+        "Word": "I know it's been",
+        "Weight": "1.0"
     }
 ]
