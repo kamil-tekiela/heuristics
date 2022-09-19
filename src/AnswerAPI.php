@@ -131,10 +131,7 @@ class AnswerAPI {
 		$reBlacklist = new \Blacklists\ReBlacklist();
 
 		// Collect question Ids
-		$questions = [];
-		foreach ($contents->items as $postJSON) {
-			$questions[] = $postJSON->question_id;
-		}
+		$questions = array_column($contents->items, 'question_id');
 		$questions = array_unique($questions);
 		if ($questions) {
 			$this->loadQuestions($questions);
