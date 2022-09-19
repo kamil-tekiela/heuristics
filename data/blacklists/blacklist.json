@@ -253,11 +253,11 @@
     },
     {
         "Word": "save my day",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "saved my day",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "i have a question",
@@ -385,7 +385,7 @@
     },
     {
         "Word": "was a life saver",
-        "Weight": "1.0"
+        "Weight": "2.0"
     },
     {
         "Word": "ayuda",
@@ -945,6 +945,10 @@
     },
     {
         "Word": "I know it's been",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "this video",
         "Weight": "1.0"
     }
 ]

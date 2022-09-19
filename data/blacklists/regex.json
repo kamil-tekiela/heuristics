@@ -254,5 +254,9 @@
     {
         "Word": "(can'?t|cannot) (?:up)?vote",
         "Weight": "2.0"
+    },
+    {
+        "Word": "solve this issue(\\s*\\w+)+\\?",
+        "Weight": "1.0"
     }
 ]
