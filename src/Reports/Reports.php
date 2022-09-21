@@ -20,15 +20,17 @@ class Reports {
 
 		if ($maxScore) {
 			/** @var array[] */
-			$data = $this->db->safeQuery('SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged
+			$data = $this->db->safeQuery('SELECT reports.*, flags.answer_id AS flagged
 			FROM reports 
+			LEFT JOIN flags ON flags.report_id = reports.Id
 			WHERE score >= ? AND score <= ?
 			ORDER BY id DESC
 			LIMIT 600 OFFSET ?', [$minScore, $maxScore, $offset]);
 		} else {
 			/** @var array[] */
-			$data = $this->db->safeQuery('SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged
+			$data = $this->db->safeQuery('SELECT reports.*, flags.answer_id AS flagged
 			FROM reports 
+			LEFT JOIN flags ON flags.report_id = reports.Id
 			WHERE score >= ?
 			ORDER BY id DESC
 			LIMIT 600 OFFSET ?', [$minScore, $offset]);
@@ -47,8 +49,9 @@ class Reports {
 		$statement = EasyStatement::open()->in('Id IN (?*)', $id);
 
 		/** @var array[] */
-		return $this->db->safeQuery('SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged
+		return $this->db->safeQuery('SELECT reports.*, flags.answer_id AS flagged
 			FROM reports 
+			LEFT JOIN flags ON flags.report_id = reports.Id
 			WHERE '.$statement.' 
 			ORDER BY id DESC', $statement->values());
 	}
@@ -79,12 +82,13 @@ class Reports {
 		$values = array_merge($statement->values(), [$offset]);
 
 		/** @var array[] */
-		$data = $this->db->safeQuery("SELECT reports.*, EXISTS(SELECT answer_id FROM flags WHERE report_id = reports.Id) AS flagged 
+		$data = $this->db->safeQuery("SELECT reports.*, flags.answer_id AS flagged
 			FROM reports 
 			INNER JOIN reasons ON reasons.report_id=reports.Id
+			LEFT JOIN flags ON flags.report_id = reports.Id
 			WHERE {$statement} 
-			GROUP BY report_id
-			ORDER BY reports.Id DESC
+			GROUP BY reasons.report_id
+			ORDER BY reasons.report_id DESC
 			LIMIT 600 OFFSET ?", $values);
 
 		$this->rowCount = $offset + count($data);
