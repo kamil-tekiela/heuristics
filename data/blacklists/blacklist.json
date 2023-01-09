@@ -950,5 +950,25 @@
     {
         "Word": "this video",
         "Weight": "1.0"
+    },
+    {
+        "Word": "someone have an idea",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Do you get any",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "worked like a charm",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "trying to do the same",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Would appreciate",
+        "Weight": "1.5"
     }
 ]
