@@ -970,5 +970,41 @@
     {
         "Word": "Would appreciate",
         "Weight": "1.5"
+    },
+    {
+        "Word": "Have you succeeded",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "Did you succeed",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "I am doing a project",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "Sorry to ask",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "comments yet",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "please anyone",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "anyone have the solution",
+        "Weight": "2.0"
+    },
+    {
+        "Word": "What is your",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "Share the whole",
+        "Weight": "2.0"
     }
 ]
