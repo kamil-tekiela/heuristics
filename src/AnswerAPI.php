@@ -117,7 +117,7 @@ class AnswerAPI {
 			$args['fromdate'] = $this->lastRequestTime + 1;
 		}
 
-		echo(date_create_from_format('U', (string) $args['fromdate'])->format('Y-m-d H:i:s')). ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
+		echo date_create_from_format('U', (string) $args['fromdate'])->format('Y-m-d H:i:s') . ' to '.(date_create_from_format('U', (string) $args['todate'])->format('Y-m-d H:i:s')).PHP_EOL;
 
 		// Request answers
 		$contents = $this->stackAPI->request('GET', $url, $args);
@@ -365,9 +365,6 @@ class AnswerAPI {
 		$summary = implode('; ', $reasons);
 		$line = $post->link.PHP_EOL;
 		$line .= $score."\t".$summary.PHP_EOL;
-		if (DEBUG) {
-			echo $line;
-		}
 
 		$shouldBeReportedByNatty = date_create_from_format('U', (string) $this->questions[$post->question_id]['creation_date'])->modify('+ 30 days') < $post->creation_date;
 		$nattyStatus = ($shouldBeReportedByNatty && $score >= self::CHAT_TRESHOLD) ? $this->isReportedByNatty($post->id) : new Natty();
@@ -429,7 +426,12 @@ class AnswerAPI {
 		if ($actionTaken) {
 			$chatLine .= ' — '.$actionTaken;
 		}
-		$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+
+		if (DEBUG) {
+			echo $chatLine;
+		} else {
+			$this->chatAPI->sendMessage($this->logRoomId, $chatLine);
+		}
 	}
 
 	private function logToDB(Post $post, float $score, string $summary, ?float $natty_score, array $triggers, int $retries = 0): string {
@@ -515,7 +517,7 @@ class AnswerAPI {
 
 		$option_id = null;
 		foreach ($contentsJSON->items as $option) {
-			if ($option->title == 'not an answer') {
+			if ($option->title == 'Not an answer') {
 				$option_id = $option->option_id;
 				break;
 			}
