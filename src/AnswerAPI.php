@@ -517,7 +517,7 @@ class AnswerAPI {
 
 		$option_id = null;
 		foreach ($contentsJSON->items as $option) {
-			if ($option->title == 'Not an answer') {
+			if (mb_strtolower($option->title) == 'not an answer') {
 				$option_id = $option->option_id;
 				break;
 			}
