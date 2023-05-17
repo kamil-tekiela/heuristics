@@ -1,6 +1,6 @@
 {
 	"require": {
-		"php": "^7.4|^8",
+		"php": "^8.0",
 		"guzzlehttp/guzzle": "^7",
 		"paragonie/easydb": "^2.11",
 		"dharman/stackapi": "^1.0"
