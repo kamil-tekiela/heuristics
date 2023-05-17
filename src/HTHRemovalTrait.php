@@ -104,7 +104,6 @@ trait HTHRemovalTrait {
 			'key' => $this->app_key,
 			'site' => 'stackoverflow',
 			'filter' => 'Ds7AAhmsA*_R*_GN_PLRT2uskVNwru',
-			'preview' => 'false',
 			'access_token' => $this->userToken,
 			'comment' => trim($editSummary),
 			'preview' => false,

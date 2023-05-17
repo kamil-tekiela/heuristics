@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.12.0@e42bc4a23f67acba28a23bb09c348e2ff38a1d87">
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="src/AnswerAPI.php">
-    <UndefinedConstant occurrences="16">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$now->diff($this->lastFlagTime)->s + 1]]></code>
+    </ArgumentTypeCoercion>
+    <PossiblyNullArrayAccess>
+      <code><![CDATA[$e->errorInfo[1]]]></code>
+      <code><![CDATA[$e->errorInfo[1]]]></code>
+    </PossiblyNullArrayAccess>
+    <UndefinedConstant>
       <code>BASE_DIR</code>
       <code>BASE_DIR</code>
       <code>BASE_DIR</code>
@@ -21,41 +28,40 @@
     </UndefinedConstant>
   </file>
   <file src="src/Blacklists/Blacklist.php">
-    <UndefinedConstant occurrences="1">
+    <UndefinedConstant>
       <code>BASE_DIR</code>
     </UndefinedConstant>
   </file>
   <file src="src/Blacklists/ReBlacklist.php">
-    <UndefinedConstant occurrences="1">
+    <UndefinedConstant>
       <code>BASE_DIR</code>
     </UndefinedConstant>
   </file>
   <file src="src/Blacklists/Whitelist.php">
-    <UndefinedConstant occurrences="1">
+    <UndefinedConstant>
       <code>BASE_DIR</code>
     </UndefinedConstant>
   </file>
   <file src="src/ErrorHandler.php">
-    <UndefinedConstant occurrences="1">
+    <UndefinedConstant>
       <code>BASE_DIR</code>
     </UndefinedConstant>
   </file>
   <file src="src/Flags/Flags.php">
-    <UndefinedConstant occurrences="2">
+    <UndefinedConstant>
       <code>PERPAGE</code>
       <code>PERPAGE</code>
     </UndefinedConstant>
   </file>
   <file src="src/HTHRemovalTrait.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$this-&gt;personalRoomId</code>
-      <code>$this-&gt;personalRoomId</code>
-      <code>$this-&gt;personalRoomId</code>
-      <code>$this-&gt;personalRoomId</code>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->personalRoomId]]></code>
+      <code><![CDATA[$this->personalRoomId]]></code>
+      <code><![CDATA[$this->personalRoomId]]></code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Reports/Reports.php">
-    <UndefinedConstant occurrences="4">
+    <UndefinedConstant>
       <code>PERPAGE</code>
       <code>PERPAGE</code>
       <code>PERPAGE</code>
