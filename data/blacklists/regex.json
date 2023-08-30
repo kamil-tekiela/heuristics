@@ -262,5 +262,9 @@
     {
         "Word": "any solution[\\s|\\w|,]*\\?",
         "Weight": "2.0"
+    },
+    {
+        "Word": "knows? how to solve",
+        "Weight": "2.0"
     }
 ]

@@ -1010,5 +1010,9 @@
     {
         "Word": "i have the following problem",
         "Weight": "3.0"
+    },
+    {
+        "Word": "have a solution\\?",
+        "Weight": "3.0"
     }
 ]
