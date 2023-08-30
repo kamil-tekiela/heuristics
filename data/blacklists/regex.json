@@ -1,7 +1,7 @@
 [
     {
         "Word": "(?:stack\\s*overflow\\s+|so\\s+|it\\s+)?(?:will not|won'?t) let me com+ent",
-        "Weight": "1.0"
+        "Weight": 1
     },
     {
         "Word": "i have \\w+ doubt",
@@ -13,11 +13,11 @@
     },
     {
         "Word": "\\bcan\\s*'?n?o?t\\s+com+ent",
-        "Weight": "1.0"
+        "Weight": 1
     },
     {
         "Word": "wh?ere you able to find an? (?:answer|solution)?",
-        "Weight": "1.0"
+        "Weight": 1
     },
     {
         "Word": "(?:(?:(?:could|can)\\h+(?:y?o?u|(?:any|some)\\h*(?:body|one|1)?)\\h+)|\\bple?a?s+e?\\s+)+(?:show|tell|give|send|provide|suggest|let|advi(?:s|c)e|share|post|guide|explain|elaborate|describe|clarify|answer|be a little be more specific)(?:\\s*me|\\s*us)?(?:\\s*(?:some|know|how|your?|what|(?:the |an? )?(?:code|solution|answer|question)))*",
