@@ -394,11 +394,8 @@ class AnswerAPI {
 				['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 			} elseif ($nattyStatus->score >= 4 || $nattyStatus->type === "True Negative") {
 				// If score is above 7 and Natty was not confident to autoflag then let us flag it unless it is weekend.
-				if ($score >= 7 || date('N') >= 6) {
-					['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
-				} else {
-					[$flagIcon, $actionTaken] = ['🏳️', 'Not flagged'];
-				}
+				// 31st Aug 2023: Due to decreased activity, let's flag it regardless of score or day of the week
+				['icon' => $flagIcon, 'action' => $actionTaken] = $this->flagPost($post->id);
 			} else {
 				try {
 					if ($this->reportToNatty) {
