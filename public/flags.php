@@ -18,10 +18,12 @@ $db = \ParagonIE\EasyDB\Factory::fromArray([
 
 $controller = new Flags($db);
 
-$chartData = $controller->getMonthCount();
-
 if (isset($_GET['getCountJson'])) {
-	die(json_encode($chartData));
+	header('Content-Type: application/json; charset=utf-8');
+	die(json_encode($controller->getCountByDay(
+		new DateTimeImmutable($_GET['startDay'] ?? '-1 month'),
+		new DateTimeImmutable($_GET['endDay'] ?? 'now'),
+	)));
 }
 
 $page = $_GET['page'] ?? 1;
@@ -33,9 +35,16 @@ $maxPage = ceil(($flag_count ?? 0) / PERPAGE);
 
 // Day subtotal
 $flagsByDay = [];
+$allDays = [];
 foreach ($flags as $flag) {
-	$flagsByDay[(new DateTime($flag['created_at']))->format('Y-m-d')][] = $flag;
+	$date = new DateTimeImmutable($flag['created_at']);
+	$allDays[] = $date;
+	$flagsByDay[$date->format('Y-m-d')][] = $flag;
 }
+if ($allDays === []) {
+	$allDays[] = new DateTime();
+}
+$flagCountByDay = $controller->getCountByDay(min($allDays), max($allDays));
 
 $title = 'Flagged posts';
 

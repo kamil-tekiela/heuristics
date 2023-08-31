@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flags;
 
+use DateTimeInterface;
 use ParagonIE\EasyDB\EasyDB;
 
 class Flags {
@@ -33,13 +34,13 @@ class Flags {
 		return $this->rowCount;
 	}
 
-	public function getMonthCount(): array {
+	public function getCountByDay(DateTimeInterface $startDay, DateTimeInterface $endDay): array {
 		/** @var array<string, int> $data */
 		$data = $this->db->safeQuery('SELECT date(created_at), COUNT(*) 
             FROM flags
-			WHERE created_at > date("now", "-1 month")
+			WHERE date(created_at) >= ? AND date(created_at) <= ?
 			GROUP BY date(created_at)
-            ORDER BY date(created_at)', [], \PDO::FETCH_KEY_PAIR);
+            ORDER BY date(created_at)', [$startDay->format('Y-m-d'), $endDay->format('Y-m-d')], \PDO::FETCH_KEY_PAIR);
 
 		return $data;
 	}
