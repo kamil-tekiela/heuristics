@@ -303,7 +303,7 @@ class AnswerAPI {
 			}
 
 			// while we are at it check if there is fluff to be removed
-			if ($score < self::AUTOFLAG_TRESHOLD) {
+			if ($score < self::AUTOFLAG_TRESHOLD && $this->autoediting) {
 				try {
 					$this->removeClutter($post);
 				} catch (\Exception $e) {

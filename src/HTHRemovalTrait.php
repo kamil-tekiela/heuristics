@@ -34,6 +34,10 @@ trait HTHRemovalTrait {
 			$editSummary .= 'Stack Overflow is like an encyclopedia, so we prefer to omit these types of phrases. It is assumed that everyone here is trying to be helpful. ';
 		}
 
+		if($bodyCleansed === null) {
+			throw new Exception($post->bodyMarkdown);
+		}
+
 		$count = 0;
 		$re = '/^Welcome to (SO|Stack\h*(Overflow|exchange))[!.\h]*\v+/i';
 		$bodyCleansed = preg_replace($re, '', $bodyCleansed, -1, $count);
