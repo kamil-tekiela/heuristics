@@ -114,5 +114,9 @@
     {
         "Word": "solution:",
         "Weight": "-2.0"
+    },
+    {
+        "Word": "for anyone facing",
+        "Weight": "-2.0"
     }
 ]
