@@ -1022,5 +1022,9 @@
     {
         "Word": "Ol\u00e1",
         "Weight": "2.0"
+    },
+    {
+        "Word": "Share with us",
+        "Weight": "1.0"
     }
 ]
