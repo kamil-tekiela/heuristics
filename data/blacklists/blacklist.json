@@ -1026,5 +1026,13 @@
     {
         "Word": "Share with us",
         "Weight": "1.0"
+    },
+    {
+        "Word": "to do exactly the same",
+        "Weight": "1.0"
+    },
+    {
+        "Word": "not working properly",
+        "Weight": "0.5"
     }
 ]
