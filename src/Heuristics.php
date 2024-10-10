@@ -153,6 +153,11 @@ class Heuristics {
 		return count($matches) <= 3;
 	}
 
+	public function containsNoNewlines(): bool {
+		$body = $this->item->stripAndDecode($this->item->body);
+		return str_contains($body, "\n") === false;
+	}
+
 	public function badStart(): array {
 		$return = preg_match_all(
 			'#^(?:(?:Is|Was)(?:n\'?t)?\h+(?:there|a|this|that|it|the)\b|can(?:\'t)?\h*(?:there|here|it|this|that|you|u|I|one|(?:some|any)(?:\h*one|\h*body)?)?\h*|(?:In)?(?:What\b|wah?t\b|How\b|Who\b|When\b|Where\b|Which\b|Why|Did)\s*(?:\'s|(?:is|was|were|do|did|does|are|would|has(?:\s+been)?)(?:n\'t)?|type|kind|if|can(?:\'t)?)?)\h*(?:(?:one|are|am|is|as|add|(?:some|any)(?:\h*one|\h*body)?|a(?:n(?:other)?)?\b|not|its?|some|this|that|these|those|the|You|to|we|have|of|in|i\b|for|on|with|please|help|me|who|can|now|cos|share|post|give|code|also|use|find|solve|fix|answer|solution)\h*)*#i',

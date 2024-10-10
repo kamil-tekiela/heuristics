@@ -249,6 +249,12 @@ class AnswerAPI {
 				$triggers[] = ['type' => 'Has no white space', 'weight' => 0.5];
 			}
 
+			if ($h->containsNoNewlines()) {
+				$reasons[] = 'Single line';
+				$score += 0.5;
+				$triggers[] = ['type' => 'Single line', 'weight' => 0.5];
+			}
+
 			if ($bw = $h->badStart()) {
 				$reasons[] = 'Starts with a question:"'.$bw['Word'].'"';
 				$score += 0.5;
