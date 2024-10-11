@@ -68,6 +68,13 @@ class AnswerAPI {
 			$this->lastRequestTime = strtotime(DEBUG_OLD);
 		}
 
+		$this->loadConfig($dotEnv);
+
+		// Say hello
+		$this->chatAPI->sendMessage($this->logRoomId, 'v.'.\VERSION.' Started on '.gethostname());
+	}
+
+	public function loadConfig(DotEnv $dotEnv) {
 		$this->autoflagging = $dotEnv->get('autoflagging');
 		$this->autoediting = $dotEnv->get('autoediting');
 		$this->reportToNatty = $dotEnv->get('reportToNatty');
@@ -84,9 +91,6 @@ class AnswerAPI {
 		}
 		$this->personalRoomId = (int) $dotEnv->get('trackRoomId');
 		$this->logEdits = (bool) $dotEnv->get('logEdits');
-
-		// Say hello
-		$this->chatAPI->sendMessage($this->logRoomId, 'v.'.\VERSION.' Started on '.gethostname());
 	}
 
 	/**

@@ -47,8 +47,9 @@ while (true) {
 		break;
 	}
 
-	// hot reload some settings
+	// hot reload settings
 	$dotEnv->load(BASE_DIR.'/config.ini');
+	$fetcher->loadConfig($dotEnv);
 
 	sleep(60);
 }
