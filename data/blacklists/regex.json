@@ -266,5 +266,9 @@
     {
         "Word": "knows? how to solve",
         "Weight": "2.0"
+    },
+    {
+        "Word": "I('?m| am)( a)? beginner",
+        "Weight": "2.0"
     }
 ]
