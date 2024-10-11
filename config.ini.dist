@@ -13,8 +13,6 @@ chatUserPassword = "<chat password>"
 trackRoomId = <room ID>
 ;; Whether to post links to edit posts in the trackRoomId
 logEdits = false
-;; Who to ping in SOBotics e.g. @Dharman
-pingOwner = ""
 ;; Should the bot flag posts or just pretend to?
 autoflagging = false
 ;; Should the bot flag edit posts or just report them in a room?

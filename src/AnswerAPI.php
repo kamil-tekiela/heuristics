@@ -51,7 +51,6 @@ class AnswerAPI {
 	private ?int $personalRoomId = null;
 	private bool $logEdits = false;
 	private int $soboticsRoomId = 111347;
-	private string $pingOwner = '';
 	private bool $autoflagging = false;
 	private bool $autoediting = false;
 	private bool $reportToNatty = false;
@@ -69,7 +68,6 @@ class AnswerAPI {
 			$this->lastRequestTime = strtotime(DEBUG_OLD);
 		}
 
-		$this->pingOwner = $dotEnv->get('pingOwner');
 		$this->autoflagging = $dotEnv->get('autoflagging');
 		$this->autoediting = $dotEnv->get('autoediting');
 		$this->reportToNatty = $dotEnv->get('reportToNatty');
@@ -409,9 +407,6 @@ class AnswerAPI {
 						$reportNatty = "@Natty report https://stackoverflow.com/a/{$post->id}";
 						$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
 						$reportNatty = "[Report link]({$reportLink})";
-						if ($this->pingOwner) {
-							$reportNatty .= ' @'.$this->pingOwner;
-						}
 						$this->chatAPI->sendMessage($this->soboticsRoomId, $reportNatty);
 					}
 				} finally {
