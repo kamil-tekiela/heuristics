@@ -1034,5 +1034,9 @@
     {
         "Word": "not working properly",
         "Weight": "0.5"
+    },
+    {
+        "Word": "Exactly the same error",
+        "Weight": "0.5"
     }
 ]
