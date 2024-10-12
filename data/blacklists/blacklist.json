@@ -1038,5 +1038,13 @@
     {
         "Word": "Exactly the same error",
         "Weight": "0.5"
+    },
+    {
+        "Word": "this was really helpful",
+        "Weight": "3.0"
+    },
+    {
+        "Word": "this really helped",
+        "Weight": "1.5"
     }
 ]
