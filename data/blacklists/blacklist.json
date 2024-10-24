@@ -1050,5 +1050,9 @@
     {
         "Word": "Can i see your",
         "Weight": "2.0"
+    },
+    {
+        "Word": "tell me how to",
+        "Weight": "1.5"
     }
 ]
