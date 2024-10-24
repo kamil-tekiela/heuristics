@@ -217,7 +217,7 @@
     },
     {
         "Word": "is there a solution",
-        "Weight": 1
+        "Weight": "3.0"
     },
     {
         "Word": "answer to this\\?",
@@ -1046,5 +1046,9 @@
     {
         "Word": "this really helped",
         "Weight": "1.5"
+    },
+    {
+        "Word": "Can i see your",
+        "Weight": "2.0"
     }
 ]
